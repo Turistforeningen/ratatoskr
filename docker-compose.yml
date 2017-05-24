@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+  node:
+    image: node:7-alpine
+    network_mode: 'bridge'
+    ports:
+      - '8080'
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    env_file: secrets/dev.env
+    links:
+      - redis
+    depends_on:
+      - redis
+    logging:
+      options:
+        max-size: "500k"
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=info
+      - NPM_CONFIG_PROGRESS=false
+      - NPM_CONFIG_SPIN=false
+      - VIRTUAL_HOST=medlem.dnt.local
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_PATH=/
+    command: npm start
+    extra_hosts:
+      - "www.dnt.local:10.200.10.1"
+      - "assets.medlem.dnt.local:10.200.10.1"
+
+  redis:
+    image: redis:3
+    network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "10k"
+
+  webpack:
+    image: node:7-alpine
+    network_mode: 'bridge'
+    ports:
+      - '3000'
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=info
+      - NPM_CONFIG_PROGRESS=false
+      - NPM_CONFIG_SPIN=false
+      - VIRTUAL_HOST=assets.medlem.dnt.local
+      - VIRTUAL_PORT=3000
+    logging:
+      options:
+        max-size: "500k"
+    command: npm run webpack:serve
