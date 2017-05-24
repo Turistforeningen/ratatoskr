@@ -8,10 +8,10 @@
     Medlem eller ikke?
     <hr />
 
-    {% if userJSON %}
+    {% if user %}
       <a href="/logg-ut">Logg ut</a>
       <pre>
-        {{userJSON}}
+        {{user.fornavn}} {{user.etternavn}}
       </pre>
     {% else %}
       <a href="/logg-inn">Logg inn</a>
