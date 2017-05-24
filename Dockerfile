@@ -17,7 +17,7 @@ RUN yarn install
 COPY . /usr/src/app
 
 # Build project
-RUN npm run build
+RUN npm run build:prod
 
 # Change the ownership of the application code and switch to the unprivileged
 # user.
