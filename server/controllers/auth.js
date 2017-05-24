@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 
   redirectUri = (
     `${req.protocol}://${req.hostname}${req.baseUrl}` +
-    `/verifiser?next=${req.query.next}`
+    '/verifiser'
   );
   const OAuthURL = (
     `${OAUTH_DOMAIN}/o/authorize/?client_id=${secrets.OAUTH_CLIENT_ID}` +
@@ -82,10 +82,11 @@ router.get('/verifiser', (req, res, next) => {
       tokens = Object.assign({}, json);
       return json;
     })
+    // Fetch membership data
     .then((json) => (
       fetch(`${OAUTH_DOMAIN}/api/oauth/medlemsdata/`, {
         headers: {
-          Authorization: `Bearer ${json.access_token}`,
+          Authorization: `Bearer ${tokens.access_token}`,
         },
       })
     ))
@@ -98,12 +99,22 @@ router.get('/verifiser', (req, res, next) => {
     .then((result) => (
       redis.hmset(`${user.sherpa_id}`, 'tokens', JSON.stringify(tokens))
     ))
+    // Fetch membership household
+    .then((json) => (
+      fetch(`${OAUTH_DOMAIN}/api/oauth/medlemsdata/husstanden/`, {
+        headers: {
+          Authorization: `Bearer ${tokens.access_token}`,
+        },
+      })
+    ))
+    .then((result) => result.json())
+    .then((household) => (
+      redis.hmset(`${user.sherpa_id}`, 'household', JSON.stringify(household))
+    ))
+
+    // Redirect user
     .then((result) => {
-      if (req.query.next) {
-        res.redirect(req.query.next);
-      } else {
-        res.redirect('/');
-      }
+      res.redirect('/');
     })
     .catch((err) => {
       req.session.message = {
@@ -114,8 +125,11 @@ router.get('/verifiser', (req, res, next) => {
         ),
       };
 
+      console.log('****** ERROR'); // eslint-disable-line
+      console.log(err); // eslint-disable-line
+
       // TODO: Set some params to make sure login route is not redirecting to OAuth
-      res.redirect('/logg-inn');
+      res.redirect('/?error=1');
     });
 
   verify.catch((err) => {

@@ -6,5 +6,15 @@
   </head>
   <body>
     Medlem eller ikke?
+    <hr />
+
+    {% if userJSON %}
+      <a href="/logg-ut">Logg ut</a>
+      <pre>
+        {{userJSON}}
+      </pre>
+    {% else %}
+      <a href="/logg-inn">Logg inn</a>
+    {% endif %}
   </body>
 </html>

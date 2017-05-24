@@ -12,7 +12,21 @@ const router = new Router();
 
 
 router.get('/', (req, res, next) => {
-  res.render('index.html', {next: req.query.next});
+  const userId = req.session.user;
+
+  if (!userId) {
+    res.render('index.html');
+  } else {
+    redis.hgetall(req.session.user).then((data) => {
+      const userData = {
+        user: JSON.parse(data.user),
+        household: JSON.parse(data.household),
+      };
+      res.render('index.html', {
+        userJSON: JSON.stringify(userData, null, '\t'),
+      });
+    });
+  }
 });
 
 
