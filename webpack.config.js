@@ -9,7 +9,7 @@ const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const hostname = process.env.VIRTUAL_HOST || 'assets.medlem.dnt.local';
 const port = process.env.VIRTUAL_PORT || '3000';
 const publicPathDev = `http://${hostname}/`;
-const publicPathProd = '/assets/';
+const publicPathProd = 'build/';
 
 
 module.exports = (env) => {
@@ -31,11 +31,11 @@ module.exports = (env) => {
     output: {
       pathinfo: ifDevelopment(true),
       path: ifProduction(
-        path.resolve(__dirname, 'assets'),
-        path.resolve(__dirname, 'dev_build')
+        path.resolve(__dirname, publicPathProd),
+        path.resolve(__dirname, 'dev_build/assets/')
       ),
-      filename: 'js/[name].js',
-      publicPath: ifProduction(publicPathProd, publicPathDev),
+      filename: 'assets/js/[name].js',
+      publicPath: ifProduction('/', publicPathDev),
     },
     module: {
       rules: [
@@ -135,7 +135,7 @@ module.exports = (env) => {
       // Create a separate `risk-assessment-dev.html` used for development and
       // debugging
       new HtmlWebpackPlugin({
-        filename: 'server/templates/index.html',
+        filename: 'templates/index.html',
         template: './frontend/templates/index.html',
         chunks: ['public'],
       }),

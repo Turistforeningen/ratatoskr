@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 // Route to assests
 // Assets are built through Webpack and will be loaded using webpack dev server
 // when in development mode
-app.use('/assets', express.static(`${__dirname}/assets`));
+app.use('/assets', express.static(`${__dirname}/../build/assets`));
 
 
 // Configure nunjucks template engine
@@ -36,9 +36,9 @@ const nunjucksOptions = {
 
 const nunjucksEnvironment = new Environment(
   process.env.NODE_ENV === 'production' ?
-    new FileSystemLoader(`${__dirname}/templates`, nunjucksOptions) :
+    new FileSystemLoader(`${__dirname}/../build/templates`, nunjucksOptions) :
     new NunjuckCustomWebLoader(
-      'http://assets.medlem.dnt.local/server/templates',
+      'http://assets.medlem.dnt.local/templates',
       nunjucksOptions
     )
 );
