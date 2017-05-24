@@ -26,4 +26,4 @@ USER app
 
 # Run the application directly, do not run via npm which heavily pollutes the
 # environment variables and other stuff.
-CMD [ "node", "index.js" ]
+CMD [ "node", "server/index.js" ]
