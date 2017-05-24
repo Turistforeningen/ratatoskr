@@ -1,11 +1,11 @@
 'use strict';
 
 const { Router } = require('express');
-const raven = require('raven');
+// const raven = require('raven');
 
 const {middleware: requireAuth} = require('../lib/auth');
 const redis = require('../lib/redis');
-const sentry = require('../lib/sentry');
+// const sentry = require('../lib/sentry');
 
 
 const router = new Router();
@@ -49,10 +49,10 @@ router.use('/profil', requireAuth, (req, res, next) => {
 
 
 // Sentry Error Handling
-if (process.env.NODE_ENV === 'production') {
-  router.use(raven.middleware.express.requestHandler(sentry));
-  router.use(raven.middleware.express.errorHandler(sentry));
-}
+// if (process.env.NODE_ENV === 'production') {
+//   router.use(raven.middleware.express.requestHandler(sentry));
+//   router.use(raven.middleware.express.errorHandler(sentry));
+// }
 
 
 // Final Error Handling
