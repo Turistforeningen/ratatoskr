@@ -1,4 +1,5 @@
 .wercker
 node_modules
 secrets
+secrets-dev/dev.json
 build
