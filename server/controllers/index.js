@@ -13,7 +13,7 @@ const router = new Router();
 
 
 router.get('/', (req, res, next) => {
-  const userId = req.session.user;
+  const userId = req.session ? req.session.user : null;
 
   if (!userId) {
     res.render('index.html', {version});
