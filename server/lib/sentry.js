@@ -1,13 +1,13 @@
 'use strict';
 
 const Client = require('raven').Client;
-const secrets = require('./secrets');
+const settings = require('./settings');
 
 
-module.exports = new Client(secrets.SENTRY_DSN);
+module.exports = new Client(settings.SENTRY_DSN);
 
 
-if (secrets.SENTRY_DSN) {
+if (settings.SENTRY_DSN) {
   module.exports.patchGlobal((id, err) => {
     /* eslint-disable no-console */
     console.error('Uncaught Exception');

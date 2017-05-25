@@ -5,7 +5,7 @@ const fetch = require('isomorphic-fetch');
 const redis = require('../lib/redis');
 const { Router } = require('express');
 
-const secrets = require('../lib/secrets');
+const settings = require('../lib/settings');
 
 
 const router = new Router();
@@ -34,7 +34,7 @@ router.get('/', (req, res, next) => {
     '/verifiser'
   );
   const OAuthURL = (
-    `${OAUTH_DOMAIN}/o/authorize/?client_id=${secrets.OAUTH_CLIENT_ID}` +
+    `${OAUTH_DOMAIN}/o/authorize/?client_id=${settings.OAUTH_CLIENT_ID}` +
     `&response_type=code&redirect_uri=${redirectUri}`
   );
 
@@ -53,7 +53,7 @@ router.get('/verifiser', (req, res, next) => {
   const code = req.query.code;
   const url = `${OAUTH_DOMAIN}/o/token/`;
   const credentials = new Buffer(
-    `${secrets.OAUTH_CLIENT_ID}:${secrets.OAUTH_CLIENT_SECRET}`
+    `${settings.OAUTH_CLIENT_ID}:${settings.OAUTH_CLIENT_SECRET}`
   ).toString('base64');
 
   let tokens;
