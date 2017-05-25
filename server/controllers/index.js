@@ -6,6 +6,7 @@ const { Router } = require('express');
 const {middleware: requireAuth} = require('../lib/auth');
 const redis = require('../lib/redis');
 // const sentry = require('../lib/sentry');
+const version = require('../version');
 
 
 const router = new Router();
@@ -15,11 +16,11 @@ router.get('/', (req, res, next) => {
   const userId = req.session.user;
 
   if (!userId) {
-    res.render('index.html');
+    res.render('index.html', {version});
   } else {
     redis.hgetall(req.session.user).then((data) => {
       const user = JSON.parse(data.user);
-      res.render('index.html', {user});
+      res.render('index.html', {user, version});
     });
   }
 });
