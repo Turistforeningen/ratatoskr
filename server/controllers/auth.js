@@ -9,8 +9,6 @@ const settings = require('../lib/settings');
 
 
 const router = new Router();
-
-const OAUTH_DOMAIN = 'https://www.dnt.no';
 let redirectUri;
 
 
@@ -29,13 +27,12 @@ router.get('/', (req, res, next) => {
     });
   }
 
-  redirectUri = (
-    `${req.protocol}://${req.hostname}${req.baseUrl}` +
-    '/verifiser'
-  );
+  redirectUri = `${req.protocol}://${req.hostname}${req.baseUrl}/verifiser`;
   const OAuthURL = (
-    `${OAUTH_DOMAIN}/o/authorize/?client_id=${settings.OAUTH_CLIENT_ID}` +
-    `&response_type=code&redirect_uri=${redirectUri}`
+    `${settings.OAUTH_DOMAIN}/o/authorize/` +
+    `?client_id=${settings.OAUTH_CLIENT_ID}` +
+    '&response_type=code' +
+    `&redirect_uri=${redirectUri}`
   );
 
   return res.redirect(OAuthURL);
@@ -51,7 +48,7 @@ router.get('/verifiser', (req, res, next) => {
   }
 
   const code = req.query.code;
-  const url = `${OAUTH_DOMAIN}/o/token/`;
+  const url = `${settings.OAUTH_DOMAIN}/o/token/`;
   const credentials = new Buffer(
     `${settings.OAUTH_CLIENT_ID}:${settings.OAUTH_CLIENT_SECRET}`
   ).toString('base64');
@@ -84,7 +81,7 @@ router.get('/verifiser', (req, res, next) => {
     })
     // Fetch membership data
     .then((json) => (
-      fetch(`${OAUTH_DOMAIN}/api/oauth/medlemsdata/`, {
+      fetch(`${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/`, {
         headers: {
           Authorization: `Bearer ${tokens.access_token}`,
         },
@@ -101,7 +98,7 @@ router.get('/verifiser', (req, res, next) => {
     ))
     // Fetch membership household
     .then((json) => (
-      fetch(`${OAUTH_DOMAIN}/api/oauth/medlemsdata/husstanden/`, {
+      fetch(`${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/husstanden/`, {
         headers: {
           Authorization: `Bearer ${tokens.access_token}`,
         },
