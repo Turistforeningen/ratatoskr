@@ -1,23 +1,45 @@
-box: node:7
+box: node:7.8.0
 
-build:
+build-node:
   steps:
+    - script:
+        name: create tag
+        code: |
+            export BUILD_TAG=${WERCKER_GIT_COMMIT:0:9}
+
     - script:
         name: echo nodejs information
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
           echo "npm registry $(npm config get registry)"
-    - npm-install
 
     - script:
-        name: lint
-        code: npm run lint
+        name: set yarn cache
+        code: |
+          export YARN_CACHE=$WERCKER_CACHE_DIR/yarn
+
+    - script:
+        name: run yarn
+        code: |
+          HOME=$YARN_CACHE yarn
+
+    - script:
+        name: run webpack
+        code: |
+          npm run build:prod
 
     - script:
         name: node security project
         code: |
           npm run nsp
+
+    - internal/docker-push:
+          username: $DOCKER_REGISTRY_USERNAME
+          password: $DOCKER_REGISTRY_PASSWORD
+          repository: turistforeningen/ratatoskr
+          registry: https://registry.hub.docker.com/v2
+          tag: ratatoskr-node-$BUILD_TAG
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
