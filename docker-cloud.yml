@@ -1,5 +1,5 @@
 secrets:
-  image: 'turistforeningen/ratatoskr-secrets:v2'
+  image: 'turistforeningen/ratatoskr-secrets:v3'
   tags:
     - app
   volumes:
