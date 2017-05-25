@@ -24,6 +24,7 @@ ratatoskr-node:
     - 'statsd.statsd-librato:statsd'
     - 'ratatoskr-redis:redis'
   restart: always
+  command: node server/index.js
   tags:
     - app
   volumes_from:

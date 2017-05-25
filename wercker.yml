@@ -34,6 +34,11 @@ build-node:
         code: |
           npm run nsp
 
+    - script:
+        name: update version file
+        code: |
+            echo $BUILD_TAG > server/version-tag
+
     - internal/docker-push:
           username: $DOCKER_REGISTRY_USERNAME
           password: $DOCKER_REGISTRY_PASSWORD
@@ -44,21 +49,30 @@ build-node:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
 
-docker:
-  box: python:2
+deploy:
+  box:
+      id: alpine:3.4
+      cmd: /bin/sh
   steps:
+    - script:
+        name: create tag
+        code: |
+            export BUILD_TAG=${WERCKER_GIT_COMMIT:0:9}
+
+    - script:
+        name: install tools
+        code: |
+            apk update
+            apk add python py-pip curl
+            # docker-cloud + requests 2.14 gives error "get_environ_proxies() takes exactly 2 arguments (1 given)"
+            pip install docker-cloud "requests==2.13.0"
+
     - script:
         name: docker stack update
         code: |
           pip install docker-cloud
-          docker-cloud stack update $DOCKERCLOUD_STACK_NAME --sync
-    - script:
-        name: docker hub build
-        code: |
-          curl --verbose \
-            -H "Content-Type: application/json" \
-            -d "{\"source_type\": \"Branch\", \"source_name\": \"$WERCKER_GIT_BRANCH\"}" \
-            -X POST $DOCKER_TRIGGER_URL
+          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-node-${BUILD_TAG} ratatoskr-node
+          docker-cloud service redeploy ratatoskr-node
 
   after-steps:
     - turistforeningen/slack-notifier:
