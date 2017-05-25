@@ -45,6 +45,7 @@ build-node:
           repository: turistforeningen/ratatoskr
           registry: https://registry.hub.docker.com/v2
           tag: ratatoskr-node-$BUILD_TAG
+          working-dir: /pipeline/source
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
