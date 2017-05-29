@@ -13,13 +13,18 @@ const fetchTemplateFromUrl = (url, cb) => {
           content: response.text,
         });
       } else {
-        response.text().then((text) => {
-          cb(null, text);
-        });
+        response.text()
+          .then((text) => {
+            cb(null, text);
+          }).catch((err) => {
+            cb({
+              status: 'Unable to read template',
+            });
+          });
       }
     })
     .catch((err) => {
-      throw new Error('Some fetchTemplateFromUrl error occured', err);
+      throw new Error(err.message);
     });
 };
 
@@ -34,26 +39,31 @@ const NunjuckCustomWebLoader = Loader.extend({
   getSource: (name, cb) => {
     const useCache = this.useCache;
     let result;
-    fetchTemplateFromUrl(`${this.baseURL}/${name}`, (err, src) => {
-      if (err) {
-        if (cb) {
-          cb(err.content);
-        } else if (err.status === 404) {
-          result = null;
+    try {
+      fetchTemplateFromUrl(`${this.baseURL}/${name}`, (err, src) => {
+        if (err) {
+          if (cb) {
+            cb(err.content);
+          } else if (err.status === 404) {
+            result = null;
+          } else {
+            throw err.content;
+          }
         } else {
-          throw err.content;
+          result = {
+            src,
+            path: name,
+            noCache: !useCache,
+          };
+          if (cb) {
+            cb(null, result);
+          }
         }
-      } else {
-        result = {
-          src,
-          path: name,
-          noCache: !useCache,
-        };
-        if (cb) {
-          cb(null, result);
-        }
-      }
-    });
+      });
+    } catch (e) {
+      // eslint-disable-next-line
+      console.log('UNABLE TO LOAD TEMPLATE FROM WEBPACK');
+    }
   },
 });
 
