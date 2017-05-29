@@ -25,7 +25,7 @@ module.exports = (env) => {
         ),
         ifDevelopment('webpack/hot/only-dev-server'),
         'babel-polyfill',
-        './frontend/index.js',
+        './frontend/js/index.js',
       ]),
     },
     output: {
