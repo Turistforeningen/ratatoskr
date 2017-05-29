@@ -5,13 +5,8 @@
     <title>Ratatoskr</title>
   </head>
   <body>
-    <small>
-      {{version.tag}}
-    </small>
-    <hr />
     Medlem eller ikke?
     <hr />
-
     {% if user %}
       <a href="/logg-ut">Logg ut</a>
       <pre>
@@ -20,6 +15,10 @@
     {% else %}
       <a href="/logg-inn">Logg inn</a>
     {% endif %}
+
+    <hr />
+
+    Version: {{ VERSION }}
 
 
     {% if GA_CODE %}
