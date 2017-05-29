@@ -16,10 +16,16 @@ router.get('/', (req, res, next) => {
   if (!userId) {
     res.render('index.html', {version});
   } else {
-    redis.hgetall(req.session.user).then((data) => {
-      const user = JSON.parse(data.user);
-      res.render('index.html', {user, version});
-    });
+    redis.hgetall(req.session.user)
+      .then((data) => {
+        const user = JSON.parse(data.user);
+        res.render('index.html', {user, version});
+      })
+      .catch((err) => {
+        res.render('index.html', {version});
+      });
+  }
+});
   }
 });
 
