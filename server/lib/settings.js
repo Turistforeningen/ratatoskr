@@ -21,7 +21,7 @@ const variables = [
     env: ['production'],
   },
   {
-    name: 'TULL',
+    name: 'GA_CODE',
     env: ['production'],
   },
 ];
