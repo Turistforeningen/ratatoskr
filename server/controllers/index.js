@@ -26,6 +26,24 @@ router.get('/', (req, res, next) => {
       });
   }
 });
+
+
+router.get('/json', (req, res, next) => {
+  const userId = req.session ? req.session.user : null;
+
+  if (!userId) {
+    res.json({error: 'no user set'});
+  } else {
+    redis.hgetall(req.session.user)
+      .then((data) => {
+        res.json({
+          user: JSON.parse(data.user),
+          household: JSON.parse(data.household),
+          tokens: JSON.parse(data.tokens),
+        });
+      }).catch((err) => {
+        res.json({error: 'Unable to load user data'});
+      });
   }
 });
 
