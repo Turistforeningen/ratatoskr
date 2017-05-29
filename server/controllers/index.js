@@ -39,18 +39,4 @@ router.get('/logg-ut', (req, res) => {
   });
 });
 
-
-router.use('/profil', requireAuth, (req, res, next) => {
-  redis.hgetall(req.session.user).then((data) => {
-    const user = JSON.parse(data.user);
-
-    if (req.accepts('html')) {
-      res.render('profile.html', {user});
-    } else if (req.accepts('json')) {
-      res.json(user);
-    }
-  });
-});
-
-
 module.exports = router;
