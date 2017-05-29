@@ -6,6 +6,7 @@ const { Environment, FileSystemLoader } = require('nunjucks');
 const NunjuckCustomWebLoader = require('./utils/nunjucks-custom-web-loader');
 const Raven = require('raven');
 
+const version = require('./version');
 const controllers = require('./controllers');
 const session = require('./lib/session');
 const settings = require('./lib/settings');
@@ -52,7 +53,17 @@ const nunjucksEnvironment = new Environment(
       nunjucksOptions
     )
 );
+
+// Set express app on the Nunjucks environment
 nunjucksEnvironment.express(app);
+
+// Set global template variables
+nunjucksEnvironment
+  .addGlobal('GA_CODE', settings.GA_CODE);
+
+version.promise.then((tag) => {
+  nunjucksEnvironment.addGlobal('VERSION', tag);
+}).catch(() => {});
 
 
 // Set the base router
