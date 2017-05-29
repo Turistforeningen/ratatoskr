@@ -12,13 +12,13 @@ const session = require('./lib/session');
 const settings = require('./lib/settings');
 
 // Initialize Raven
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   Raven.config(settings.SENTRY_DSN).install();
 }
 
 // Initiate express app and set Raven request handler
 const app = express();
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(Raven.requestHandler());
 }
 
@@ -70,7 +70,7 @@ version.promise.then((tag) => {
 app.use(process.env.VIRTUAL_PATH, controllers);
 
 // Add Raven error handler
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(Raven.errorHandler());
 }
 
