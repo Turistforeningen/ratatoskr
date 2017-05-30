@@ -1,6 +1,6 @@
 box: node:7.8.0
 
-build-node:
+build-backend:
   steps:
     - script:
         name: create tag
@@ -21,34 +21,80 @@ build-node:
 
     - script:
         name: run yarn
+        cwd: backend/
         code: |
           HOME=$YARN_CACHE yarn
 
     - script:
-        name: run webpack
-        code: |
-          npm run build:prod
-
-    - script:
         name: node security project
+        cwd: backend/
         code: |
           npm run nsp
 
     - script:
         name: update version file
+        cwd: backend/
         code: |
-            echo $BUILD_TAG > server/version-tag
+            echo $BUILD_TAG > version-tag
 
     - internal/docker-push:
-          username: $DOCKER_REGISTRY_USERNAME
-          password: $DOCKER_REGISTRY_PASSWORD
-          repository: turistforeningen/ratatoskr
-          registry: https://registry.hub.docker.com/v2
-          tag: ratatoskr-node-$BUILD_TAG
-          working-dir: /pipeline/source
+        username: $DOCKER_REGISTRY_USERNAME
+        password: $DOCKER_REGISTRY_PASSWORD
+        repository: turistforeningen/ratatoskr
+        registry: https://registry.hub.docker.com/v2
+        tag: backend-$BUILD_TAG
+        working-dir: /pipeline/source
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
+
+build-assets:
+    steps:
+        - script:
+            name: create tag
+            code: |
+                export BUILD_TAG=${WERCKER_GIT_COMMIT:0:9}
+
+        - script:
+            name: export environment
+            code: |
+                export NODE_ENV=production
+                export NPM_CONFIG_LOGLEVEL=warn
+
+        - script:
+            name: set yarn cache
+            code: |
+              export YARN_CACHE=$WERCKER_CACHE_DIR/yarn
+
+        - script:
+            name: run yarn
+            cwd: frontend/
+            code: |
+              HOME=$YARN_CACHE yarn
+
+        - script:
+            name: run webpack
+            cwd: frontend/
+            code: |
+                npm run build:prod
+
+        - script:
+            name: copy to volume
+            code: |
+                mkdir -p /ratatoskr/build
+                cp -a /pipeline/source/build /ratatoskr/build
+
+        - internal/docker-push:
+            username: $DOCKER_REGISTRY_USERNAME
+            password: $DOCKER_REGISTRY_PASSWORD
+            repository: turistforeningen/ratatoskr
+            registry: https://registry.hub.docker.com/v2
+            tag: assets-$BUILD_TAG
+
+    after-steps:
+        - turistforeningen/slack-pipeline-notifier:
+            url: $SLACK_WEBHOOK_URL
+            pipeline: build-static
 
 deploy:
   box:
@@ -72,8 +118,9 @@ deploy:
         name: docker stack update
         code: |
           pip install docker-cloud
-          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-node-${BUILD_TAG} ratatoskr-node
-          docker-cloud service redeploy ratatoskr-node
+          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-server-${BUILD_TAG} ratatoskr-server
+          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-assets-${BUILD_TAG} ratatoskr-assets
+          docker-cloud stack redeploy ratatoskr --sync
 
   after-steps:
     - turistforeningen/slack-notifier:

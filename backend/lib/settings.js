@@ -2,6 +2,9 @@
 
 const fs = require('fs');
 
+const environment = require('./environment');
+
+
 const variables = [
   {
     name: 'APP_SECRET',
@@ -42,16 +45,12 @@ let settings;
 
 
 // Set settings from secrets file
-switch (process.env.NODE_ENV) {
-  case 'development':
-  case 'test':
-    settings = getFromJson(`${__dirname}/../../secrets-dev/dev.json`);
-    break;
-  case 'production':
-    settings = getFromJson('/secrets/prod.json');
-    break;
-  default:
-    throw new Error('Environment variable "NODE_ENV" is undefined or invalid');
+if (environment.development || environment.test) {
+  settings = getFromJson(`${__dirname}/../../secrets-dev/dev.json`);
+} else if (environment.production) {
+  settings = getFromJson('/secrets/prod.json');
+} else {
+  throw new Error('Environment variable "NODE_ENV" is undefined or invalid');
 }
 
 

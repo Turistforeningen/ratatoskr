@@ -5,7 +5,7 @@ secrets:
   volumes:
     - /secrets
 
-ratatoskr-node:
+ratatoskr-backend:
   autoredeploy: true
   environment:
     - FORCE_SSL=true
@@ -24,11 +24,20 @@ ratatoskr-node:
     - 'statsd.statsd-librato:statsd'
     - 'ratatoskr-redis:redis'
   restart: always
-  command: node server/index.js
+  command: node backend/index.js
   tags:
     - app
   volumes_from:
-    - 'secrets:ro'
+    - secrets:ro
+    - ratatoskr-assets:ro
+
+ratatoskr-assets:
+  image: turistforeningen/sherpa:assets-${BUILD_TAG}
+  tags:
+    - app
+  volumes:
+    - /ratatoskr
+  command: /bin/true
 
 ratatoskr-redis:
   autoredeploy: true

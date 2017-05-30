@@ -5,12 +5,13 @@ const RedisStore = require('connect-redis')(session);
 
 const redis = require('./redis');
 const settings = require('./settings');
+const environment = require('./environment');
 
 
 module.exports = session({
   resave: false,
   saveUninitialized: false,
   secret: settings.APP_SECRET,
-  secure: process.env.NODE_ENV === 'production',
+  secure: environment.ifProduction(true, false),
   store: new RedisStore({client: redis}),
 });

@@ -9,7 +9,9 @@ const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const hostname = process.env.VIRTUAL_HOST || 'assets.medlem.dnt.local';
 const port = process.env.VIRTUAL_PORT || '3000';
 const publicPathDev = `http://${hostname}/`;
-const publicPathProd = 'build/';
+const publicPathProd = '/';
+const basePath = path.resolve(__dirname, '..');
+const baseOuputPath = path.resolve(basePath, 'build');
 
 
 module.exports = (env) => {
@@ -25,17 +27,14 @@ module.exports = (env) => {
         ),
         ifDevelopment('webpack/hot/only-dev-server'),
         'babel-polyfill',
-        './frontend/js/index.js',
+        path.resolve(__dirname, 'js', 'index.js'),
       ]),
     },
     output: {
       pathinfo: ifDevelopment(true),
-      path: ifProduction(
-        path.resolve(__dirname, publicPathProd),
-        path.resolve(__dirname, 'dev_build/assets/')
-      ),
+      path: baseOuputPath,
       filename: 'assets/js/[name].js',
-      publicPath: ifProduction('/', publicPathDev),
+      publicPath: ifProduction(publicPathProd, publicPathDev),
     },
     module: {
       rules: [
@@ -135,8 +134,11 @@ module.exports = (env) => {
       // Create a separate `risk-assessment-dev.html` used for development and
       // debugging
       new HtmlWebpackPlugin({
-        filename: 'templates/index.html',
-        template: './frontend/templates/index.html',
+        filename: ifDevelopment(
+          'templates/index.html',
+          path.resolve(baseOuputPath, 'templates', 'index.html')
+        ),
+        template: path.resolve(basePath, 'templates', 'index.html'),
         chunks: ['public'],
       }),
 
@@ -144,7 +146,8 @@ module.exports = (env) => {
       env.analyze ? new BundleAnalyzer.BundleAnalyzerPlugin({
         analyzerMode: 'static',
         openAnalyzer: false,
-        reportFilename: 'webpack-analyze.html',
+        reportFilename: path.resolve(
+          baseOuputPath, 'assets', 'webpack-analyze.html'),
       }) : undefined,
     ]),
 

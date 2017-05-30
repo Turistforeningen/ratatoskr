@@ -6,19 +6,20 @@ const { Environment, FileSystemLoader } = require('nunjucks');
 const NunjuckCustomWebLoader = require('./utils/nunjucks-custom-web-loader');
 const Raven = require('raven');
 
+const environment = require('./lib/environment');
 const version = require('./version');
 const controllers = require('./controllers');
 const session = require('./lib/session');
 const settings = require('./lib/settings');
 
 // Initialize Raven
-if (process.env.NODE_ENV === 'production') {
+if (environment.production) {
   Raven.config(settings.SENTRY_DSN).install();
 }
 
 // Initiate express app and set Raven request handler
 const app = express();
-if (process.env.NODE_ENV === 'production') {
+if (environment.production) {
   app.use(Raven.requestHandler());
 }
 
@@ -28,7 +29,7 @@ app.use(bodyParser.json());
 
 // Initiate session handling
 app.use(session);
-if (process.env.NODE_ENV === 'production') {
+if (environment.production) {
   // https://github.com/expressjs/session#cookiesecure
   app.set('trust proxy', 1);
 }
@@ -42,16 +43,17 @@ app.use('/assets', express.static(`${__dirname}/../build/assets`));
 // Configure nunjucks template engine
 const nunjucksOptions = {
   autoescape: true,
-  noCache: process.env.NODE_ENV !== 'production',
+  noCache: environment.ifProduction(false, true),
 };
 
 const nunjucksEnvironment = new Environment(
-  process.env.NODE_ENV === 'production' ?
-    new FileSystemLoader(`${__dirname}/../build/templates`, nunjucksOptions) :
+  environment.ifProduction(
+    new FileSystemLoader(`${__dirname}/../build/templates`, nunjucksOptions),
     new NunjuckCustomWebLoader(
       'http://assets.medlem.dnt.local/templates',
       nunjucksOptions
     )
+  )
 );
 
 // Set express app on the Nunjucks environment
@@ -70,7 +72,7 @@ version.promise.then((tag) => {
 app.use(process.env.VIRTUAL_PATH, controllers);
 
 // Add Raven error handler
-if (process.env.NODE_ENV === 'production') {
+if (environment.production) {
   app.use(Raven.errorHandler());
 }
 

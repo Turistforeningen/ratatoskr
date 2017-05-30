@@ -1,0 +1,31 @@
+{
+  "name": "ratatoskr-backend",
+  "description": "Ratatoskr : Backend",
+  "version": "1.0.0-alpha",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx backend/",
+    "lint:watch": "esw --color --ext .js,.jsx --watch backend/",
+    "nsp": "nsp check",
+    "start": "supervisor -w backend -e js backend/index.js",
+    "test": "mocha -b -c -t 10000 --check-leaks -R tap -r backend/test/*.js backend/test/**/*.js",
+    "test:watch": "mocha -w -b -c -t 10000 --check-leaks -R progress -r backend/test/*.js backend/test/**/*.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "connect-redis": "^3.3.0",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "ioredis": "^3.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "nunjucks": "^3.0.0",
+    "raven": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-mocha": "^4.9.0",
+    "nsp": "^2.6.3"
+  }
+}
