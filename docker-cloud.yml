@@ -6,6 +6,7 @@ secrets:
     - /secrets
 
 ratatoskr-backend:
+  image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
   autoredeploy: true
   environment:
     - FORCE_SSL=true
@@ -19,7 +20,6 @@ ratatoskr-backend:
     - VIRTUAL_PORT=8080
   expose:
     - '8080'
-  image: 'turistforeningen/ratatoskr'
   links:
     - 'statsd.statsd-librato:statsd'
     - 'ratatoskr-redis:redis'
@@ -32,7 +32,7 @@ ratatoskr-backend:
     - ratatoskr-assets:ro
 
 ratatoskr-assets:
-  image: turistforeningen/sherpa:assets-${BUILD_TAG}
+  image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
   tags:
     - app
   volumes:
