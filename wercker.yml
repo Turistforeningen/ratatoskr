@@ -47,6 +47,7 @@ build-backend:
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
+        pipeline: build-backend
 
 build-assets:
     steps:
@@ -94,7 +95,7 @@ build-assets:
     after-steps:
         - turistforeningen/slack-pipeline-notifier:
             url: $SLACK_WEBHOOK_URL
-            pipeline: build-static
+            pipeline: build-assets
 
 deploy:
   box:
@@ -118,10 +119,11 @@ deploy:
         name: docker stack update
         code: |
           pip install docker-cloud
-          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-server-${BUILD_TAG} ratatoskr-server --sync
+          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-backend-${BUILD_TAG} ratatoskr-backend --sync
           docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-assets-${BUILD_TAG} ratatoskr-assets --sync
           docker-cloud stack redeploy ratatoskr --sync
 
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
+        pipeline: deploy
