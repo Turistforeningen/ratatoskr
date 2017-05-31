@@ -13,6 +13,8 @@ services:
       - redis
     depends_on:
       - redis
+    volumes_from:
+      - secrets
     logging:
       options:
         max-size: "500k"
@@ -55,3 +57,9 @@ services:
       options:
         max-size: "500k"
     command: npm run webpack:serve
+
+  secrets:
+    image: turistforeningen/ratatoskr-secrets:v4
+    network_mode: 'bridge'
+    volumes:
+      - /secrets
