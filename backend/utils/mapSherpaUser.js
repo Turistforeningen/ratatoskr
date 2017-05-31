@@ -16,9 +16,9 @@ module.exports = (data) => ({
     isMember: data.er_medlem,
     memberid: data.medlemsnummer,
     status: {
-      currentYear: data.inneværende_år,
-      nextYear: data.neste_år,
-      isNewMembershipYear: data.nytt_medlemsår,
+      currentYear: data.medlemskap_status.inneværende_år,
+      nextYear: data.medlemskap_status.neste_år,
+      isNewMembershipYear: data.medlemskap_status.nytt_medlemsår,
     },
   },
 

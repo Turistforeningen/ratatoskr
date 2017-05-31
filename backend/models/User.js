@@ -75,6 +75,17 @@ const User = () => {
         [];
     },
 
+    getCurrentYear() {
+      const cur = new Date();
+      return cur.getFullYear();
+    },
+
+    getNextYear() {
+      const cur = new Date();
+      const next = new Date(+cur.getFullYear() + 1, 1, 1);
+      return next.getFullYear();
+    },
+
     /**
      ** Save and load from Redis
      **/
