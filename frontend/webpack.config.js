@@ -95,7 +95,7 @@ module.exports = (env) => {
           use: {
             loader: 'file-loader',
             query: {
-              name: 'img/[name].[ext]',
+              name: 'assets/img/[name].[ext]',
             },
           },
         },
@@ -106,7 +106,7 @@ module.exports = (env) => {
           use: {
             loader: 'file-loader',
             query: {
-              name: 'fonts/[name].[ext]',
+              name: 'assets/fonts/[name].[ext]',
             },
           },
         },
