@@ -11,30 +11,12 @@ const router = new Router();
 
 
 router.get('/', (req, res, next) => {
-  const userId = req.session ? req.session.user : null;
-
-  if (!userId) {
-    res.render('index.html');
-  } else {
-    const user = User();
-    user.load(userId);
-
-    res.render('index.html', {user});
-  }
+  res.render('index.html');
 });
 
 
 router.get('/json', (req, res, next) => {
-  const userId = req.session ? req.session.user : null;
-
-  if (!userId) {
-    res.json({error: 'no user set'});
-  } else {
-    const user = User();
-    user.load(userId).then(() => {
-      res.json({user: user});
-    });
-  }
+  res.json({user: req.user});
 });
 
 
