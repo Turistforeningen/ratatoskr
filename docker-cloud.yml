@@ -2,6 +2,7 @@ secrets:
   image: 'turistforeningen/ratatoskr-secrets:v4'
   tags:
     - app
+    - volume-1
   volumes:
     - /secrets
 
@@ -35,6 +36,7 @@ ratatoskr-assets:
   image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
   tags:
     - app
+    - volume-1
   volumes:
     - /ratatoskr
   command: /bin/true
