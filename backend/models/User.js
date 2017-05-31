@@ -61,6 +61,20 @@ const User = () => {
       return household.mainMember && household.mainMember.id === self.id;
     },
 
+    haveFamilyMembers() {
+      return (
+        !!self.household.memberIds.length &&
+        self.getFamilyMembers().length
+      );
+    },
+
+    getFamilyMembers() {
+      const { household } = self;
+      return household.members ?
+        household.members.filter((m) => m.id !== self.id) :
+        [];
+    },
+
     /**
      ** Save and load from Redis
      **/
