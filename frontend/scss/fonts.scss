@@ -1,0 +1,21 @@
+// sass-lint:disable-all
+@font-face {
+  font-family: 'DTL Nobel';
+  src: url('../fonts/dtl-nobel/dtl-nobel.eot');
+  src: url('../fonts/dtl-nobel/dtl-nobel.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/dtl-nobel/dtl-nobel.woff') format('woff'),
+       url('../fonts/dtl-nobel/dtl-nobel.ttf') format('truetype'),
+       url('../fonts/dtl-nobel/dtl-nobel.svg') format('svg');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'DTL Nobel';
+  src: url('../fonts/dtl-nobel/dtl-nobel-bold.eot');
+  src: url('../fonts/dtl-nobel/dtl-nobel-bold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/dtl-nobel/dtl-nobel-bold.woff') format('woff'),
+       url('../fonts/dtl-nobel/dtl-nobel-bold.ttf') format('truetype'),
+       url('../fonts/dtl-nobel/dtl-nobel-bold.svg') format('svg');
+  font-weight: bold;
+}
+// sass-lint:enable-all
