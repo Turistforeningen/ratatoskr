@@ -121,7 +121,7 @@ deploy:
           pip install docker-cloud
           docker-cloud service set --image turistforeningen/ratatoskr:assets-${BUILD_TAG} ratatoskr-assets --sync
           docker-cloud service set --image turistforeningen/ratatoskr:backend-${BUILD_TAG} ratatoskr-backend --sync
-          docker-cloud service redeploy --not-reuse-volumes ratatoskr-backend ratatoskr-assets --sync
+          docker-cloud service redeploy --not-reuse-volumes ratatoskr-assets ratatoskr-backend --sync
 
   after-steps:
     - turistforeningen/slack-notifier:
