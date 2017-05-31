@@ -21,7 +21,6 @@ module.exports = (env) => {
     devtool: ifDevelopment('eval-source-map', 'nosources-source-map'),
     entry: {
       public: removeEmpty([
-        ifDevelopment('react-hot-loader/patch'),
         ifDevelopment(
           `webpack-dev-server/client?http://${hostname || '0.0.0.0'}`
         ),
