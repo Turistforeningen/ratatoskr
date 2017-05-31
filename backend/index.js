@@ -37,7 +37,7 @@ if (environment.production) {
 // Route to assests
 // Assets are built through Webpack and will be loaded using webpack dev server
 // when in development mode
-app.use('/assets', express.static('/ratatoskr/build/assets'));
+app.use('/assets', express.static('/ratatoskr/build/build/assets'));
 
 
 // Configure nunjucks template engine
@@ -48,7 +48,7 @@ const nunjucksOptions = {
 
 const nunjucksEnvironment = new Environment(
   environment.ifProduction(
-    new FileSystemLoader('/ratatoskr/build/templates', nunjucksOptions),
+    new FileSystemLoader('/ratatoskr/build/build/templates', nunjucksOptions),
     new NunjuckCustomWebLoader(
       'http://assets.medlem.dnt.local/templates',
       nunjucksOptions
