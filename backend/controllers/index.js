@@ -4,6 +4,7 @@ const { Router } = require('express');
 
 const {middleware: requireAuth} = require('../lib/auth');
 const redis = require('../lib/redis');
+const User = require('../models/User');
 
 
 const router = new Router();
@@ -15,14 +16,10 @@ router.get('/', (req, res, next) => {
   if (!userId) {
     res.render('index.html');
   } else {
-    redis.hgetall(req.session.user)
-      .then((data) => {
-        const user = JSON.parse(data.user);
-        res.render('index.html', {user});
-      })
-      .catch((err) => {
-        res.render('index.html');
-      });
+    const user = User();
+    user.load(userId);
+
+    res.render('index.html', {user});
   }
 });
 
@@ -33,16 +30,10 @@ router.get('/json', (req, res, next) => {
   if (!userId) {
     res.json({error: 'no user set'});
   } else {
-    redis.hgetall(req.session.user)
-      .then((data) => {
-        res.json({
-          user: JSON.parse(data.user),
-          household: JSON.parse(data.household),
-          tokens: JSON.parse(data.tokens),
-        });
-      }).catch((err) => {
-        res.json({error: 'Unable to load user data'});
-      });
+    const user = User();
+    user.load(userId).then(() => {
+      res.json({user: user});
+    });
   }
 });
 

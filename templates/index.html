@@ -10,7 +10,7 @@
     {% if user %}
       <a href="/logg-ut">Logg ut</a>
       <pre>
-        {{user.fornavn}} {{user.etternavn}}
+        {{user.name}} {{ user.isMainHouseholdMember() }}
       </pre>
     {% else %}
       <a href="/logg-inn">Logg inn</a>

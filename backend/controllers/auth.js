@@ -2,10 +2,10 @@
 
 const querystring = require('querystring');
 const fetch = require('isomorphic-fetch');
-const redis = require('../lib/redis');
 const { Router } = require('express');
 
 const settings = require('../lib/settings');
+const User = require('../models/User.js');
 
 
 const router = new Router();
@@ -53,9 +53,6 @@ router.get('/verifiser', (req, res, next) => {
     `${settings.OAUTH_CLIENT_ID}:${settings.OAUTH_CLIENT_SECRET}`
   ).toString('base64');
 
-  let tokens;
-  let user;
-
   const verify = fetch(url, {
     method: 'POST',
     headers: {
@@ -70,47 +67,17 @@ router.get('/verifiser', (req, res, next) => {
   verify
     .then((result) => {
       if (result.status !== 200) {
-        throw new Error('Feil ved innlogging.');
+        throw new Error('OAuth login error');
       }
       return result;
     })
     .then((result) => result.json())
-    .then((json) => {
-      tokens = Object.assign({}, json);
-      return json;
-    })
-    // Fetch membership data
-    .then((json) => (
-      fetch(`${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/`, {
-        headers: {
-          Authorization: `Bearer ${tokens.access_token}`,
-        },
-      })
-    ))
-    .then((result) => result.json())
-    .then((json) => {
-      user = Object.assign({}, json);
-      req.session.user = user.sherpa_id;
-      return redis.hmset(`${user.sherpa_id}`, 'user', JSON.stringify(user));
-    })
-    .then((result) => (
-      redis.hmset(`${user.sherpa_id}`, 'tokens', JSON.stringify(tokens))
-    ))
-    // Fetch membership household
-    .then((json) => (
-      fetch(`${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/husstanden/`, {
-        headers: {
-          Authorization: `Bearer ${tokens.access_token}`,
-        },
-      })
-    ))
-    .then((result) => result.json())
-    .then((household) => (
-      redis.hmset(`${user.sherpa_id}`, 'household', JSON.stringify(household))
-    ))
+    .then((tokens) => User().setTokens(tokens).loadSherpaData())
+    .then((user) => user.save())
+    .then((user) => { req.session.user = user.id; })
 
     // Redirect user
-    .then((result) => {
+    .then(() => {
       res.redirect('/');
     })
     .catch((err) => {
@@ -128,10 +95,6 @@ router.get('/verifiser', (req, res, next) => {
       // TODO: Set some params to make sure login route is not redirecting to OAuth
       res.redirect('/?error=1');
     });
-
-  verify.catch((err) => {
-    console.error(err);  // eslint-disable-line no-console
-  });
 });
 
 
