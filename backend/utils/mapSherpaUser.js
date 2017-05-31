@@ -23,7 +23,8 @@ module.exports = (data) => ({
   },
 
   household: {
-    isMember: data.er_husstandsmedlem,
+    isFamilyMember: data.er_familiemedlem,
+    isHouseholdMember: data.er_husstandsmedlem,
     mainMemberId: data.tilknyttet_hovedmedlem,
     memberIds: data.tilknyttede_husstandsmedlemmer || [],
   },
