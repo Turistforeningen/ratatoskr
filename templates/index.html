@@ -9,9 +9,75 @@
     <hr />
     {% if user %}
       <a href="/logg-ut">Logg ut</a>
-      <pre>
-        {{user.name}} {{ user.isMainHouseholdMember() }}
-      </pre>
+      <br /><br />
+
+      {# Current user :: start #}
+      <strong>{{ user.name }}</strong>
+      <br />
+
+      {% if user.isMainHouseholdMember() %}
+        Hovedmedlem<br />
+      {% elif user.household.isFamilyMember %}
+        Familiemedlem
+      {% elif user.household.isHouseholdMember %}
+        Hustandsmedlem
+      {% elif user.member.isValid %}
+        Medlem
+      {% else %}
+        Ikke medlem
+      {% endif %}
+      <br />
+
+      {% if user.member.memberid %}
+        Medlemsnummer: {{ user.member.memberid }}
+        <br />
+      {% endif %}
+
+      {% if user.birthDate %}
+        {{ user.birthDate }}
+        <br />
+      {% endif %}
+
+      {% if user.member.isValid %}
+        Betalt for: ...
+        <br />
+      {% endif %}
+
+      {% if user.association.name %}
+        Medlemsforening: {{ user.association.name }}
+        <br />
+      {% endif %}
+
+      {# Current user :: end #}
+
+      <hr />
+
+      {# Main member :: start #}
+      {% if not user.isMainHouseholdMember() and user.household.mainMember %}
+        <strong>Hovedmedlem:<br /></strong>
+        {{ user.household.mainMember.name }}
+      {% endif %}
+      {# Main member :: end #}
+
+      <hr />
+
+      {# Other members :: start #}
+      {% if user.haveFamilyMembers() %}
+        {% if user.household.isFamilyMember %}
+          <strong>Familiemedlemmer:</strong>
+        {% else %}
+          <strong>Hustandsmedlemmer:</strong>
+        {% endif %}
+        <br />
+
+        {% for member in user.getFamilyMembers() %}
+          {{ member.name }}
+          <br />
+        {% endfor %}
+      {% endif %}
+      {# Other members :: end #}
+
+
     {% else %}
       <a href="/logg-inn">Logg inn</a>
     {% endif %}
