@@ -74,7 +74,7 @@ router.get('/verifiser', (req, res, next) => {
     .then((result) => result.json())
     .then((tokens) => User().setTokens(tokens).loadSherpaData())
     .then((user) => user.save())
-    .then((user) => { req.session.user = user.id; })
+    .then((user) => { req.session.userId = user.id; })
 
     // Redirect user
     .then(() => {
