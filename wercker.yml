@@ -119,8 +119,8 @@ deploy:
         name: docker stack update
         code: |
           pip install docker-cloud
-          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-backend-${BUILD_TAG} ratatoskr-backend --sync
-          docker-cloud service set --image turistforeningen/ratatoskr:ratatoskr-assets-${BUILD_TAG} ratatoskr-assets --sync
+          docker-cloud service set --image turistforeningen/ratatoskr:backend-${BUILD_TAG} ratatoskr-backend --sync
+          docker-cloud service set --image turistforeningen/ratatoskr:assets-${BUILD_TAG} ratatoskr-assets --sync
           docker-cloud stack redeploy ratatoskr --sync
 
   after-steps:
