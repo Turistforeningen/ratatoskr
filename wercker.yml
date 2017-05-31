@@ -83,7 +83,7 @@ build-assets:
             name: copy to volume
             code: |
                 mkdir -p /ratatoskr
-                cp -a /pipeline/source/build /ratatoskr
+                cp -a -v /pipeline/source/build /ratatoskr
 
         - internal/docker-push:
             username: $DOCKER_REGISTRY_USERNAME
