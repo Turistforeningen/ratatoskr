@@ -6,4 +6,74 @@
 body {
   background-color: $main-background-color;
   font-family: 'DTL Nobel';
+  color: $main-font-color;
+}
+
+.top-menu {
+  margin: 10px 0 25px;
+  font-size: .8em;
+  text-align: right;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.container__inner {
+  padding: 0 15px;
+}
+
+
+.header {
+  font-size: 1.1em;
+}
+
+.header--name {
+  margin: 0;
+  font-size: 1em;
+  padding: 0;
+}
+
+.header--sub {
+  font-size: 1em;
+  margin-top: 30px;
+}
+
+.box {
+  padding: 20px;
+  border-left: 5px solid $membership-valid-color;
+  background-color: $box-background-color;
+
+  & + & {
+    margin-top: 20px;
+  }
+}
+
+.box--invalid {
+  border-left-color: $membership-invalid-color;
+}
+
+
+.box--small {
+  font-size: .95em;
+  padding: 17px;
+
+  & + & {
+    margin-top: 15px;
+  }
+}
+
+
+footer {
+  margin-top: 75px;
+  text-align: center;
+  font-size: .8em;
+  color: #666;
+}
+
+.version {
+  font-size: .7em;
+  color: #888;
+  margin-top: 15px;
 }

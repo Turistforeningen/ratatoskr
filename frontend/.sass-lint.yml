@@ -1,4 +1,8 @@
 rules:
+  class-name-format:
+    - 1
+    -
+      convention: hyphenatedbem
   extends-before-mixins: 2
   extends-before-declarations: 2
   placeholder-in-extend: 2
@@ -32,5 +36,4 @@ rules:
     - 2
     -
       properties:
-        - margin
         - content

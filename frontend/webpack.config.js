@@ -89,6 +89,14 @@ module.exports = (env) => {
           ]),
         },
 
+        // // Nunjucks
+        // {
+        //   test: /\.(njk|nunjucks)$/,
+        //   use: {
+        //     loader: 'nunjucks-loader',
+        //   },
+        // },
+
         // Images
         {
           test: /\.(png|jpg|jpeg|gif)$/,
