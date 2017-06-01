@@ -2,10 +2,6 @@
 
 const { Router } = require('express');
 
-const {middleware: requireAuth} = require('../lib/auth');
-const redis = require('../lib/redis');
-const User = require('../models/User');
-
 
 const router = new Router();
 
