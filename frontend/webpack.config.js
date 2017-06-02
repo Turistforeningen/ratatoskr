@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
 const BundleAnalyzer = require('webpack-bundle-analyzer');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
@@ -144,6 +145,32 @@ module.exports = (env) => {
       // Prints more readable module names in the browser
       // console on HMR updates
       ifDevelopment(new webpack.NamedModulesPlugin()),
+
+      new OfflinePlugin({
+        publicPath: '/',
+        caches: {
+          main: [
+            'app.*.js',
+          ],
+          additional: [
+            ':externals:',
+          ],
+          optional: [
+            ':rest:',
+          ],
+        },
+        externals: [
+          '/',
+        ],
+        ServiceWorker: {
+          navigateFallbackURL: '/',
+        },
+        AppCache: {
+          FALLBACK: {
+            '/': '/offline-page.html',
+          },
+        },
+      }),
 
       // App server HTML template
       new HtmlWebpackPlugin({
