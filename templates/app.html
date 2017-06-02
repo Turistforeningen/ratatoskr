@@ -6,126 +6,12 @@
     <title>Mitt medlemskap - Den Norske Turistforeningn</title>
     <meta name="description" content="Informasjon om ditt medlemsskap i Den Norske Turistforening">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+      var ratatoskr = {'user': {{userData | safe}}};
+    </script>
   </head>
   <body>
     <div id="root"></div>
-
-    {% if user %}
-      <div class="container">
-        <div class="top-menu">
-          <a href="/logout">Logg ut</a>
-        </div>
-
-        {# Current user :: start #}
-        <h1 class="header">Mitt medlemsskap</h1>
-        <div class="box {% if not user.member.isValid %}box--invalid{% endif %}">
-          <h3 class="header--name">{{ user.name }}</h3>
-
-          {% if user.isMainHouseholdMember() %}
-            Hovedmedlem<br />
-          {% elif user.household.isFamilyMember %}
-            Familiemedlem
-          {% elif user.household.isHouseholdMember %}
-            Hustandsmedlem
-          {% elif user.member.isValid %}
-            Medlem
-          {% else %}
-            Ikke medlem
-          {% endif %}
-          <br />
-
-          {% if user.member.isValid %}
-            {% if user.member.status.nextYear %}
-              Medlem ut {{ user.getCurrentYear() }}, samt hele {{ user.getNextYear() }}
-            {% else %}
-              Medlem {{ user.getCurrentYear() }}
-            {% endif %}
-            <br />
-          {% endif %}
-
-          {% if user.association.name %}
-            Medlemsforening: {{ user.association.name }}
-            <br />
-          {% endif %}
-
-          {% if user.birthDate %}
-            Fødselsdato: {{ user.birthDate }}
-            <br />
-          {% endif %}
-
-          {% if user.member.memberid %}
-            <br />
-            Medlemsnummer: {{ user.member.memberid }}
-            <br />
-          {% endif %}
-        </div>
-        {# Current user :: end #}
-
-
-        <div class="container__inner">
-          {# Main member :: start #}
-          {% if not user.isMainHouseholdMember() and user.household.mainMember %}
-            <h2 class="header--sub">Hovedmedlem:</h2>
-            <div class="box box--small {% if not user.household.mainMember.member.isValid %}box--invalid{% endif %}">
-              <h3 class="header--name">{{ user.household.mainMember.name }}</h3>
-              {% if user.household.mainMember.member.memberid %}
-                <small>({{ user.household.mainMember.member.memberid }})</small>
-              {% endif %}
-              <br />
-
-              {% if user.household.mainMember.member.isValid %}
-                {% if user.household.mainMember.member.status.nextYear %}
-                  Medlem ut {{ user.getCurrentYear() }}, samt hele {{ user.getNextYear() }}
-                {% else %}
-                  Medlem {{ user.getCurrentYear() }}
-                {% endif %}
-              {% else %}
-                Ikke medlem
-              {% endif %}
-            </div>
-          {% endif %}
-          {# Main member :: end #}
-
-          {# Other members :: start #}
-          {% if user.haveFamilyMembers() %}
-            <h2 class="header--sub">
-              {% if user.household.isFamilyMember %}
-                Familiemedlemmer:
-              {% else %}
-                Hustandsmedlemmer:
-              {% endif %}
-            </h2>
-
-            {% for member in user.getFamilyMembers() %}
-              <div class="box box--small {% if not user.member.isValid %}box--invalid{% endif %}">
-                <h3 class="header--name">{{ member.name }}</h3>
-                {% if member.member.memberid %}
-                Medlemsnummer: {{ member.member.memberid }}
-                <br />
-                {% endif %}
-
-                {% if member.member.isValid %}
-                  {% if member.member.status.nextYear %}
-                    Medlem ut {{ user.getCurrentYear() }}, samt hele {{ user.getNextYear() }}
-                  {% else %}
-                    Medlem {{ user.getCurrentYear() }}
-                  {% endif %}
-                {% else %}
-                  Ikke medlem
-                {% endif %}
-              </div>
-            {% endfor %}
-          {% endif %}
-          {# Other members :: end #}
-        </div>
-
-      </div>
-
-
-    {% else %}
-      <a href="/logg-inn">Logg inn</a>
-    {% endif %}
-
 
     <footer>
       &copy; Den Norske Turistforening
@@ -133,7 +19,6 @@
         Version: {{ VERSION }}
       </div>
     </footer>
-
 
     {% if GA_CODE %}
       <script>

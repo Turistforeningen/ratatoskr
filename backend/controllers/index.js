@@ -12,7 +12,8 @@ const router = new Router();
 // User authenticated - Return React app
 router.get('/', (req, res, next) => {
   if (req.user) {
-    res.render('app.html');
+    const userData = JSON.stringify(req.user.getAPIRepresentation());
+    res.render('app.html', {userData});
   } else {
     next();
   }
