@@ -1,18 +1,10 @@
 import { combineReducers } from 'redux';
 
-
-const init = (state = 1, action) => {
-  switch (action.type) {
-    case 'INIT':
-      return state + 2;
-    default:
-      return state;
-  }
-};
+import user from './user';
 
 
 const rootReducer = combineReducers({
-  init,
+  user,
 });
 
 

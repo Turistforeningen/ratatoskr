@@ -9,6 +9,7 @@ import Root from './components/Root.jsx';
 
 const store = configureStore();
 
+
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>

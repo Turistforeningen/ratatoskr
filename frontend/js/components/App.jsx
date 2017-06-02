@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { testAction } from '../actions/test';
-import { getInit } from '../selectors/test';
+import { fetchUser } from '../actions/user';
+import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
 
 
 class App extends Component {
   @autobind
-  testTrigger(e) {
-    const { testAction: te } = this.props;
-    te();
-    console.log(this.props); // eslint-disable-line
+  fetchUser(e) {
+    const { actions } = this.props;
+    actions.fetchUser();
   }
 
   render() {
@@ -19,7 +18,7 @@ class App extends Component {
     return (
       <div>
         <h1>Hello world</h1>
-        <a onClick={this.testTrigger}>Test me!</a>
+        <a onClick={this.fetchUser}>Fetch user!</a>
         <h3>{init}</h3>
       </div>
     );
@@ -28,13 +27,17 @@ class App extends Component {
 
 
 const mapStateToProps = (state) => ({
-  init: getInit(state),
+  user: getUser(state),
+  isFetching: getIsFetching(state),
+  errorMessage: getErrorMessage(state),
 });
 
 
 const connectedComponent = connect(
   mapStateToProps,
-  {testAction}
+  {fetchUser},
+  (stateProps, dispatchProps, ownProps) =>
+    Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(App);
 
 export default connectedComponent;

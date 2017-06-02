@@ -25,6 +25,7 @@ module.exports = (env) => {
         ifDevelopment(`webpack-dev-server/client?http://${hostname}`),
         ifDevelopment('webpack/hot/only-dev-server'),
         'babel-polyfill',
+        'whatwg-fetch',
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
       splash: path.resolve(__dirname, 'scss', 'splash', 'index.scss'),
