@@ -90,6 +90,19 @@ module.exports = (env) => {
           ]),
         },
 
+        // SVG
+        {
+          test: /\.svg$/,
+          issuer: /\.(js|jsx)$/,
+          use: {
+            loader: 'svg-inline-loader',
+            options: {
+              removeTags: true,
+              removeSVGTagAttrs: true,
+            },
+          },
+        },
+
         // Images
         {
           test: /\.(png|jpg|jpeg|gif)$/,
@@ -104,6 +117,7 @@ module.exports = (env) => {
         // Fonts
         {
           test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+          issuer: /\.(s?)css$/,
           use: {
             loader: 'file-loader',
             query: {

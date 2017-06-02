@@ -6,6 +6,7 @@ import { update } from '../actions/user';
 import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
 
 import User from './User.jsx';
+import Logo from './Logo.jsx';
 
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
 
     return (
       <div className="container">
+        <Logo />
         <div class="top-menu">
           <a href="/logout">Logg ut</a>
         </div>
