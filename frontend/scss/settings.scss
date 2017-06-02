@@ -1,19 +1,15 @@
-$main-background-color: #f1f1f1;
-$main-font-color: #002626;
-
-$membership-valid-color: #95c623;
-$membership-invalid-color: #f00;
-
-$box-background-color: #fff;
-
+$color-red: #b43f2e;
+$color-dark: #002626;
+$color-blue: #39686a;
+$color-green: #a8d04b;
+$color-white: #ffffff;
+$color-white-darker: #f1f1f1;
 
 
+$main-background-color: $color-white-darker;
+$main-font-color: $color-dark;
 
-// Palette
-//
-// #d92d21
-// #002626
-// #0e4749
-// #95c623
-// #efe7da
-//
+$membership-valid-color: $color-green;
+$membership-invalid-color: $color-red;
+
+$box-background-color: $color-white;

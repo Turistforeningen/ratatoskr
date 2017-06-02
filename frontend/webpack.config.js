@@ -21,9 +21,8 @@ module.exports = (env) => {
     devtool: ifDevelopment('eval-source-map', 'nosources-source-map'),
     entry: {
       app: removeEmpty([
-        ifDevelopment(
-          `webpack-dev-server/client?http://${hostname || '0.0.0.0'}`
-        ),
+        ifDevelopment('react-hot-loader/patch'),
+        ifDevelopment(`webpack-dev-server/client?http://${hostname}`),
         ifDevelopment('webpack/hot/only-dev-server'),
         'babel-polyfill',
         path.resolve(__dirname, 'js', 'index.js'),

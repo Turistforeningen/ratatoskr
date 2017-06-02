@@ -1,6 +1,9 @@
 {
-  "extends": "airbnb-base",
-  "plugins": ["react"],
+  "extends": [
+    "airbnb-base",
+    "plugin:import/recommended"
+  ],
+  "plugins": ["react", "import"],
   "env": {
     "browser": true
   },
