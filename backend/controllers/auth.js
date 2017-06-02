@@ -27,7 +27,7 @@ router.get('/', (req, res, next) => {
     });
   }
 
-  redirectUri = `${req.protocol}://${req.hostname}${req.baseUrl}/verifiser`;
+  redirectUri = `${req.protocol}://${req.hostname}${req.baseUrl}/verify`;
   const OAuthURL = (
     `${settings.OAUTH_DOMAIN}/o/authorize/` +
     `?client_id=${settings.OAUTH_CLIENT_ID}` +
@@ -41,10 +41,10 @@ router.get('/', (req, res, next) => {
 
 // Callback from OAuth provider
 // eslint-disable-next-line consistent-return
-router.get('/verifiser', (req, res, next) => {
+router.get('/verify', (req, res, next) => {
   // If there is an error, redirect to login
   if (req.query.error) {
-    return res.redirect(`/logg-inn?${querystring.stringify(req.query)}`);
+    return res.redirect(`/login?${querystring.stringify(req.query)}`);
   }
 
   const code = req.query.code;

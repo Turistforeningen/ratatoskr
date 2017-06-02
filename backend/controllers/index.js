@@ -2,6 +2,7 @@
 
 const { Router } = require('express');
 
+const authController = require('./auth');
 
 const router = new Router();
 
@@ -17,20 +18,14 @@ router.get('/', (req, res, next) => {
 
 // User not authenticated - Return splash page
 router.get('/', (req, res, next) => {
-  console.log('USER AUTHENTICATED'); // eslint-disable-line
   res.render('splash.html');
 });
 
+// Add controllers
+router.use('/login', authController);
 
-router.get('/json', (req, res, next) => {
-  res.json({user: req.user});
-});
-
-
-router.use('/logg-inn', require('./auth'));
-
-
-router.get('/logg-ut', (req, res) => {
+// Logout handler
+router.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/');
   });
