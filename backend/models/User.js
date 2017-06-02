@@ -5,12 +5,22 @@ const fetch = require('isomorphic-fetch');
 
 const settings = require('../lib/settings');
 const mapSherpaUser = require('../utils/mapSherpaUser');
+const removeObjectKeys = require('../utils/removeObjectKeys');
 
 
 const SHERPA_URLS = {
   membership: `${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/`,
   household: `${settings.OAUTH_DOMAIN}/api/oauth/medlemsdata/husstanden/`,
 };
+
+
+const API_HIDDEN_FIELDS = [
+  ['household', 'mainMemberId'],
+  ['household', 'memberIds'],
+  ['OAuthTokens'],
+  ['association', 'ntbId'],
+  ['association', 'sherpaId'],
+];
 
 
 const User = () => {
@@ -52,10 +62,6 @@ const User = () => {
 
     OAuthTokens: null,
 
-    greet() {
-      return `Hello ${self.name}`;
-    },
-
     isMainHouseholdMember() {
       const { household } = self;
       return household.mainMember && household.mainMember.id === self.id;
@@ -84,6 +90,25 @@ const User = () => {
       const cur = new Date();
       const next = new Date(+cur.getFullYear() + 1, 1, 1);
       return next.getFullYear();
+    },
+
+    getAPIRepresentation() {
+      // Remove hidden fields from user
+      const res = removeObjectKeys(self, API_HIDDEN_FIELDS);
+
+      // Remove hidden fields from main member
+      if (res.household.mainMember) {
+        res.household.mainMember =
+          removeObjectKeys(res.household.mainMember, API_HIDDEN_FIELDS);
+      }
+
+      // Remove hidden fields from family members
+      if (res.household.members && res.household.members.length) {
+        res.household.members = res.household.members
+          .map((m) => removeObjectKeys(m, API_HIDDEN_FIELDS));
+      }
+
+      return res;
     },
 
     /**
@@ -186,7 +211,8 @@ const User = () => {
                         .map((member) => User().update(mapSherpaUser(member)));
                     }
 
-                    if (data.hovedmedlem) {
+                    if (data.hovedmedlem &&
+                        data.hovedmedlem.sherpa_id !== self.id) {
                       self.household.mainMember =
                         User().update(mapSherpaUser(data.hovedmedlem));
                     }

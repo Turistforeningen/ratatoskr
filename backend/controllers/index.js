@@ -3,6 +3,8 @@
 const { Router } = require('express');
 
 const authController = require('./auth');
+const apiController = require('./api');
+
 
 const router = new Router();
 
@@ -23,6 +25,7 @@ router.get('/', (req, res, next) => {
 
 // Add controllers
 router.use('/login', authController);
+router.use('/api', apiController);
 
 // Logout handler
 router.get('/logout', (req, res) => {
