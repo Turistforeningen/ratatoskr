@@ -20,7 +20,7 @@ module.exports = (env) => {
   return {
     devtool: ifDevelopment('eval-source-map', 'nosources-source-map'),
     entry: {
-      public: removeEmpty([
+      app: removeEmpty([
         ifDevelopment(
           `webpack-dev-server/client?http://${hostname || '0.0.0.0'}`
         ),
@@ -28,6 +28,7 @@ module.exports = (env) => {
         'babel-polyfill',
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
+      splash: path.resolve(__dirname, 'scss', 'splash', 'index.scss'),
     },
     output: {
       pathinfo: ifDevelopment(true),
@@ -89,14 +90,6 @@ module.exports = (env) => {
           ]),
         },
 
-        // // Nunjucks
-        // {
-        //   test: /\.(njk|nunjucks)$/,
-        //   use: {
-        //     loader: 'nunjucks-loader',
-        //   },
-        // },
-
         // Images
         {
           test: /\.(png|jpg|jpeg|gif)$/,
@@ -138,15 +131,24 @@ module.exports = (env) => {
       // console on HMR updates
       ifDevelopment(new webpack.NamedModulesPlugin()),
 
-      // Create a separate `risk-assessment-dev.html` used for development and
-      // debugging
+      // App server HTML template
       new HtmlWebpackPlugin({
         filename: ifDevelopment(
-          'templates/index.html',
-          path.resolve(baseOuputPath, 'templates', 'index.html')
+          'templates/app.html',
+          path.resolve(baseOuputPath, 'templates', 'app.html')
         ),
-        template: path.resolve(basePath, 'templates', 'index.html'),
-        chunks: ['public'],
+        template: path.resolve(basePath, 'templates', 'app.html'),
+        chunks: ['app'],
+      }),
+
+      // Splash server HTML template
+      new HtmlWebpackPlugin({
+        filename: ifDevelopment(
+          'templates/splash.html',
+          path.resolve(baseOuputPath, 'templates', 'splash.html')
+        ),
+        template: path.resolve(basePath, 'templates', 'splash.html'),
+        chunks: ['splash'],
       }),
 
       // Analytics (Should only be used when testing with `webpack` in CLI)
