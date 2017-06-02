@@ -17,6 +17,7 @@
     "express-session": "^1.15.3",
     "ioredis": "^3.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.18.1",
     "nunjucks": "^3.0.0",
     "raven": "^2.0.1"
   },

@@ -1,5 +1,7 @@
 'use strict';
 
+const moment = require('moment');
+
 
 module.exports = (data) => ({
   id: data.sherpa_id,
@@ -9,7 +11,7 @@ module.exports = (data) => ({
   lastName: data.etternavn,
   email: data.epost,
   mobile: data.mobil,
-  birthDate: data.født,
+  birthDate: data.født ? moment(data.født).format('DD.MM.YYYY') : null,
 
   member: {
     isValid: data.aktivt_medlemskap && data.er_medlem,
