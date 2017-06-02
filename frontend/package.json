@@ -48,7 +48,8 @@
     "webpack": "^2.6.0",
     "webpack-bundle-analyzer": "^2.8.2",
     "webpack-config-utils": "^2.3.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {}
 }
