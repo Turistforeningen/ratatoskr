@@ -1,3 +1,5 @@
+/* global ratatoskr */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -7,7 +9,9 @@ import configureStore from './configureStore';
 import Root from './components/Root.jsx';
 
 
-const store = configureStore();
+const container = document.getElementById('root');
+const initialState = {user: {data: ratatoskr.user}};
+const store = configureStore(initialState);
 
 
 const render = (Component) => {
@@ -15,7 +19,7 @@ const render = (Component) => {
     <AppContainer>
       <Component store={store}/>
     </AppContainer>,
-    document.getElementById('root')
+    container
   );
 };
 

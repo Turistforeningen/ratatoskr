@@ -5,7 +5,7 @@ import { createLogger } from 'redux-logger';
 import rootReducer from './reducers/index.js';
 
 
-const configureStore = () => {
+const configureStore = (initialData) => {
   const middlewares = [thunk];
   if (process.env.NODE_ENV !== 'production') {
     middlewares.push(createLogger());
@@ -13,7 +13,8 @@ const configureStore = () => {
 
   const store = createStore(
     rootReducer,
-    applyMiddleware(...middlewares)
+    initialData,
+    applyMiddleware(...middlewares),
   );
 
   // Enable Webpack hot module replacement for reducers

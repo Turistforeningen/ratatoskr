@@ -17,11 +17,7 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 500px;
-}
-
-.container__inner {
-  padding: 0 15px;
+  max-width: 480px;
 }
 
 
@@ -61,6 +57,13 @@ body {
 
   & + & {
     margin-top: 15px;
+  }
+}
+
+
+.box__section {
+  & + & {
+    margin-top: 1em;
   }
 }
 

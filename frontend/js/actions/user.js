@@ -3,7 +3,7 @@ import { getIsFetching } from '../selectors/user';
 
 
 // eslint-disable-next-line
-export const fetchUser = () => (dispatch, getState) => {
+export const update = () => (dispatch, getState) => {
   if (getIsFetching(getState())) {
     return Promise.resolve();
   }

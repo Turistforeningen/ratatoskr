@@ -208,6 +208,7 @@ const User = () => {
                   result.json().then((data) => {
                     if (data.husstandsmedlemmer) {
                       self.household.members = data.husstandsmedlemmer
+                        .filter((member) => member.sherpa_id !== self.id)
                         .map((member) => User().update(mapSherpaUser(member)));
                     }
 

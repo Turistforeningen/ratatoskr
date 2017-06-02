@@ -2,24 +2,58 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { fetchUser } from '../actions/user';
+import { update } from '../actions/user';
 import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
+
+import User from './User.jsx';
 
 
 class App extends Component {
   @autobind
-  fetchUser(e) {
+  update(e) {
     const { actions } = this.props;
-    actions.fetchUser();
+    actions.update();
   }
 
   render() {
-    const { init } = this.props;
+    const { user } = this.props;
+
+
     return (
-      <div>
-        <h1>Hello world</h1>
-        <a onClick={this.fetchUser}>Fetch user!</a>
-        <h3>{init}</h3>
+      <div className="container">
+        <div class="top-menu">
+          <a href="/logout">Logg ut</a>
+        </div>
+
+
+        <h1 class="header">Mitt medlemsskap</h1>
+        <User user={user} />
+
+        {!user.household.mainMember ? null : (
+          <div>
+            <h2 class="header--sub">Hovedmedlem</h2>
+            <User
+              user={user.household.mainMember}
+              subUser={true} />
+          </div>
+        )}
+
+        {!user.household.members || !user.household.members.length ? null : (
+          <div>
+            <h2 class="header--sub">
+              {user.household.isFamilyMember ?
+                'Familiemedlemmer' :
+                'Hustandsmedlemmer'
+              }
+            </h2>
+            {user.household.members.map((u) => (
+              <User
+                key={u.id}
+                user={u}
+                subUser={true} />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -35,7 +69,7 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {fetchUser},
+  {update},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(App);
