@@ -98,7 +98,11 @@ if (environment.production) {
 // Fallthrough error handler
 app.use((err, req, res, next) => {
   res.statusCode = 500;
-  res.end(res.sentry);
+  if (environment.production) {
+    res.end(res.sentry);
+  } else {
+    next(err);
+  }
 });
 
 // Start the express app
