@@ -9,6 +9,15 @@ const apiController = require('./api');
 const router = new Router();
 
 
+// Service Worker Manifest
+router.get('/manifest.html', (req, res, next) => {
+  res.sendFile('/ratatoskr/build/appcache/manifest.html');
+});
+router.get('/manifest.appcache', (req, res, next) => {
+  res.sendFile('/ratatoskr/build/appcache/manifest.appcache');
+});
+
+
 // User authenticated - Return React app
 router.get('/', (req, res, next) => {
   if (req.user) {

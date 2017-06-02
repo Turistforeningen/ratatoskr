@@ -34,7 +34,10 @@ module.exports = (env) => {
     output: {
       pathinfo: ifDevelopment(true),
       path: baseOuputPath,
-      filename: 'assets/js/[name].js',
+      filename: ifDevelopment(
+        'assets/js/[name].js',
+        'assets/js/[name].[hash].js'
+      ),
       publicPath: ifProduction(publicPathProd, publicPathDev),
     },
     module: {
