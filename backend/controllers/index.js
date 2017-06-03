@@ -41,4 +41,16 @@ router.use('/logout', logoutController);
 router.use('/api', apiController);
 
 
+// Application manifest
+router.use('/manifest.json', (req, res, next) => {
+  res.json({
+    name: 'Mitt medlemskap - Den Norske Turistforening',
+    theme_color: '#b43f2e',
+    background_color: '#f1f1f1',
+    start_url: '/',
+    display: 'standalone',
+  });
+});
+
+
 module.exports = router;

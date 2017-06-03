@@ -35,7 +35,7 @@ if (environment.production) {
   app.set('trust proxy', 1);
 }
 
-// Route to assests
+// Serve assests
 // Assets are built through Webpack and will be loaded using webpack dev server
 // when in development mode
 app.use('/assets', express.static('/ratatoskr/build/assets'));

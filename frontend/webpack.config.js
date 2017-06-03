@@ -165,6 +165,7 @@ module.exports = (env) => {
           ],
         },
         externals: removeEmpty([
+          '/',
           ifDevelopment(`${publicPathDev}assets/js/app.js`),
         ]),
         ServiceWorker: {
