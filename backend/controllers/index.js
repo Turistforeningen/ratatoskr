@@ -3,7 +3,8 @@
 const { Router } = require('express');
 
 const appcacheController = require('./appcache');
-const authController = require('./auth');
+const loginController = require('./login');
+const logoutController = require('./logout');
 const apiController = require('./api');
 
 
@@ -26,16 +27,12 @@ router.get('/', (req, res, next) => {
   res.render('splash.html');
 });
 
+
 // Add controllers
 router.use('/appcache', appcacheController);
-router.use('/login', authController);
+router.use('/login', loginController);
+router.use('/logout', logoutController);
 router.use('/api', apiController);
 
-// Logout handler
-router.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
-});
 
 module.exports = router;
