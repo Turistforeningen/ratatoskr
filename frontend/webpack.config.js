@@ -169,7 +169,6 @@ module.exports = (env) => {
           ifDevelopment(`${publicPathDev}assets/js/app.js`),
         ]),
         ServiceWorker: {
-          navigateFallbackURL: '/',
           events: true,
         },
         AppCache: {
