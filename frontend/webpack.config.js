@@ -150,34 +150,34 @@ module.exports = (env) => {
       // console on HMR updates
       ifDevelopment(new webpack.NamedModulesPlugin()),
 
-      new OfflinePlugin({
-        safeToUseOptionalCaches: true,
-        publicPath: '/',
-        caches: {
-          main: [
-            ifProduction('app.*.js', `${publicPathDev}assets/js/app.js`),
-          ],
-          additional: [
-            ':externals:',
-          ],
-          optional: [
-            ':rest:',
-          ],
-        },
-        externals: removeEmpty([
-          '/',
-          ifDevelopment(`${publicPathDev}assets/js/app.js`),
-        ]),
-        ServiceWorker: {
-          events: true,
-        },
-        AppCache: {
-          events: true,
-          FALLBACK: {
-            '/': '/is-offline',
-          },
-        },
-      }),
+      // new OfflinePlugin({
+      //   safeToUseOptionalCaches: true,
+      //   publicPath: '/',
+      //   caches: {
+      //     main: [
+      //       ifProduction('app.*.js', `${publicPathDev}assets/js/app.js`),
+      //     ],
+      //     additional: [
+      //       ':externals:',
+      //     ],
+      //     optional: [
+      //       ':rest:',
+      //     ],
+      //   },
+      //   externals: removeEmpty([
+      //     '/',
+      //     ifDevelopment(`${publicPathDev}assets/js/app.js`),
+      //   ]),
+      //   ServiceWorker: {
+      //     events: true,
+      //   },
+      //   AppCache: {
+      //     events: true,
+      //     FALLBACK: {
+      //       '/': '/is-offline',
+      //     },
+      //   },
+      // }),
 
       // App server HTML template
       new HtmlWebpackPlugin({
