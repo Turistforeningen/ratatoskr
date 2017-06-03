@@ -39,6 +39,7 @@ if (environment.production) {
 // Assets are built through Webpack and will be loaded using webpack dev server
 // when in development mode
 app.use('/assets', express.static('/ratatoskr/build/assets'));
+app.use('/sw.js', express.static('/ratatoskr/build/sw.js'));
 
 
 // Configure nunjucks template engine
