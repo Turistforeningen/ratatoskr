@@ -151,10 +151,11 @@ module.exports = (env) => {
       ifDevelopment(new webpack.NamedModulesPlugin()),
 
       new OfflinePlugin({
+        safeToUseOptionalCaches: true,
         publicPath: '/',
         caches: {
           main: [
-            'app.*.js',
+            ifProduction('app.*.js', `${publicPathDev}assets/js/app.js`),
           ],
           additional: [
             ':externals:',
@@ -163,15 +164,17 @@ module.exports = (env) => {
             ':rest:',
           ],
         },
-        externals: [
-          '/',
-        ],
+        externals: removeEmpty([
+          ifDevelopment(`${publicPathDev}assets/js/app.js`),
+        ]),
         ServiceWorker: {
           navigateFallbackURL: '/',
+          events: true,
         },
         AppCache: {
+          events: true,
           FALLBACK: {
-            '/': '/offline-page.html',
+            '/': '/is-offline',
           },
         },
       }),
