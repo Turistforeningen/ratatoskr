@@ -28,6 +28,12 @@ router.get('/', (req, res, next) => {
 });
 
 
+// Offline page for appcache Sevice Worker
+router.get('/is-offline', (req, res, next) => {
+  res.render('offline.html');
+});
+
+
 // Add controllers
 router.use('/appcache', appcacheController);
 router.use('/login', loginController);

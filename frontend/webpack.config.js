@@ -30,6 +30,7 @@ module.exports = (env) => {
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
       splash: path.resolve(__dirname, 'scss', 'splash', 'index.scss'),
+      offline: path.resolve(__dirname, 'scss', 'offline', 'index.scss'),
     },
     output: {
       pathinfo: ifDevelopment(true),
@@ -193,6 +194,16 @@ module.exports = (env) => {
         ),
         template: path.resolve(basePath, 'templates', 'splash.html'),
         chunks: ['splash'],
+      }),
+
+      // Splash server HTML template
+      new HtmlWebpackPlugin({
+        filename: ifDevelopment(
+          'templates/offline.html',
+          path.resolve(baseOuputPath, 'templates', 'offline.html')
+        ),
+        template: path.resolve(basePath, 'templates', 'offline.html'),
+        chunks: ['offline'],
       }),
 
       // Analytics (Should only be used when testing with `webpack` in CLI)
