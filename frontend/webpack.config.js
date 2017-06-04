@@ -7,9 +7,9 @@ const OfflinePlugin = require('offline-plugin');
 const BundleAnalyzer = require('webpack-bundle-analyzer');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
-const hostname = process.env.VIRTUAL_HOST || 'assets.medlem.dnt.local';
+const hostname = process.env.VIRTUAL_HOST || 'a.test.bi';
 const port = process.env.VIRTUAL_PORT || '3000';
-const publicPathDev = `http://${hostname}/`;
+const publicPathDev = `https://${hostname}/`;
 const publicPathProd = '/';
 const basePath = path.resolve(__dirname, '..');
 const baseOuputPath = path.resolve(basePath, 'build');

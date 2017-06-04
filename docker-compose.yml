@@ -23,13 +23,13 @@ services:
       - NPM_CONFIG_LOGLEVEL=info
       - NPM_CONFIG_PROGRESS=false
       - NPM_CONFIG_SPIN=false
-      - VIRTUAL_HOST=medlem.dnt.local
+      - VIRTUAL_HOST=m.test.bi
       - VIRTUAL_PORT=8080
       - VIRTUAL_PATH=/
     command: nodemon --watch backend backend/index.js
     extra_hosts:
       - "www.dnt.local:10.200.10.1"
-      - "assets.medlem.dnt.local:10.200.10.1"
+      - "a.test.bi:10.200.10.1"
 
   redis:
     image: redis:3
@@ -51,7 +51,7 @@ services:
       - NPM_CONFIG_LOGLEVEL=info
       - NPM_CONFIG_PROGRESS=false
       - NPM_CONFIG_SPIN=false
-      - VIRTUAL_HOST=assets.medlem.dnt.local
+      - VIRTUAL_HOST=a.test.bi
       - VIRTUAL_PORT=3000
     logging:
       options:
