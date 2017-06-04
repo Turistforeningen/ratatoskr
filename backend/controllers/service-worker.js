@@ -13,7 +13,6 @@ const router = new Router();
 
 // sw.js
 router.get('/sw.js', (req, res, next) => {
-  console.log('Here I am'); // eslint-disable-line
   if (environment.production) {
     res.sendFile('/ratatoskr/build/sw.js');
   } else {
