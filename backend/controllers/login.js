@@ -27,7 +27,7 @@ router.get('/', (req, res, next) => {
     });
   }
 
-  redirectUri = `${req.protocol}://${req.hostname}${req.baseUrl}/verify`;
+  redirectUri = `https://${req.hostname}${req.baseUrl}/verify`;
   const OAuthURL = (
     `${settings.OAUTH_DOMAIN}/o/authorize/` +
     `?client_id=${settings.OAUTH_CLIENT_ID}` +
