@@ -2,6 +2,7 @@
 
 const { Router } = require('express');
 
+const environment = require('../lib/environment');
 
 const serviceWorkerController = require('./service-worker');
 const loginController = require('./login');
@@ -10,6 +11,14 @@ const apiController = require('./api');
 
 
 const router = new Router();
+
+
+if (environment.development) {
+  router.get('/*', (req, res, next) => {
+    console.log(`Request: ${req.protocol}://${req.hostname}${req.url}`); // eslint-disable-line
+    next();
+  });
+}
 
 
 // User authenticated - Return React app
