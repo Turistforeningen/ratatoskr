@@ -52,7 +52,7 @@ const nunjucksEnvironment = new Environment(
   environment.ifProduction(
     new FileSystemLoader('/ratatoskr/build/templates', nunjucksOptions),
     new NunjuckCustomWebLoader(
-      'http://assets.medlem.dnt.local/templates',
+      'templates',
       nunjucksOptions
     )
   )

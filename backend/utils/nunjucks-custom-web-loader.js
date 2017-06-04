@@ -1,32 +1,8 @@
 'use strict';
 
-const fetch = require('isomorphic-fetch');
 const { Loader } = require('nunjucks');
 
-
-const fetchTemplateFromUrl = (url, cb) => {
-  fetch(url)
-    .then((response) => {
-      if (response.status >= 400) {
-        cb({
-          status: response.status,
-          content: response.text,
-        });
-      } else {
-        response.text()
-          .then((text) => {
-            cb(null, text);
-          }).catch((err) => {
-            cb({
-              status: 'Unable to read template',
-            });
-          });
-      }
-    })
-    .catch((err) => {
-      throw new Error(err.message);
-    });
-};
+const loadFromWebpackDevServer = require('./load-from-webpack-dev-server');
 
 
 const NunjuckCustomWebLoader = Loader.extend({
@@ -40,16 +16,8 @@ const NunjuckCustomWebLoader = Loader.extend({
     const useCache = this.useCache;
     let result;
     try {
-      fetchTemplateFromUrl(`${this.baseURL}/${name}`, (err, src) => {
-        if (err) {
-          if (cb) {
-            cb(err.content);
-          } else if (err.status === 404) {
-            result = null;
-          } else {
-            throw err.content;
-          }
-        } else {
+      loadFromWebpackDevServer(`${this.baseURL}/${name}`)
+        .then((src) => {
           result = {
             src,
             path: name,
@@ -58,11 +26,11 @@ const NunjuckCustomWebLoader = Loader.extend({
           if (cb) {
             cb(null, result);
           }
-        }
-      });
+        });
     } catch (e) {
       // eslint-disable-next-line
       console.log('UNABLE TO LOAD TEMPLATE FROM WEBPACK');
+      console.log(e); // eslint-disable-line
     }
   },
 });
