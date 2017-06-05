@@ -172,6 +172,7 @@ module.exports = (env) => {
         ServiceWorker: {
           events: true,
           navigateFallbackURL: '/',
+          navigateFallbackForRedirects: false,
           output: 'sw.js',
         },
         AppCache: {
@@ -179,6 +180,12 @@ module.exports = (env) => {
           FALLBACK: {
             '/': '/is-offline',
           },
+          NETWORK: [
+            '*',
+            '/api/',
+            '/login',
+            '/logout',
+          ],
         },
       }),
 
