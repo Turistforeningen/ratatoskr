@@ -12,19 +12,24 @@ const router = new Router();
 let redirectUri;
 
 
-// Redirect to OAuth provider or display errors
 router.get('/', (req, res, next) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
+
+  const context = {};
   if (req.query.error) {
-    return res.render('index.html', {
-      error: {
-        title: 'Feil ved innlogging',
-        message: `
-          En uventet feil oppstod ved innlogging. Du kan forsøke igjen,
-          og ta kontakt med oss hvis problemet vedvarer.
-        `,
-        code: req.query.error_description,
-      },
-    });
+    context.error = 'loginError';
+  }
+
+  return res.render('splash.html', context);
+});
+
+
+// Redirect to OAuth provider
+router.get('/o', (req, res, next) => {
+  if (!req.user) {
+    return res.redirect('/');
   }
 
   redirectUri = `https://${req.hostname}${req.baseUrl}/verify`;
@@ -93,7 +98,7 @@ router.get('/verify', (req, res, next) => {
       console.log(err); // eslint-disable-line
 
       // TODO: Set some params to make sure login route is not redirecting to OAuth
-      res.redirect('/?error=1');
+      res.redirect('/login?error=dntconnecterror');
     });
 });
 

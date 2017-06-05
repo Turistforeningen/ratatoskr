@@ -11,6 +11,12 @@
   </head>
   <body>
 
+    {% if error.loginError %}
+      <div>
+        Login error
+      </div>
+    {% endif %}
+
     <a href="/login">Logg inn</a>
 
 

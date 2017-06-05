@@ -21,20 +21,14 @@ if (environment.development) {
 }
 
 
-// User authenticated - Return React app
+// Return React app if user is authenticated or redirect to login
 router.get('/', (req, res, next) => {
-  if (req.user) {
-    const userData = JSON.stringify(req.user.getAPIRepresentation());
-    res.render('app.html', {userData});
-  } else {
-    next();
+  if (!req.user) {
+    return res.redirect('/login');
   }
-});
 
-
-// User not authenticated - Return splash page
-router.get('/', (req, res, next) => {
-  res.render('splash.html');
+  const userData = JSON.stringify(req.user.getAPIRepresentation());
+  return res.render('app.html', {userData});
 });
 
 
