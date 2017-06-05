@@ -35,9 +35,9 @@ module.exports = (env) => {
     output: {
       pathinfo: ifDevelopment(true),
       path: baseOuputPath,
-      filename: ifDevelopment(
-        'assets/js/[name].js',
-        'assets/js/[name].[hash].js'
+      filename: ifProduction(
+        'assets/js/[name].[hash].js',
+        'assets/js/[name].js'
       ),
       publicPath: ifProduction(publicPathProd, publicPathDev),
     },
@@ -114,7 +114,7 @@ module.exports = (env) => {
           use: {
             loader: 'file-loader',
             query: {
-              name: 'assets/img/[name].[ext]',
+              name: 'assets/img/[name].[hash].[ext]',
             },
           },
         },
@@ -126,7 +126,7 @@ module.exports = (env) => {
           use: {
             loader: 'file-loader',
             query: {
-              name: 'assets/fonts/[name].[ext]',
+              name: 'assets/fonts/[name].[hash].[ext]',
             },
           },
         },
@@ -154,9 +154,9 @@ module.exports = (env) => {
         safeToUseOptionalCaches: true,
         publicPath: '/',
         caches: {
-          main: [
-            ifProduction('app.*.js', `${publicPathDev}assets/js/app.js`),
-          ],
+          main: removeEmpty([
+            ifProduction('app.*.js'),
+          ]),
           additional: [
             ':externals:',
           ],
@@ -168,8 +168,10 @@ module.exports = (env) => {
           '/',
           ifDevelopment(`${publicPathDev}assets/js/app.js`),
         ]),
+        updateStrategy: 'changed',
         ServiceWorker: {
           events: true,
+          navigateFallbackURL: '/',
           output: 'sw.js',
         },
         AppCache: {
