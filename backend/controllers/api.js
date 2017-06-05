@@ -9,7 +9,7 @@ const router = new Router();
 // Mark any API-request as 'Not found' if user is not authenticated
 router.use((req, res, next) => {
   if (!req.user) {
-    res.status(404).send('Not found');
+    res.status(401).json({status: 'Unauthorized'});
   } else {
     next();
   }
