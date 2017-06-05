@@ -19,6 +19,9 @@ class App extends Component {
   render() {
     const { user } = this.props;
 
+    if (!user || !user.id) {
+      return <span>Venligst vent!</span>;
+    }
 
     return (
       <div className="container">

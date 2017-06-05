@@ -11,6 +11,10 @@ export const checkStatus = (response) => {
     return response;
   }
 
+  if (response.status === 401) {
+    window.location = '/login';
+  }
+
   const error = new Error(response.statusText);
   error.response = response;
 

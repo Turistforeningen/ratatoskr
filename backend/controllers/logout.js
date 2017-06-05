@@ -9,7 +9,7 @@ const router = new Router();
 // Logout handler
 router.get('/', (req, res) => {
   req.session.destroy(() => {
-    res.redirect('/');
+    res.redirect('/login');
   });
 });
 

@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
 
 // Redirect to OAuth provider
 router.get('/o', (req, res, next) => {
-  if (!req.user) {
+  if (req.user) {
     return res.redirect('/');
   }
 
