@@ -15,6 +15,42 @@ const basePath = path.resolve(__dirname, '..');
 const baseOuputPath = path.resolve(basePath, 'build');
 
 
+const cssApp = new ExtractTextPlugin('assets/css/app.[hash].css');
+const cssOffline = new ExtractTextPlugin('assets/css/offline.[hash].css');
+const cssSplash = new ExtractTextPlugin('assets/css/splash.[hash].css');
+
+
+const createSCSSRule = (extractor, fileRegexps, issuerRegexs) => ({
+  use: extractor.extract({
+    fallback: 'style-loader',
+    use: [
+      'css-loader',
+      {
+        loader: 'sass-loader',
+        query: {
+          sourceMap: true,
+        },
+      },
+    ],
+  }),
+  include: __dirname,
+  test: (fileName) => {
+    const match = fileRegexps
+      .map((r) => fileName.match(r))
+      .reduce((acc, n) => acc || !!n, false);
+    return match;
+  },
+  issuer: (issuerPath) => {
+    console.log(issuerRegexs, issuerPath); // eslint-disable-line
+    const match = issuerRegexs
+      .map((r) => issuerPath.match(r))
+      .reduce((acc, n) => acc || !!n, false);
+    console.log(match); // eslint-disable-line
+    return match;
+  },
+});
+
+
 module.exports = (env) => {
   const { ifDevelopment, ifProduction } = getIfUtils(env);
 
@@ -29,8 +65,8 @@ module.exports = (env) => {
         'whatwg-fetch',
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
-      splash: path.resolve(__dirname, 'scss', 'splash', 'index.scss'),
-      offline: path.resolve(__dirname, 'scss', 'offline', 'index.scss'),
+      splash: path.resolve(__dirname, 'scss', 'splash', 'index.js'),
+      offline: path.resolve(__dirname, 'scss', 'offline', 'index.js'),
     },
     output: {
       pathinfo: ifDevelopment(true),
@@ -72,6 +108,22 @@ module.exports = (env) => {
         {
           test: /\.(s?)css$/,
           oneOf: removeEmpty([
+            // app.css if in production mode
+            ifProduction(createSCSSRule(cssApp, [/\.scss/], [
+              /js\/index\.js/,
+              /scss\/app\/index\.scss/,
+            ])),
+            // splash.css if in production mode
+            ifProduction(createSCSSRule(cssSplash, [/\.scss/], [
+              /splash\/index\.js/,
+              /scss\/splash\/index\.scss/,
+            ])),
+            // offline.css if in production mode
+            ifProduction(createSCSSRule(cssOffline, [/\.scss/], [
+              /offline\/index\.js/,
+              /scss\/offline\/index\.scss/,
+            ])),
+
             // SCSS to be included into the .js files
             // (default behaviour if in development mode)
             {
@@ -150,12 +202,23 @@ module.exports = (env) => {
       // console on HMR updates
       ifDevelopment(new webpack.NamedModulesPlugin()),
 
+      // Css
+      ifProduction(cssApp),
+      ifProduction(cssSplash),
+      ifProduction(cssOffline),
+
+      // Offline plugin - adds service worker and appcache
       new OfflinePlugin({
         safeToUseOptionalCaches: true,
         publicPath: '/',
         caches: {
           main: removeEmpty([
             ifProduction('app.*.js'),
+            ifProduction('*.css'),
+            '*.svg',
+            '*.woff',
+            '*.eot',
+            '*.ttf',
           ]),
           additional: [
             ':externals:',
