@@ -17,22 +17,31 @@ class App extends Component {
     actions.update();
   }
 
-  render() {
-    const { user, isOffline } = this.props;
+  @autobind
+  renderPleaseWait() {
+    const { user } = this.props;
 
-    if (!user || !user.id) {
-      return <span>Venligst vent!</span>;
+    if (user && user.id) {
+      return null;
     }
 
     return (
-      <div className="container">
-        <div class="top-menu">
-          {isOffline ? '[Offline mode]' : null}
-          {' '}
-          <a href="/logout">Logg ut</a>
-        </div>
+      <h1 class="header">
+        <em>Vennligst vent...</em>
+      </h1>
+    );
+  }
 
+  @autobind
+  renderMainContent() {
+    const { user } = this.props;
 
+    if (!user || !user.id) {
+      return null;
+    }
+
+    return (
+      <div>
         <h1 class="header">Mitt medlemsskap</h1>
         <User user={user} />
 
@@ -61,6 +70,34 @@ class App extends Component {
             ))}
           </div>
         )}
+      </div>
+    );
+  }
+
+
+  render() {
+    const { user, isOffline } = this.props;
+
+    if (!user || !user.id) {
+      return <span>Venligst vent!</span>;
+    }
+
+    return (
+      <div>
+        <header>
+          <Logo />
+
+          <div className="header-menu">
+            {isOffline ? '[Offline mode]' : null}
+            {' '}
+            {!user || !user.id ? null : <a href="/logout">Logg ut</a>}
+          </div>
+        </header>
+
+        <div className="container">
+          {this.renderPleaseWait()}
+          {this.renderMainContent()}
+        </div>
       </div>
     );
   }

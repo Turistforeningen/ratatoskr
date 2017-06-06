@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 const path = require('path');
 
 const webpack = require('webpack');
@@ -210,9 +211,9 @@ module.exports = (env) => {
         safeToUseOptionalCaches: true,
         publicPath: '/',
         caches: {
-          main: [
-            ':rest:',
-          ],
+          main: removeEmpty([
+            ifProduction(':rest:'),
+          ]),
           additional: [
             ':externals:',
           ],

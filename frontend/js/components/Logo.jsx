@@ -6,7 +6,7 @@ const logoSVG = require('../../img/logo.svg');
 const createMarkup = () => ({__html: logoSVG});
 
 
-const Logo = () => <span dangerouslySetInnerHTML={createMarkup()} />;
+const Logo = () => <div dangerouslySetInnerHTML={createMarkup()} />;
 
 
 export default Logo;

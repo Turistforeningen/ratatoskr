@@ -1,5 +1,8 @@
 
 @import '../settings';
+@import '../../node_modules/normalize.scss/normalize';
+@import '../mq-mixins';
+
 @import '../fonts';
 
 
@@ -9,15 +12,62 @@ body {
   color: $main-font-color;
 }
 
-.top-menu {
-  margin: 10px 0 25px;
-  font-size: .8em;
-  text-align: right;
+a {
+  display: inline-block;
+  color: $color-red;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+
+  &:visited {
+    color: $color-red;
+  }
+
+  &:hover,
+  &:focus {
+    color: $color-red;
+    border-color: $color-red;
+  }
+}
+
+header {
+  margin: 0 auto 20px;
+  max-width: 480px;
+  height: 50px;
+  padding: 0 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-menu {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  line-height: 14px;
+  font-size: 14px;
+  padding-top: 18px;
+}
+
+
+.logo-svg {
+  @include min-screen(500px) {
+    margin-left: 0;
+  }
+
+  max-height: 50px;
+  margin-left: -185px;
+}
+
+
+.logo-svg__banner {
+  @include max-screen(499px) {
+    display: none;
+  }
 }
 
 .container {
   margin: 0 auto;
   max-width: 480px;
+  padding: 8px;
 }
 
 

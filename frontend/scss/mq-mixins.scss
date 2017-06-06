@@ -1,0 +1,22 @@
+@import '../../node_modules/sass-mediaqueries/media-queries';
+
+
+@mixin max-screen($max) {
+  @include mq($max-width: $max) {
+    @content;
+  }
+}
+
+
+@mixin min-screen($min) {
+  @include mq($min-width: $min) {
+    @content;
+  }
+}
+
+
+@mixin min-max-screen($min, $max) {
+  @include mq($min-width: $min, $max-width: $max) {
+    @content;
+  }
+}
