@@ -10,7 +10,7 @@
     <meta name="robots" content="noindex">
     <script type="text/javascript">
       var ratatoskr = {version: '{{ VERSION }}'};
-      {% if userData %}ratatoskr.user: {{userData | safe}};{% endif %}
+      {% if userData %}ratatoskr.user = {{userData | safe}};{% endif %}
     </script>
   </head>
   <body>
