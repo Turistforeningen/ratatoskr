@@ -4,6 +4,7 @@ import { autobind } from 'core-decorators';
 
 import { update } from '../actions/user';
 import { getIsOffline } from '../selectors/offline';
+import { getVersion } from '../selectors/version';
 import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
 
 import User from './User.jsx';
@@ -74,9 +75,9 @@ class App extends Component {
     );
   }
 
-
   render() {
-    const { user, isOffline } = this.props;
+    const { user, isOffline, version } = this.props;
+    const year = new Date().getFullYear();
 
     if (!user || !user.id) {
       return <span>Venligst vent!</span>;
@@ -98,6 +99,30 @@ class App extends Component {
           {this.renderPleaseWait()}
           {this.renderMainContent()}
         </div>
+
+        <footer>
+          <nav>
+            <ul className="footer-menu">
+              <li className="footer-menu__item">
+                <a href="https://www.dnt.no/medlem/">Mer om medlemsskap</a>
+              </li>
+              <li className="footer-menu__item">
+                <a href="https://www.dnt.no/">Mer om DNT</a>
+              </li>
+              <li className="footer-menu__item">
+                <a href="https://www.dnt.no/personvern/">Personvern</a>
+              </li>
+            </ul>
+          </nav>
+
+          <div>
+            &copy; {year} - Den Norske Turistforening
+          </div>
+
+          <div className="version">
+            {version}
+          </div>
+        </footer>
       </div>
     );
   }
@@ -109,6 +134,7 @@ const mapStateToProps = (state) => ({
   isFetching: getIsFetching(state),
   errorMessage: getErrorMessage(state),
   isOffline: getIsOffline(state),
+  version: getVersion(state),
 });
 
 
