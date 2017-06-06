@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const BundleAnalyzer = require('webpack-bundle-analyzer');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
 const hostname = process.env.VIRTUAL_HOST || 'a.test.bi';
@@ -205,6 +206,17 @@ module.exports = (env) => {
       ifProduction(cssApp),
       ifProduction(cssSplash),
       ifProduction(cssOffline),
+
+      // Favicons
+      new FaviconsWebpackPlugin({
+        logo: path.resolve(
+          basePath, 'frontend', 'favicon', 'favicon-template.png'
+        ),
+        prefix: 'assets/favicons-[hash]/',
+        statsFilename: 'assets/iconstats-[hash].json',
+        background: '#c6302a',
+        title: 'DNT Medlem',
+      }),
 
       // Offline plugin - adds service worker and appcache
       new OfflinePlugin({
