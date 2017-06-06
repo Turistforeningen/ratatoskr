@@ -41,11 +41,9 @@ const createSCSSRule = (extractor, fileRegexps, issuerRegexs) => ({
     return match;
   },
   issuer: (issuerPath) => {
-    console.log(issuerRegexs, issuerPath); // eslint-disable-line
     const match = issuerRegexs
       .map((r) => issuerPath.match(r))
       .reduce((acc, n) => acc || !!n, false);
-    console.log(match); // eslint-disable-line
     return match;
   },
 });
@@ -212,20 +210,13 @@ module.exports = (env) => {
         safeToUseOptionalCaches: true,
         publicPath: '/',
         caches: {
-          main: removeEmpty([
-            ifProduction('app.*.js'),
-            ifProduction('*.css'),
-            '*.svg',
-            '*.woff',
-            '*.eot',
-            '*.ttf',
-          ]),
+          main: [
+            ':rest:',
+          ],
           additional: [
             ':externals:',
           ],
-          optional: [
-            ':rest:',
-          ],
+          optional: [],
         },
         externals: removeEmpty([
           '/',
