@@ -3,10 +3,10 @@ import { combineReducers } from 'redux';
 
 const isFetching = (state = false, action) => {
   switch (action.type) {
-    case 'USER_FETCH_REQUEST':
+    case 'USER_FETCH':
       return true;
-    case 'USER_FETCH_SUCCESS':
-    case 'USER_FETCH_FAILURE':
+    case 'USER_FETCH_COMMIT':
+    case 'USER_FETCH_ROLLBACK':
       return false;
     default:
       return state;
@@ -16,11 +16,12 @@ const isFetching = (state = false, action) => {
 
 const errorMessage = (state = null, action) => {
   switch (action.type) {
-    case 'USER_FETCH_REQUEST':
-    case 'USER_FETCH_SUCCESS':
+    case 'USER_FETCH':
+    case 'USER_FETCH_COMMIT':
       return null;
-    case 'USER_FETCH_FAILURE':
-      return action.message;
+    case 'USER_FETCH_ROLLBACK':
+      return 'err';
+      // return action.message;
     default:
       return state;
   }
@@ -29,8 +30,8 @@ const errorMessage = (state = null, action) => {
 
 const data = (state = {}, action) => {
   switch (action.type) {
-    case 'USER_FETCH_SUCCESS':
-      return action.data;
+    case 'USER_FETCH_COMMIT':
+      return action.payload.user;
     default:
       return state;
   }

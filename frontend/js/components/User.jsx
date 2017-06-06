@@ -104,7 +104,9 @@ class User extends Component {
   @autobind
   renderMainUser() {
     const { user } = this.props;
-    const className = user.member.isValid ? 'box' : 'box box--invalid';
+    const className = user.member.isValid
+      ? 'box'
+      : 'box box--invalid';
 
     return (
       <div className={className}>
@@ -131,9 +133,9 @@ class User extends Component {
   @autobind
   renderSubUser() {
     const { user } = this.props;
-    const className = user.member.isValid ?
-      'box box--small' :
-      'box box--small box--invalid';
+    const className = user.member.isValid
+      ? 'box box--small'
+      : 'box box--small box--invalid';
 
     return (
       <div className={className}>
@@ -151,7 +153,9 @@ class User extends Component {
 
   render() {
     const { subUser } = this.props;
-    return subUser ? this.renderSubUser() : this.renderMainUser();
+    return subUser
+      ? this.renderSubUser()
+      : this.renderMainUser();
   }
 }
 

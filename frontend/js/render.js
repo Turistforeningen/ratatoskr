@@ -11,13 +11,11 @@ import Root from './components/Root.jsx';
 
 
 const container = document.getElementById('root');
-const initialState = ratatoskr.user ?
-  {user: {data: ratatoskr.user}} :
-  {};
-const store = configureStore(initialState);
+const initialState = ratatoskr.user
+  ? {user: {data: ratatoskr.user}}
+  : {};
 
-
-const render = (Component) => {
+const render = (Component, store) => {
   ReactDOM.render(
     <AppContainer>
       <Component store={store}/>
@@ -28,16 +26,19 @@ const render = (Component) => {
 
 
 const bootstrap = () => {
-  render(Root);
-  store.dispatch(update());
+  // Render after state redydration is done
+  const store = configureStore(initialState, () => {
+    render(Root, store);
+    store.dispatch(update());
 
-  // Hot Module Replacement API
-  if (module.hot) {
-    module.hot.accept(
-      './components/Root.jsx',
-      () => { render(Root); }
-    );
-  }
+    // Hot Module Replacement API
+    if (module.hot) {
+      module.hot.accept(
+        './components/Root.jsx',
+        () => { render(Root, store); }
+      );
+    }
+  });
 };
 
 export default bootstrap;

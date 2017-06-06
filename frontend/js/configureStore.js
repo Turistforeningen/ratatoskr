@@ -1,20 +1,35 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { offline } from 'redux-offline';
+import defaultConfig from 'redux-offline/lib/defaults';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
+import effectReconciler from './api';
 import rootReducer from './reducers/index.js';
 
 
-const configureStore = (initialData) => {
-  const middlewares = [thunk];
-  if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(createLogger());
-  }
+const configureStore = (initialState, cb) => {
+  const offlineConfig = {
+    ...defaultConfig,
+    effect: (effect, _action) => effectReconciler(effect),
+    persistCallback: (a, b, c, d) => {
+      cb();
+    },
+  };
 
-  const store = createStore(
+  const getMiddlewares = () => {
+    const middlewares = [thunk];
+    if (process.env.NODE_ENV !== 'production') {
+      middlewares.push(createLogger());
+    }
+
+    return applyMiddleware(...middlewares);
+  };
+
+  const store = offline(offlineConfig)(createStore)(
     rootReducer,
-    initialData,
-    applyMiddleware(...middlewares),
+    initialState,
+    getMiddlewares()
   );
 
   // Enable Webpack hot module replacement for reducers

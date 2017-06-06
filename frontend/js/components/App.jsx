@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 import { update } from '../actions/user';
+import { getIsOffline } from '../selectors/offline';
 import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
 
 import User from './User.jsx';
@@ -17,7 +18,7 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, isOffline } = this.props;
 
     if (!user || !user.id) {
       return <span>Venligst vent!</span>;
@@ -25,8 +26,9 @@ class App extends Component {
 
     return (
       <div className="container">
-        <Logo />
         <div class="top-menu">
+          {isOffline ? '[Offline mode]' : null}
+          {' '}
           <a href="/logout">Logg ut</a>
         </div>
 
@@ -69,6 +71,7 @@ const mapStateToProps = (state) => ({
   user: getUser(state),
   isFetching: getIsFetching(state),
   errorMessage: getErrorMessage(state),
+  isOffline: getIsOffline(state),
 });
 
 
