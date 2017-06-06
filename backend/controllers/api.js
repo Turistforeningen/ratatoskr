@@ -8,6 +8,12 @@ const version = require('../version');
 const router = new Router();
 
 
+router.get('/*', (req, res, next) => {
+  res.header('RATATOSKR-VERSION', version.tag);
+  next();
+});
+
+
 // Return version
 router.get('/version', (req, res, next) => {
   res.json({version: version.tag});
