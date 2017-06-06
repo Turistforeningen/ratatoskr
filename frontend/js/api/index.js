@@ -8,9 +8,21 @@ export default ({url, ...effectOpts}) => {
 
   return fetch(url, options)
     .then(checkStatus)
-    .then((res) => (
-      res.ok
-        ? res.json()
-        : Promise.reject(res.text().then((msg) => new Error(msg)))
-    ));
+    .then(({res, versionTag}) => {
+      if (!res.ok) {
+        return Promise.reject(res.text().then((msg) => new Error(msg)));
+      }
+
+      const promise = new Promise((resolve, reject) => {
+        res.json()
+          .then((json) => {
+            resolve({...json, VERSION_TAG: versionTag});
+          })
+          .catch((err) => {
+            reject(new Error(err));
+          });
+      });
+
+      return promise;
+    });
 };

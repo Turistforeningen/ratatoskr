@@ -6,17 +6,18 @@ export const fetchOptions = {
 };
 
 
-export const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+export const checkStatus = (res) => {
+  if (res.status >= 200 && res.status < 300) {
+    const versionTag = res.headers.get('RATATOSKR-VERSION');
+    return {versionTag, res};
   }
 
-  if (response.status === 401) {
+  if (res.status === 401) {
     window.location = '/login';
   }
 
-  const error = new Error(response.statusText);
-  error.response = response;
+  const error = new Error(res.statusText);
+  error.res = res;
 
   throw error;
 };
