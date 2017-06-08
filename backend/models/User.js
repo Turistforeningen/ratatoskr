@@ -4,6 +4,7 @@ const redis = require('../lib/redis');
 const fetch = require('isomorphic-fetch');
 
 const settings = require('../lib/settings');
+const sherpa = require('../lib/sherpa');
 const mapSherpaUser = require('../utils/mapSherpaUser');
 const removeObjectKeys = require('../utils/removeObjectKeys');
 
@@ -172,6 +173,43 @@ const User = () => {
       return self;
     },
 
+    sherpaRequest(path, method = 'GET', body = null, retrying = false) {
+      const promise = new Promise((resolve, reject) => {
+        const req = method === 'GET'
+          ? sherpa.user.get(self.OAuthTokens, path)
+          : sherpa.user.post(self.OAuthTokens, path, body);
+
+        req
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            // Access token may be expired, try to refresh it
+            if (err === 403 && !retrying) {
+              sherpa.user.refreshToken(self.OAuthTokens)
+                .then((tokens) => {
+                  if (tokens) {
+                    self.setTokens(tokens);
+                    self.save();
+                    self.sherpaRequest(path, method, body, true)
+                      .then((res) => {
+                        resolve(res);
+                      })
+                      .catch((e) => reject(e));
+                  } else {
+                    resolve();
+                  }
+                })
+                .catch((e) => reject(e));
+            } else {
+              reject(err);
+            }
+          });
+      });
+
+      return promise;
+    },
+
     loadSherpaData() {
       if (!self.OAuthTokens || !self.OAuthTokens.access_token) {
         throw new Error(
@@ -180,14 +218,12 @@ const User = () => {
       }
 
       const promise = new Promise((resolve, reject) => {
-        fetch(SHERPA_URLS.membership, {
-          headers: {
-            Authorization: `Bearer ${self.OAuthTokens.access_token}`,
-          },
-        })
-          // Fetch member data from Sherpa
-          .then((result) => result.json())
+        this.sherpaRequest(SHERPA_URLS.membership)
           .then((data) => {
+            if (!data) {
+              self.destroy();
+              resolve(self);
+            }
             if (self.id && data.sherpa_id !== self.id) {
               throw new Error(
                 'The resulting user from Sherpa has a different ID than ' +
@@ -195,37 +231,29 @@ const User = () => {
               );
             }
             Object.assign(self, mapSherpaUser(data));
-          })
-          .then(() => {
-            // Fetch houshold members from Sherpa
-            if (self.household.memberIds.length) {
-              fetch(SHERPA_URLS.household, {
-                headers: {
-                  Authorization: `Bearer ${self.OAuthTokens.access_token}`,
-                },
-              })
-                .then((result) => {
-                  result.json().then((data) => {
-                    if (data.husstandsmedlemmer) {
-                      self.household.members = data.husstandsmedlemmer
-                        .filter((member) => member.sherpa_id !== self.id)
-                        .map((member) => User().update(mapSherpaUser(member)));
-                    }
 
-                    if (data.hovedmedlem &&
-                        data.hovedmedlem.sherpa_id !== self.id) {
-                      self.household.mainMember =
-                        User().update(mapSherpaUser(data.hovedmedlem));
-                    }
+            if (!self.household.memberIds.length) {
+              resolve(self);
+            } else {
+              sherpa.user.get(self.OAuthTokens, SHERPA_URLS.household)
+                .then((householdData) => {
+                  if (householdData.husstandsmedlemmer) {
+                    self.household.members = householdData.husstandsmedlemmer
+                      .filter((member) => member.sherpa_id !== self.id)
+                      .map((member) => User().update(mapSherpaUser(member)));
+                  }
 
-                    resolve(self);
-                  });
+                  if (householdData.hovedmedlem
+                      && householdData.hovedmedlem.sherpa_id !== self.id) {
+                    self.household.mainMember =
+                      User().update(mapSherpaUser(householdData.hovedmedlem));
+                  }
+
+                  resolve(self);
                 })
                 .catch((err) => {
                   throw new Error(err);
                 });
-            } else {
-              resolve(self);
             }
           })
           .catch((err) => {
@@ -238,6 +266,15 @@ const User = () => {
 
     update(data) {
       Object.assign(self, data);
+      return self;
+    },
+
+    destroy() {
+      Object.keys(self).forEach((key) => {
+        if (typeof self[key] !== 'function') {
+          self[key] = null;
+        }
+      });
       return self;
     },
   });

@@ -1,8 +1,12 @@
 'use strict';
 
 const { Router } = require('express');
+const fetch = require('isomorphic-fetch');
 
 const version = require('../version');
+const settings = require('../lib/settings');
+const sherpa = require('../lib/sherpa');
+const User = require('../models/User');
 
 
 const router = new Router();
@@ -20,19 +24,85 @@ router.get('/version', (req, res, next) => {
 });
 
 
-// Mark any API-request as 'Not found' if user is not authenticated
-router.use((req, res, next) => {
-  if (!req.user) {
-    res.status(401).json({status: 'Unauthorized'});
+// Return user data
+router.get('/user/me', (req, res, next) => {
+  const data = req.user
+    ? req.user.getAPIRepresentation()
+    : {};
+
+  res.json({user: data});
+});
+
+
+// Update user data from Sherpa
+router.get('/user/me/update', (req, res, next) => {
+  if (req.user) {
+    req.user.loadSherpaData()
+      .then(() => {
+        if (!req.user.id) {
+          req.session.userId = null;
+        }
+
+        const data = req.user
+          ? req.user.getAPIRepresentation()
+          : {};
+
+        res.json({user: data});
+      })
+      .catch((err) => {
+        res.json({err: 'err'});
+      });
   } else {
-    next();
+    const data = req.user
+      ? req.user.getAPIRepresentation()
+      : {};
+
+    res.json({user: data});
   }
 });
 
 
-// Return user data
-router.get('/user/me', (req, res, next) => {
-  res.json({user: req.user.getAPIRepresentation()});
+// Login
+router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
+  const email = null;
+  const password = null;
+  const userId = req.params.id || null;
+
+  sherpa.user.authenticate(email, password, userId)
+    .then((data) => {
+      if (data.users) {
+        const { users } = data;
+        res.json({users});
+      }
+
+      User().setTokens(data).loadSherpaData()
+        .then((user) => {
+          if (user.id) {
+            user.save()
+              .then(() => {
+                req.session.userId = user.id;
+                res.json({data: user.getAPIRepresentation()});
+              });
+          } else {
+            res.json({error: 'missing user id'});
+          }
+        })
+        .catch((err) => {
+          res.json({err});
+        });
+    })
+    .catch((err) => {
+      res.json({error: 'invalid credentials'});
+    });
+});
+
+
+router.get('/tokens', (req, res, next) => {
+  sherpa.client.getTokens()
+    .then((tokens) => {
+      res.json({tokens});
+    })
+    .catch((err) => res.json({error: 'error'}));
 });
 
 

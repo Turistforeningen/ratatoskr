@@ -82,7 +82,8 @@ app.use((req, res, next) => {
       req.user = user;
       nunjucksEnvironment.addGlobal('user', user);
       next();
-    });
+    })
+    .catch(() => next());
   }
 });
 
