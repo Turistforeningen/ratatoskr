@@ -9,6 +9,7 @@ import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
 
 import User from './User.jsx';
 import Logo from './Logo.jsx';
+import Login from './Login/Login.jsx';
 
 
 class App extends Component {
@@ -20,9 +21,9 @@ class App extends Component {
 
   @autobind
   renderPleaseWait() {
-    const { user } = this.props;
+    const { user, isFetching } = this.props;
 
-    if (user && user.id) {
+    if ((user && user.id) || !isFetching) {
       return null;
     }
 
@@ -79,10 +80,6 @@ class App extends Component {
     const { user, isOffline, version } = this.props;
     const year = new Date().getFullYear();
 
-    if (!user || !user.id) {
-      return <span>Venligst vent!</span>;
-    }
-
     return (
       <div>
         <header>
@@ -97,6 +94,7 @@ class App extends Component {
 
         <div className="container">
           {this.renderPleaseWait()}
+          <Login />
           {this.renderMainContent()}
         </div>
 

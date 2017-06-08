@@ -7,13 +7,9 @@ export const fetchOptions = {
 
 
 export const checkStatus = (res) => {
+  const versionTag = res.headers.get('RATATOSKR-VERSION');
   if (res.status >= 200 && res.status < 300) {
-    const versionTag = res.headers.get('RATATOSKR-VERSION');
     return {versionTag, res};
-  }
-
-  if (res.status === 401) {
-    window.location = '/login';
   }
 
   const error = new Error(res.statusText);

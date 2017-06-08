@@ -17,26 +17,17 @@ export const update = () => ({
   },
 });
 
-
-// export const update = () => (dispatch, getState) => {
-//   if (getIsFetching(getState())) {
-//     return Promise.resolve();
-//   }
-//
-//   dispatch({type: 'USER_FETCH_REQUEST'});
-//
-//   return fetchUserAPI().then(
-//     (response) => {
-//       dispatch({
-//         type: 'USER_FETCH_SUCCESS',
-//         data: response.user,
-//       });
-//     },
-//     (error) => {
-//       dispatch({
-//         type: 'USER_FETCH_FAILURE',
-//         message: error.message || 'Noe gikk galt',
-//       });
-//     }
-//   );
-// };
+// eslint-disable-next-line
+export const login = () => ({
+  type: 'USER_LOGIN',
+  meta: {
+    offline: {
+      effect: {
+        url: '/api/user/login',
+        method: 'POST',
+      },
+      commit: { type: 'USER_LOGIN_COMMIT' },
+      rollback: { type: 'USER_LOGIN_ROLLBACK' },
+    },
+  },
+});

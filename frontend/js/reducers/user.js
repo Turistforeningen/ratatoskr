@@ -31,7 +31,19 @@ const errorMessage = (state = null, action) => {
 const data = (state = {}, action) => {
   switch (action.type) {
     case 'USER_FETCH_COMMIT':
-      return action.payload.user;
+      return action.payload.unauthorized
+        ? {}
+        : action.payload.user;
+    default:
+      return state;
+  }
+};
+
+
+const unauthorized = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_FETCH_COMMIT':
+      return !action.payload.user.id;
     default:
       return state;
   }
@@ -42,6 +54,7 @@ const userReducer = combineReducers({
   isFetching,
   errorMessage,
   data,
+  unauthorized,
 });
 
 
