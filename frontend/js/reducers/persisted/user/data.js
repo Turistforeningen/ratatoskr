@@ -9,6 +9,8 @@ export default (state = {}, action) => {
       return action.payload.data
         ? action.payload.data
         : state;
+    case 'USER_LOGOUT':
+      return {};
     default:
       return state;
   }

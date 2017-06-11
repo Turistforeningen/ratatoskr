@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 import { getIsOffline } from '../selectors/offline';
-import { getVersion } from '../selectors/version';
 import { getUser, getIsUpdating } from '../selectors/user/data';
 
+import Footer from './App/Footer.jsx';
 import User from './User.jsx';
 import Logo from './Logo.jsx';
 import Login from './Login/Login.jsx';
@@ -70,8 +70,7 @@ class App extends Component {
   }
 
   render() {
-    const { user, isOffline, version } = this.props;
-    const year = new Date().getFullYear();
+    const { user, isOffline } = this.props;
 
     return (
       <div>
@@ -91,29 +90,7 @@ class App extends Component {
           {this.renderMainContent()}
         </div>
 
-        <footer>
-          <nav>
-            <ul className="footer-menu">
-              <li className="footer-menu__item">
-                <a href="https://www.dnt.no/medlem/">Mer om medlemsskap</a>
-              </li>
-              <li className="footer-menu__item">
-                <a href="https://www.dnt.no/">Mer om DNT</a>
-              </li>
-              <li className="footer-menu__item">
-                <a href="https://www.dnt.no/personvern/">Personvern</a>
-              </li>
-            </ul>
-          </nav>
-
-          <div>
-            &copy; {year} - Den Norske Turistforening
-          </div>
-
-          <div className="version">
-            {version}
-          </div>
-        </footer>
+        <Footer />
       </div>
     );
   }
@@ -124,7 +101,6 @@ const mapStateToProps = (state) => ({
   user: getUser(state),
   isUpdating: getIsUpdating(state),
   isOffline: getIsOffline(state),
-  version: getVersion(state),
 });
 
 
