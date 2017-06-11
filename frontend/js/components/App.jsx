@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { update } from '../actions/user';
 import { getIsOffline } from '../selectors/offline';
 import { getVersion } from '../selectors/version';
-import { getUser, getIsFetching, getErrorMessage } from '../selectors/user';
+import { getUser, getIsUpdating } from '../selectors/user/data';
 
 import User from './User.jsx';
 import Logo from './Logo.jsx';
@@ -14,16 +13,10 @@ import Login from './Login/Login.jsx';
 
 class App extends Component {
   @autobind
-  update(e) {
-    const { actions } = this.props;
-    actions.update();
-  }
-
-  @autobind
   renderPleaseWait() {
-    const { user, isFetching } = this.props;
+    const { user, isUpdating } = this.props;
 
-    if ((user && user.id) || !isFetching) {
+    if ((user && user.id) || !isUpdating) {
       return null;
     }
 
@@ -129,8 +122,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   user: getUser(state),
-  isFetching: getIsFetching(state),
-  errorMessage: getErrorMessage(state),
+  isUpdating: getIsUpdating(state),
   isOffline: getIsOffline(state),
   version: getVersion(state),
 });
@@ -138,7 +130,7 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {update},
+  {},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(App);

@@ -9,8 +9,8 @@
     <meta name="theme-color" content="#b43f2e">
     <meta name="robots" content="noindex">
     <script type="text/javascript">
-      var ratatoskr = {version: '{{ VERSION }}', user: {}};
-      {% if userData %}ratatoskr.user.data = {{userData | safe}};{% endif %}
+      var ratatoskr = {version: '{{ VERSION }}', persisted: {user: {}}};
+      {% if userData %}ratatoskr.persisted.user.data = {{userData | safe}};{% endif %}
     </script>
   </head>
   <body>

@@ -12,8 +12,9 @@ const configureStore = (initialState, cb) => {
   const offlineConfig = {
     ...defaultConfig,
     effect: (effect, _action) => effectReconciler(effect),
-    persistCallback: (a, b, c, d) => {
-      cb();
+    persistCallback: () => { cb(); },
+    persistOptions: {
+      whitelist: ['persisted', 'offline'],
     },
   };
 

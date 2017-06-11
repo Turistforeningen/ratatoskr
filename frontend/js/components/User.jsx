@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { getUser } from '../selectors/user';
+import { getUser } from '../selectors/user/data';
 
 
 class User extends Component {

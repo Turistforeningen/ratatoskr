@@ -1,8 +1,6 @@
 'use strict';
 
 const redis = require('../lib/redis');
-const fetch = require('isomorphic-fetch');
-
 const settings = require('../lib/settings');
 const sherpa = require('../lib/sherpa');
 const mapSherpaUser = require('../utils/mapSherpaUser');

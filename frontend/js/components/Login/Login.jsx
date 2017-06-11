@@ -3,22 +3,30 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 import { getIsOffline } from '../../selectors/offline';
-import { getUser, getIsFetching, getErrorMessage } from '../../selectors/user';
+import { getUser, getIsUpdating } from '../../selectors/user/data';
 
 import LoginForm from './LoginForm.jsx';
+import { login } from '../../actions/user/login';
 
 
 class Login extends Component {
-  render() {
-    const { isOffline, isFetching, errorMessage } = this.props;
+  @autobind
+  login(email, password, userId) {
+    const { actions } = this.props;
+    actions.login(email, password, userId);
+  }
 
-    if (isOffline || isFetching || errorMessage) {
+  render() {
+    const { isOffline, isUpdating, errorMessage } = this.props;
+
+    if (isOffline || isUpdating) {
       return null;
     }
 
     return (
       <div>
-        <LoginForm />
+        <LoginForm
+          onSubmit={this.login}/>
       </div>
     );
   }
@@ -27,15 +35,14 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   user: getUser(state),
-  isFetching: getIsFetching(state),
-  errorMessage: getErrorMessage(state),
+  isUpdating: getIsUpdating(state),
   isOffline: getIsOffline(state),
 });
 
 
 const connectedComponent = connect(
   mapStateToProps,
-  {},
+  {login},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(Login);

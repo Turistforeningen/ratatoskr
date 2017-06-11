@@ -15,7 +15,8 @@ const router = new Router();
 
 if (environment.development) {
   router.get('/*', (req, res, next) => {
-    console.log(`Request: ${req.protocol}://${req.hostname}${req.url}`); // eslint-disable-line
+    // eslint-disable-next-line
+    console.log(`Request: ${req.protocol}://${req.hostname}${req.url}`);
     next();
   });
 }

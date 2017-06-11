@@ -3,6 +3,13 @@ export const fetchOptions = {
   GET: {
     credentials: 'same-origin',
   },
+  POST: {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  },
 };
 
 

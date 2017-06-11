@@ -1,10 +1,8 @@
 'use strict';
 
 const { Router } = require('express');
-const fetch = require('isomorphic-fetch');
 
 const version = require('../version');
-const settings = require('../lib/settings');
 const sherpa = require('../lib/sherpa');
 const User = require('../models/User');
 
@@ -35,7 +33,7 @@ router.get('/user/me', (req, res, next) => {
 
 
 // Update user data from Sherpa
-router.get('/user/me/update', (req, res, next) => {
+router.post('/user/me/update', (req, res, next) => {
   if (req.user) {
     req.user.loadSherpaData()
       .then(() => {
@@ -64,8 +62,8 @@ router.get('/user/me/update', (req, res, next) => {
 
 // Login
 router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
-  const email = null;
-  const password = null;
+  const email = req.body.email;
+  const password = req.body.password;
   const userId = req.params.id || null;
 
   sherpa.user.authenticate(email, password, userId)
@@ -97,12 +95,11 @@ router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
 });
 
 
-router.get('/tokens', (req, res, next) => {
-  sherpa.client.getTokens()
-    .then((tokens) => {
-      res.json({tokens});
-    })
-    .catch((err) => res.json({error: 'error'}));
+// Logout
+router.get('/user/logout', (req, res, next) => {
+  req.session.destroy(() => {
+    res.json({logout: 'ok'});
+  });
 });
 
 

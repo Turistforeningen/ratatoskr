@@ -6,20 +6,14 @@ require('../scss/app/index.scss');
 
 
 OfflinePluginRuntime.install({
-  onInstalled: () => {
-    console.log('** ON INSTALLED'); // eslint-disable-line
-  },
+  onInstalled: () => {},
 
-  onUpdating: () => {
-    console.log('** ON UPDATING'); // eslint-disable-line
-  },
+  onUpdating: () => {},
 
   onUpdateReady: () => {
-    console.log('** ON UPDATE READY'); // eslint-disable-line
     OfflinePluginRuntime.applyUpdate();
   },
   onUpdated: () => {
-    console.log('** ON UPDATED > RELOAD'); // eslint-disable-line
     window.location.reload();
   },
 });

@@ -14,4 +14,5 @@ module.exports = session({
   secret: settings.APP_SECRET,
   secure: environment.ifProduction(true, false),
   store: new RedisStore({client: redis}),
+  name: 'sessionid',
 });
