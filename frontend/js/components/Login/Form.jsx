@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 
-class LoginForm extends Component {
+class Form extends Component {
   @autobind
   onSubmit() {
     const { onSubmit } = this.props;
@@ -50,6 +50,6 @@ const connectedComponent = connect(
   {},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
-)(LoginForm);
+)(Form);
 
 export default connectedComponent;

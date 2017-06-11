@@ -4,7 +4,9 @@ import { checkStatus, fetchOptions } from './api-utils';
 // eslint-disable-next-line
 export const login = (email, password, userId) => {
   const promise = new Promise((resolve, reject) => {
-    const url = '/api/user/login';
+    const url = userId
+      ? `/api/user/login/${userId}`
+      : '/api/user/login';
     const options = {
       ...fetchOptions.POST,
       ...{body: JSON.stringify({email, password})},
