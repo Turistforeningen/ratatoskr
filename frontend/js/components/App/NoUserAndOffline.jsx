@@ -9,7 +9,6 @@ import { getUser, getIsUpdating } from '../../selectors/user/data';
 class NoUserAndOffline extends Component {
   render() {
     const { isOffline, user } = this.props;
-    console.log('####', isOffline, user); // eslint-disable-line
 
     if (!isOffline || (isOffline && user && user.id)) {
       return null;
