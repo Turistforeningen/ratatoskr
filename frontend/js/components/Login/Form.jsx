@@ -19,15 +19,15 @@ class Form extends Component {
   }
 
   render() {
-    const { onSubmit, pending, errorMessage } = this.props;
+    const { onSubmit, pending, errorMessage, toggleReset } = this.props;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
-        <h4>Logg inn med din DNT bruker.</h4>
+        <h4>Logg inn med din DNT-bruker.</h4>
         <FormError error={errorMessage} />
         <FormIntro error={errorMessage} />
         <div>
-          <label htmlFor="login-form-email">Brukernavn</label>
+          <label htmlFor="login-form-email">E-post</label>
           <input
             id="login-form-email"
             ref={(node) => { this.emailInput = node; }}
@@ -57,6 +57,15 @@ class Form extends Component {
           >
             Logg inn
           </LaddaButton>
+        </div>
+        <div className="login-form__link-container">
+          <a onClick={toggleReset}>
+            Glemt passordet ditt?
+          </a>
+          <br />
+          <a href="https://www.dnt.no/minside/logg-inn/#registrering">
+            Opprett DNT-bruker
+          </a>
         </div>
       </form>
     );

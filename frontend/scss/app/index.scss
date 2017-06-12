@@ -183,6 +183,10 @@ button {
   &:disabled {
     opacity: .7;
   }
+
+  &.block {
+    display: block;
+  }
 }
 
 .login-form {
@@ -191,8 +195,25 @@ button {
 }
 
 .login-form__button-container {
-  text-align: right;
+  display: flex;
   margin-top: 2em;
+  flex-direction: row-reverse;
+  margin-right: -5px;
+
+  button {
+    margin: 5px;
+  }
+}
+
+.login-form__link-container {
+  margin-top: 2em;
+  text-align: right;
+  font-size: .9em;
+
+  a {
+    display: inline-block;
+    margin-bottom: .5em;
+  }
 }
 
 .login-form__error {
@@ -203,6 +224,12 @@ button {
 
 .login-form__intro {
   margin: 1em 0;
+}
+
+.login-form__intro--success {
+  margin: 1em 0;
+  padding: 1em .5em;
+  background-color: lighten($color-green, 40);
 }
 
 label {

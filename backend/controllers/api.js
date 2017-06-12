@@ -95,6 +95,24 @@ router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
 });
 
 
+// Reset password
+router.post('/user/reset', (req, res, next) => {
+  const email = req.body.email;
+
+  sherpa.client.post('users/reset/', {email})
+    .then((json) => {
+      if (json.status === 'ok') {
+        res.json({success: true});
+      } else {
+        res.json({error: json.status});
+      }
+    })
+    .catch((err) => {
+      res.json({error: 'sherpa error'});
+    });
+});
+
+
 // Logout
 router.get('/user/logout', (req, res, next) => {
   req.session.destroy(() => {

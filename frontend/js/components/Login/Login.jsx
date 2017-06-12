@@ -10,6 +10,7 @@ import {
   getErrorMessage,
 } from '../../selectors/user/login';
 
+import Reset from './Reset.jsx';
 import Form from './Form.jsx';
 import UserSelect from './UserSelect.jsx';
 import { login } from '../../actions/user/login';
@@ -21,6 +22,7 @@ class Login extends Component {
     this.state = {
       email: null,
       password: null,
+      reset: false,
     };
   }
 
@@ -38,13 +40,36 @@ class Login extends Component {
   }
 
   @autobind
+  toggleReset() {
+    this.setState({
+      reset: !this.state.reset,
+    });
+  }
+
+  @autobind
   renderForm() {
     const { userList } = this.props;
-    return userList.length
+    const { reset } = this.state;
+
+    return userList.length || reset
       ? null
       : (
         <Form
-          onSubmit={this.login}/>
+          onSubmit={this.login}
+          toggleReset={this.toggleReset} />
+      );
+  }
+
+  @autobind
+  renderReset() {
+    const { userList } = this.props;
+    const { reset } = this.state;
+
+    return !reset
+      ? null
+      : (
+        <Reset
+          onCancel={this.toggleReset}/>
       );
   }
 
@@ -69,6 +94,7 @@ class Login extends Component {
     return (
       <div>
         {this.renderForm()}
+        {this.renderReset()}
         {this.renderUserSelect()}
       </div>
     );
