@@ -17,11 +17,13 @@ const pending = (state = false, action) => {
 const errorMessage = (state = null, action) => {
   switch (action.type) {
     case 'USER_LOGIN':
-    case 'USER_LOGIN_COMMIT':
       return null;
+    case 'USER_LOGIN_COMMIT':
+      return action.payload.error
+        ? action.payload.error
+        : null;
     case 'USER_LOGIN_ROLLBACK':
-      return 'err';
-      // return action.message;
+      return 'network error';
     default:
       return state;
   }

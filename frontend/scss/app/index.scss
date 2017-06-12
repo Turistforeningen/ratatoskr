@@ -1,6 +1,7 @@
 
 @import '../settings';
 @import '../../node_modules/normalize.scss/normalize';
+@import '../../node_modules/ladda/css/ladda';
 @import '../mq-mixins';
 
 @import '../fonts';
@@ -149,5 +150,28 @@ footer {
 
   & + & {
     margin-left: 30px;
+  }
+}
+
+
+button {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  padding: 4px 15px;
+  font-size: 14px;
+  line-height: 1.8;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 0;
+  border: 0;
+  color: $button-default-color;
+  background-color: $button-default-background-color;
+
+  &:focus {
+    outline: none;
+  }
+
+  .success {
+    background-color: $color-green;
   }
 }

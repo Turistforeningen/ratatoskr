@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
+import { getIsPending, getErrorMessage } from '../../selectors/user/login';
+
+import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
+import FormError from './FormError.jsx';
+
 
 class Form extends Component {
   @autobind
@@ -13,16 +18,18 @@ class Form extends Component {
   }
 
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, pending, errorMessage } = this.props;
 
     return (
       <div>
+        <FormError error={errorMessage} />
         <div>
           <label htmlFor="login-form-email">Brukernavn</label>
           <input
             id="login-form-email"
             ref={(node) => { this.emailInput = node; }}
-            defaultValue="r@r.com"
+            defaultValue=""
+            disabled={pending}
             type="email"/>
         </div>
         <div>
@@ -30,11 +37,23 @@ class Form extends Component {
           <input
             id="login-form-password"
             ref={(node) => { this.passwordInput = node; }}
-            defaultValue="test123"
+            defaultValue=""
+            disabled={pending}
             type="password"/>
         </div>
         <div>
-          <button onClick={this.onSubmit}>Login</button>
+          <LaddaButton
+            loading={pending}
+            onClick={this.onSubmit}
+            data-size={L}
+            data-style={EXPAND_LEFT}
+            data-spinner-size={20}
+            data-spinner-color="#ddd"
+            data-spinner-lines={12}
+            className="success"
+          >
+            Logg inn
+          </LaddaButton>
         </div>
       </div>
     );
@@ -42,7 +61,10 @@ class Form extends Component {
 }
 
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  pending: getIsPending(state),
+  errorMessage: getErrorMessage(state),
+});
 
 
 const connectedComponent = connect(

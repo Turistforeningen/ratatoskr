@@ -79,8 +79,6 @@ class App extends Component {
 
           <div className="header-menu">
             {isOffline ? '[Offline mode]' : null}
-            {' '}
-            {!user || !user.id ? null : <a href="/logout">Logg ut</a>}
           </div>
         </header>
 

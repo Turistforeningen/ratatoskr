@@ -21,7 +21,7 @@ export const login = (email, password, userId) => (dispatch, getState) => {
     (error) => {
       dispatch({
         type: 'USER_LOGIN_ROLLBACK',
-        message: error.message || 'Noe gikk galt',
+        message: error.message || 'unknown error',
       });
     }
   );

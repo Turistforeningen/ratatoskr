@@ -26,6 +26,9 @@ export const login = (email, password, userId) => {
           .catch((err) => {
             reject(new Error(err));
           });
+      })
+      .catch((err) => {
+        reject(new Error(err));
       });
   });
 
