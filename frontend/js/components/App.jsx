@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators';
 import { getIsOffline } from '../selectors/offline';
 import { getUser, getIsUpdating } from '../selectors/user/data';
 
+import NoUserAndOffline from './App/NoUserAndOffline.jsx';
 import Footer from './App/Footer.jsx';
 import User from './User.jsx';
 import Logo from './Logo.jsx';
@@ -85,6 +86,7 @@ class App extends Component {
         <div className="container">
           {this.renderPleaseWait()}
           <Login />
+          <NoUserAndOffline />
           {this.renderMainContent()}
         </div>
 
