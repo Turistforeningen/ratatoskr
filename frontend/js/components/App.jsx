@@ -75,6 +75,8 @@ class App extends Component {
 
     return (
       <div>
+        <div className="mobile-top-bar"></div>
+
         <div className="header-wrap">
           <header>
             <Logo />
