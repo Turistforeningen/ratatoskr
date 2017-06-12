@@ -1,4 +1,5 @@
-$color-red: #b43f2e;
+// $color-red: #b43f2e;
+$color-red: #c6302a;
 $color-dark: #002626;
 $color-blue: #39686a;
 $color-green: #a8d04b;
@@ -9,6 +10,8 @@ $color-white-darker: #f1f1f1;
 $main-background-color: $color-white-darker;
 $main-font-color: $color-dark;
 
+$header-title-color: $color-white;
+
 $membership-valid-color: $color-green;
 $membership-invalid-color: $color-red;
 
@@ -17,5 +20,5 @@ $box-background-color: $color-white;
 $footer-color: $color-blue;
 
 
-$button-default-color: #fff;
+$button-default-color: $color-white;
 $button-default-background-color: #aaa;

@@ -26,13 +26,8 @@ const createSCSSRule = (extractor, fileRegexps, issuerRegexs) => ({
   use: extractor.extract({
     fallback: 'style-loader',
     use: [
-      'css-loader',
-      {
-        loader: 'sass-loader',
-        query: {
-          sourceMap: true,
-        },
-      },
+      { loader: 'css-loader', options: { sourceMap: true } },
+      { loader: 'sass-loader', options: { sourceMap: true } },
     ],
   }),
   include: __dirname,
@@ -129,9 +124,9 @@ module.exports = (env) => {
             {
               test: /\.scss$/,
               loaders: removeEmpty([
-                'style-loader',
-                'css-loader',
-                'sass-loader',
+                { loader: 'style-loader', options: { sourceMap: true } },
+                { loader: 'css-loader', options: { sourceMap: true } },
+                { loader: 'sass-loader', options: { sourceMap: true } },
               ]),
             },
 
@@ -140,8 +135,8 @@ module.exports = (env) => {
             {
               test: /\.css$/,
               loaders: removeEmpty([
-                'style-loader',
-                'css-loader',
+                { loader: 'style-loader', options: { sourceMap: true } },
+                { loader: 'css-loader', options: { sourceMap: true } },
               ]),
             },
           ]),
@@ -214,8 +209,23 @@ module.exports = (env) => {
         ),
         prefix: 'assets/favicons-[hash]/',
         statsFilename: 'assets/iconstats-[hash].json',
+
+        // Option docs: https://github.com/evilebottnawi/favicons#usage
         background: '#c6302a',
+        theme_color: '#c6302a',
         title: 'DNT Medlem',
+        appName: 'DNT Medlem',
+        appDescription: 'Informasjon om ditt DNT-medlemskap',
+        developerName: 'DNT',
+        developerURL: 'https://www.dnt.no',
+        display: 'standalone',
+        orientation: 'any',
+        start_url: '/?homescreen=1',
+        version: '1.0.0',
+
+        appleIcon: {
+          "meta[name='apple-mobile-web-app-status-bar-style']": "<meta name='apple-mobile-web-app-status-bar-style' content='default'>",
+        },
       }),
 
       // Offline plugin - adds service worker and appcache

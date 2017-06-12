@@ -111,7 +111,7 @@ class User extends Component {
     return (
       <div className={className}>
         <div className="box__section">
-          <h3 className="header--name">
+          <h3 className="heading--name">
             {user.name}
           </h3>
           {this.renderMemberTypeName()}
@@ -140,7 +140,7 @@ class User extends Component {
     return (
       <div className={className}>
         <div className="box__section">
-          <h3 className="header--name">
+          <h3 className="heading--name">
             {user.name}
           </h3>
           {this.renderBirthDate()}

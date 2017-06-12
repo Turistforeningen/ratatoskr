@@ -6,6 +6,7 @@ import { getIsPending, getErrorMessage } from '../../selectors/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
 import FormError from './FormError.jsx';
+import FormIntro from './FormIntro.jsx';
 
 
 class Form extends Component {
@@ -21,8 +22,10 @@ class Form extends Component {
     const { onSubmit, pending, errorMessage } = this.props;
 
     return (
-      <div>
+      <form class="login-form" onSubmit={this.onSubmit}>
+        <h4>Logg inn med din DNT bruker.</h4>
         <FormError error={errorMessage} />
+        <FormIntro error={errorMessage} />
         <div>
           <label htmlFor="login-form-email">Brukernavn</label>
           <input
@@ -41,7 +44,7 @@ class Form extends Component {
             disabled={pending}
             type="password"/>
         </div>
-        <div>
+        <div className="login-form__button-container">
           <LaddaButton
             loading={pending}
             onClick={this.onSubmit}
@@ -55,7 +58,7 @@ class Form extends Component {
             Logg inn
           </LaddaButton>
         </div>
-      </div>
+      </form>
     );
   }
 }

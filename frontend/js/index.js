@@ -5,6 +5,12 @@ import bootstrap from './render';
 require('../scss/app/index.scss');
 
 
+// If running standalone on iOS
+if (window && window.navigator && window.navigator.standalone) {
+  document.body.className += ' mobile-standalone';
+}
+
+
 OfflinePluginRuntime.install({
   onInstalled: () => {},
 

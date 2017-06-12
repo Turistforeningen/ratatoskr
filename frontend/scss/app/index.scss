@@ -1,10 +1,18 @@
-
 @import '../settings';
 @import '../../node_modules/normalize.scss/normalize';
 @import '../../node_modules/ladda/css/ladda';
 @import '../mq-mixins';
 
 @import '../fonts';
+
+
+*,
+:after,  // sass-lint:disable-line pseudo-element
+:before {  // sass-lint:disable-line pseudo-element
+  -webkit-box-sizing: border-box;  // sass-lint:disable-line no-vendor-prefixes
+  -moz-box-sizing: border-box;  // sass-lint:disable-line no-vendor-prefixes
+  box-sizing: border-box;
+}
 
 
 body {
@@ -31,38 +39,36 @@ a {
 }
 
 header {
-  margin: 0 auto 20px;
+  margin: 0 auto;
   max-width: 480px;
   height: 50px;
-  padding: 0 8px;
   position: relative;
   overflow: hidden;
 }
 
-.header-menu {
+.header-wrap {
+  margin-bottom: 20px;
+  background-color: $color-red;
+
+  .mobile-standalone & {
+    padding-top: 20px;
+  }
+}
+
+.header-title {
   position: absolute;
   top: 0;
-  right: 8px;
-  line-height: 14px;
-  font-size: 14px;
-  padding-top: 18px;
+  left: 0;
+  right: 0;
+  line-height: 50px;
+  font-size: 16px;
+  text-align: center;
+  color: $header-title-color;
 }
 
 
 .logo-svg {
-  @include min-screen(500px) {
-    margin-left: 0;
-  }
-
-  max-height: 50px;
-  margin-left: -185px;
-}
-
-
-.logo-svg__banner {
-  @include max-screen(499px) {
-    display: none;
-  }
+  height: 50px;
 }
 
 .container {
@@ -71,18 +77,17 @@ header {
   padding: 8px;
 }
 
-
-.header {
+.heading {
   font-size: 1.1em;
 }
 
-.header--name {
+.heading--name {
   margin: 0;
   font-size: 1em;
   padding: 0;
 }
 
-.header--sub {
+.heading--sub {
   font-size: 1em;
   margin-top: 30px;
 }
@@ -156,7 +161,7 @@ footer {
 
 button {
   display: inline-block;
-  margin: 0 10px 0 0;
+  margin: 0;
   padding: 4px 15px;
   font-size: 14px;
   line-height: 1.8;
@@ -171,7 +176,62 @@ button {
     outline: none;
   }
 
-  .success {
-    background-color: $color-green;
+  &.success {
+    background-color: $color-blue;
+  }
+
+  &:disabled {
+    opacity: .7;
+  }
+}
+
+.login-form {
+  margin: 0 auto;
+  max-width: 280px;
+}
+
+.login-form__button-container {
+  text-align: right;
+  margin-top: 2em;
+}
+
+.login-form__error {
+  margin: .5em 0 1em;
+  padding: 1em .5em;
+  background-color: lighten($color-red, 40);
+}
+
+.login-form__intro {
+  margin: 1em 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input {
+  &[type='email'],
+  &[type='password'],
+  &[type='text'] {
+    display: block;
+    margin: 0;
+    width: 100%;
+    font-size: 16px;
+    padding: 8px 12px;
+    -webkit-appearance: none;  // sass-lint:disable-line no-vendor-prefixes
+    -moz-appearance: none;  // sass-lint:disable-line no-vendor-prefixes
+    appearance: none;
+    -webkit-box-shadow: none;  // sass-lint:disable-line no-vendor-prefixes
+    box-shadow: none;
+    border-radius: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $color-blue;
+    margin-bottom: 1em;
+  }
+
+  &:disabled {
+    opacity: .7;
   }
 }

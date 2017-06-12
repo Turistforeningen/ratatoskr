@@ -16,7 +16,7 @@ const FormError = (props) => {
   }
 
   return (
-    <div>
+    <div className="login-form__error">
       {msg}
     </div>
   );

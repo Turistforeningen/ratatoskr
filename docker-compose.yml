@@ -56,7 +56,7 @@ services:
     logging:
       options:
         max-size: "500k"
-    command: npm run webpack:serve
+    command: nodemon --watch frontend/webpack.config.js --exec "npm run webpack:serve"
 
   secrets:
     image: turistforeningen/ratatoskr-secrets:v4

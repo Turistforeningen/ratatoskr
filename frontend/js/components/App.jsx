@@ -22,7 +22,7 @@ class App extends Component {
     }
 
     return (
-      <h1 class="header">
+      <h1 className="heading">
         <em>Vennligst vent...</em>
       </h1>
     );
@@ -38,12 +38,12 @@ class App extends Component {
 
     return (
       <div>
-        <h1 class="header">Mitt medlemsskap</h1>
+        <h1 className="heading">Mitt medlemsskap</h1>
         <User user={user} />
 
         {!user.household.mainMember ? null : (
           <div>
-            <h2 class="header--sub">Hovedmedlem</h2>
+            <h2 className="heading--sub">Hovedmedlem</h2>
             <User
               user={user.household.mainMember}
               subUser={true} />
@@ -52,7 +52,7 @@ class App extends Component {
 
         {!user.household.members || !user.household.members.length ? null : (
           <div>
-            <h2 class="header--sub">
+            <h2 className="heading--sub">
               {user.household.isFamilyMember ?
                 'Familiemedlemmer' :
                 'Hustandsmedlemmer'
@@ -75,13 +75,15 @@ class App extends Component {
 
     return (
       <div>
-        <header>
-          <Logo />
+        <div className="header-wrap">
+          <header>
+            <Logo />
 
-          <div className="header-menu">
-            {isOffline ? '[Offline mode]' : null}
-          </div>
-        </header>
+            <div className="header-title">
+              DNT Medlem
+            </div>
+          </header>
+        </div>
 
         <div className="container">
           {this.renderPleaseWait()}
