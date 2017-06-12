@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators';
 import { getVersion } from '../../selectors/version';
 
 import Logout from './Logout.jsx';
+import ExternalA from '../ExternalA.jsx';
 
 
 class Footer extends Component {
@@ -13,30 +14,38 @@ class Footer extends Component {
     const year = new Date().getFullYear();
 
     return (
-      <footer>
-        <nav>
-          <ul className="footer-menu">
+      <div className="container">
+        <footer>
+          <nav>
             <Logout />
-            <li className="footer-menu__item">
-              <a href="https://www.dnt.no/medlem/">Mer om medlemsskap</a>
-            </li>
-            <li className="footer-menu__item">
-              <a href="https://www.dnt.no/">Mer om DNT</a>
-            </li>
-            <li className="footer-menu__item">
-              <a href="https://www.dnt.no/personvern/">Personvern</a>
-            </li>
-          </ul>
-        </nav>
+            <ul className="footer-menu footer-menu--sub">
+              <li className="footer-menu__item">
+                <ExternalA href="https://www.dnt.no/medlem/">
+                  Mer om medlemsskap
+                </ExternalA>
+              </li>
+              <li className="footer-menu__item">
+                <ExternalA href="https://www.dnt.no/">
+                  Mer om DNT
+                </ExternalA>
+              </li>
+              <li className="footer-menu__item">
+                <ExternalA href="https://www.dnt.no/personvern/">
+                  Personvern
+                </ExternalA>
+              </li>
+            </ul>
+          </nav>
 
-        <div>
-          &copy; {year} - Den Norske Turistforening
-        </div>
+          <div>
+            &copy; {year} - Den Norske Turistforening
+          </div>
 
-        <div className="version">
-          {version}
-        </div>
-      </footer>
+          <div className="version">
+            {version}
+          </div>
+        </footer>
+      </div>
     );
   }
 }

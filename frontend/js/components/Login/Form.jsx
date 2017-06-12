@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators';
 import { getIsPending, getErrorMessage } from '../../selectors/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
+import ExternalA from '../ExternalA.jsx';
 import FormError from './FormError.jsx';
 import FormIntro from './FormIntro.jsx';
 
@@ -63,9 +64,9 @@ class Form extends Component {
             Glemt passordet ditt?
           </a>
           <br />
-          <a href="https://www.dnt.no/minside/logg-inn/#registrering">
+          <ExternalA href="https://www.dnt.no/minside/logg-inn/#registrering">
             Opprett DNT-bruker
-          </a>
+          </ExternalA>
         </div>
       </form>
     );

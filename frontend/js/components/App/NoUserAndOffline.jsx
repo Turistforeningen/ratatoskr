@@ -19,9 +19,12 @@ class NoUserAndOffline extends Component {
       <div>
         <h2>Ingen internettforbindelse</h2>
         <p>
-          Første gang du logger inn må du ha kontakt med internett
+          Du må være tilkoblet internett for å kunne logg inn.
+        </p>
+        <p>
+          Etter innlogging, vil informasjonen om ditt medlemsskap være lagret,
           {' '}
-          for å hente ned medlemsdetaljene dine.
+          og du kan åpne uten internettforbindelse.
         </p>
       </div>
     );

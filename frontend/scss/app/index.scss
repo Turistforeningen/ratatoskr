@@ -26,6 +26,7 @@ a {
   color: $color-red;
   text-decoration: none;
   border-bottom: 1px solid transparent;
+  cursor: pointer;
 
   &:visited {
     color: $color-red;
@@ -144,17 +145,33 @@ footer {
 }
 
 .footer-menu {
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   padding: 0;
   list-style-type: none;
   font-size: 14px;
+}
+
+.footer-menu--sub {
+  padding-top: 10px;
+  border-top: 1px solid $border-color;
+  margin: 0 0 30px;
+
+  a {
+    color: darken($color-red, 20);
+  }
+
+  .external-link-icon-svg {
+    fill: darken($color-red, 20);
+  }
 }
 
 .footer-menu__item {
   display: inline;
 
   & + & {
-    margin-left: 30px;
+    margin-left: 5px;
+    padding-left: 5px;
+    border-left: 1px solid $border-color;
   }
 }
 
@@ -261,4 +278,12 @@ input {
   &:disabled {
     opacity: .7;
   }
+}
+
+.external-link-icon-svg {
+  height: 1em;
+  margin-left: .5em;
+  margin-bottom: -2px;
+  fill: $color-red;
+  opacity: .7;
 }

@@ -21,9 +21,11 @@ class Logout extends Component {
     }
 
     return (
-      <li className="footer-menu__item">
-        <a onClick={this.logout}>Logg ut</a>
-      </li>
+      <ul className="footer-menu">
+        <li className="footer-menu__item">
+          <a onClick={this.logout}>Logg ut</a>
+        </li>
+      </ul>
     );
   }
 }
