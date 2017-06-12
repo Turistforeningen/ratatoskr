@@ -4,6 +4,8 @@ import { autobind } from 'core-decorators';
 
 import { getUser } from '../selectors/user/data';
 
+import ExternalA from './ExternalA.jsx';
+
 
 class User extends Component {
   @autobind
@@ -35,22 +37,58 @@ class User extends Component {
     const currentYear = new Date().getFullYear();
     const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
 
-    let membershipStatus = 'Ikke medlem';
+    let membershipStatus = null;
     if (user.member.isValid) {
       if (user.member.status.nextYear) {
         membershipStatus = `Medlem ut ${currentYear}, samt hele ${nextYear}`;
       } else if (user.member.status.isNewMembershipYear) {
         membershipStatus = `Medlem ut ${currentYear}, men ikke ${nextYear}`;
+      } else {
+        membershipStatus = `Medlem ${currentYear}`;
       }
-
-      membershipStatus = `Medlem ${currentYear}`;
     } else if (user.member.memberid) {
       membershipStatus = `Ikke betalt for ${currentYear}`;
     }
 
-    return (
+    return !membershipStatus ? null : (
       <div>
         {membershipStatus}
+      </div>
+    );
+  }
+
+  @autobind
+  renderMembershipLinks() {
+    const { user } = this.props;
+    const currentYear = new Date().getFullYear();
+    const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
+
+    let link = null;
+    if (user.member.isValid
+        && !user.member.status.nextYear
+        && user.member.status.isNewMembershipYear) {
+      link = (
+        <ExternalA href="https://www.dnt.no/minside/">
+          Forny ditt medlemsskap for {nextYear}
+        </ExternalA>
+      );
+    } else if (user.member.memberid && !user.member.isValid) {
+      link = (
+        <ExternalA href="https://www.dnt.no/minside/">
+          Forny ditt medlemsskap
+        </ExternalA>
+      );
+    } else if (!user.member.isValid) {
+      link = (
+        <ExternalA href="https://www.dnt.no/medlem/">
+          Bli medlem
+        </ExternalA>
+      );
+    }
+
+    return !link ? null : (
+      <div className="box__section">
+        {link}
       </div>
     );
   }
@@ -126,6 +164,8 @@ class User extends Component {
           {this.renderBirthDate()}
           {this.renderAssociationName()}
         </div>
+
+        {this.renderMembershipLinks()}
       </div>
     );
   }
