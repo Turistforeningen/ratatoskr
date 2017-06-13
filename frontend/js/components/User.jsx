@@ -36,6 +36,7 @@ class User extends Component {
     const { user } = this.props;
     const currentYear = new Date().getFullYear();
     const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
+    let showRenewLink = false;
 
     let membershipStatus = null;
     if (user.member.isValid) {
@@ -43,16 +44,28 @@ class User extends Component {
         membershipStatus = `Medlem ut ${currentYear}, samt hele ${nextYear}`;
       } else if (user.member.status.isNewMembershipYear) {
         membershipStatus = `Medlem ut ${currentYear}, men ikke ${nextYear}`;
+        showRenewLink = true;
       } else {
         membershipStatus = `Medlem ${currentYear}`;
       }
     } else if (user.member.memberid) {
       membershipStatus = `Ikke betalt for ${currentYear}`;
+      showRenewLink = true;
     }
 
     return !membershipStatus ? null : (
       <div>
         {membershipStatus}
+        {!showRenewLink ? null : (
+          <span>
+            {' '}
+            -
+            {' '}
+            <ExternalA href="https://www.dnt.no/minside/">
+              Forny
+            </ExternalA>
+          </span>
+        )}
       </div>
     );
   }
@@ -86,9 +99,11 @@ class User extends Component {
       );
     }
 
-    return !link ? null : (
+    return user.member.isValid || user.member.memberid ? null : (
       <div className="box__section">
-        {link}
+        <ExternalA href="https://www.dnt.no/medlem/">
+          Bli medlem
+        </ExternalA>
       </div>
     );
   }
