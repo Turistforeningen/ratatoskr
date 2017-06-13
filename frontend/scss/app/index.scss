@@ -40,12 +40,15 @@ a {
   border-bottom: 1px solid transparent;
   cursor: pointer;
 
+  &:hover,
+  &:focus,
   &:visited {
     color: $color-red;
+    text-decoration: none;
   }
 
-  &:hover,
-  &:focus {
+  .no-touchevents &:hover,
+  .no-touchevents &:focus {
     color: $color-red;
     border-color: $color-red;
   }
@@ -164,9 +167,9 @@ footer {
 }
 
 .footer-menu--sub {
+  margin: 0 0 30px;
   padding-top: 10px;
   border-top: 1px solid $border-color;
-  margin: 0 0 30px;
 
   a {
     color: darken($color-red, 20);
