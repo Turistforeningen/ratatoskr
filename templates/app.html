@@ -16,7 +16,7 @@
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','{{ GTM_CODE }}');</script>
-    {% else %}
+    {% endif %}
     <!-- End Google Tag Manager -->
 
     <script type="text/javascript">
@@ -34,7 +34,6 @@
 
     <div id="root"></div>
 
-    {# Sentry (is initialized inside a core script through webpack) #}
     <script src="https://cdn.ravenjs.com/3.16.0/raven.min.js"></script>
   </body>
 </html>
