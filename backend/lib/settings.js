@@ -27,6 +27,10 @@ const variables = [
     name: 'GA_CODE',
     env: ['production'],
   },
+  {
+    name: 'GTM_CODE',
+    env: ['production'],
+  },
 ];
 
 

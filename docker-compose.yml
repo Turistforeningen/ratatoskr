@@ -59,7 +59,7 @@ services:
     command: nodemon --watch frontend/webpack.config.js --exec "npm run webpack:serve"
 
   secrets:
-    image: turistforeningen/ratatoskr-secrets:v4
+    image: turistforeningen/ratatoskr-secrets:v5
     network_mode: 'bridge'
     volumes:
       - /secrets
