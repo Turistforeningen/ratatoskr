@@ -9,6 +9,7 @@ const deleteSessionCookie = () => {
 };
 
 
+// eslint-disable-next-line
 export const logout = () => (dispatch, getState) => {
   dispatch({
     type: 'USER_LOGOUT',
@@ -20,8 +21,3 @@ export const logout = () => (dispatch, getState) => {
 
   deleteSessionCookie();
 };
-
-
-export const clearUsers = () => ({
-  type: 'USER_LOGIN_RESET_USER_LIST',
-});

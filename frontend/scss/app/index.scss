@@ -122,6 +122,10 @@ header {
   border-left-color: $membership-invalid-color;
 }
 
+.box--inactive {
+  border-left-color: $color-blue;
+}
+
 
 .box--small {
   font-size: .95em;

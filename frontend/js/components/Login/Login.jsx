@@ -13,7 +13,7 @@ import {
 import Reset from './Reset.jsx';
 import Form from './Form.jsx';
 import UserSelect from './UserSelect.jsx';
-import { login } from '../../actions/user/login';
+import { login, clearUsers } from '../../actions/user/login';
 
 
 class Login extends Component {
@@ -37,6 +37,12 @@ class Login extends Component {
   selectUser(userId) {
     const { actions } = this.props;
     actions.login(this.state.email, this.state.password, userId);
+  }
+
+  @autobind
+  resetUserSelectList() {
+    const { actions } = this.props;
+    actions.clearUsers();
   }
 
   @autobind
@@ -80,7 +86,8 @@ class Login extends Component {
       ? null
       : (
         <UserSelect
-          onSelect={this.selectUser}/>
+          onSelect={this.selectUser}
+          onCancel={this.resetUserSelectList} />
       );
   }
 
@@ -114,7 +121,7 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {login},
+  {login, clearUsers},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(Login);

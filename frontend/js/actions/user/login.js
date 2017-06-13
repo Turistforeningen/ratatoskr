@@ -28,6 +28,11 @@ export const login = (email, password, userId) => (dispatch, getState) => {
 };
 
 
+export const clearUsers = () => ({
+  type: 'USER_LOGIN_RESET_USER_LIST',
+});
+
+
 export const reset = (email) => (dispatch, getState) => {
   if (getIsPending(getState())) {
     return Promise.resolve();
