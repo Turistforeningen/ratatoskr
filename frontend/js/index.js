@@ -1,5 +1,7 @@
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
+import Modernizr from './lib/modernizr';
+
 import bootstrap from './render';
 
 require('../scss/app/index.scss');
