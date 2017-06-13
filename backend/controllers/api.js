@@ -71,25 +71,28 @@ router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
       if (data.users) {
         const { users } = data;
         res.json({users});
+      } else {
+        User().setTokens(data).loadSherpaData()
+          .then((user) => {
+            if (user.id) {
+              user.save()
+                .then(() => {
+                  req.session.userId = user.id;
+                  res.json({data: user.getAPIRepresentation()});
+                });
+            } else {
+              res.json({error: 'missing user id'});
+            }
+          })
+          .catch((err) => {
+            res.json({err});
+          });
       }
-
-      User().setTokens(data).loadSherpaData()
-        .then((user) => {
-          if (user.id) {
-            user.save()
-              .then(() => {
-                req.session.userId = user.id;
-                res.json({data: user.getAPIRepresentation()});
-              });
-          } else {
-            res.json({error: 'missing user id'});
-          }
-        })
-        .catch((err) => {
-          res.json({err});
-        });
     })
     .catch((err) => {
+      if (err === 'auth-check-error') {
+        res.json({error: 'auth-check-error'});
+      }
       res.json({error: 'invalid credentials'});
     });
 });

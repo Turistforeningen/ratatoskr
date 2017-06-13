@@ -210,7 +210,9 @@ const userAuthenticate = (email, password, userId = null) => {
                 reject();
               }
             })
-            .catch(errorResolve('userAuthenticate.duplicateUsers'));
+            .catch(() => {
+              reject('auth-check-error');
+            });
         } else {
           reject();
         }
