@@ -53,8 +53,6 @@ const getUserTokensFromSherpa = (email, password, userId, smsAuth) => {
     `grant_type=password&username=${email}` +
     `&password=${password}&userid=${userId}${smsAuthParam}`;
 
-  console.log(body); // eslint-disable-line
-
   return tokenRequest(body)
     .then((result) => result.json())
     .catch((err) => Promise.reject(err.status));
