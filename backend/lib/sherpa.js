@@ -14,7 +14,7 @@ const CREDENTIALS = new Buffer(
 const errorResolve = (name) => (err) => {
   console.log('****** ERROR'); // eslint-disable-line
   console.log(err); // eslint-disable-line
-  throw new Error(name);
+  return Promise.reject(err);
 };
 
 
@@ -47,10 +47,13 @@ const getClientTokensFromSherpa = () => (
 );
 
 
-const getUserTokensFromSherpa = (email, password, userId) => {
+const getUserTokensFromSherpa = (email, password, userId, smsAuth) => {
+  const smsAuthParam = smsAuth ? '&sms_auth=1' : '';
   const body =
     `grant_type=password&username=${email}` +
-    `&password=${password}&userid=${userId}`;
+    `&password=${password}&userid=${userId}${smsAuthParam}`;
+
+  console.log(body); // eslint-disable-line
 
   return tokenRequest(body)
     .then((result) => result.json())
@@ -111,7 +114,11 @@ const clientAPIRequest = (path, options = {}, retrying = false) => {
                   errorResolve(`clientAPIRequest.invalid_json - ${path}`)
                 );
             } else {
-              reject('Sherpa API error');
+              result.json()
+                .then((json) => reject(
+                  {payload: json, status: result.status}
+                ))
+                .catch(() => reject('Sherpa API error'));
             }
           })
           .catch(errorResolve(`clientAPIRequest.fetch - ${path}`));
@@ -192,9 +199,9 @@ const userPostAPIRequest = (tokens, path, body) => {
 };
 
 
-const userAuthenticate = (email, password, userId = null) => {
+const userAuthenticate = (email, password, userId = null, smsAuth = false) => {
   const promise = new Promise((resolve, reject) => {
-    getUserTokensFromSherpa(email, password, userId)
+    getUserTokensFromSherpa(email, password, userId, smsAuth)
       .then((tokens) => {
         resolve(tokens);
       })
