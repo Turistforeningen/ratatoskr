@@ -7,6 +7,13 @@ const moment = require('moment');
 module.exports = (rawData) => {
   const data = camelcaseKeys(rawData, { deep: true });
 
+  if (!data.medlemskapStatus) {
+    data.medlemskapStatus = {};
+  }
+  if (!data.forening) {
+    data.forening = {};
+  }
+
   return {
     id: data.sherpaId,
 
