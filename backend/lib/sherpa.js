@@ -223,6 +223,15 @@ const userAuthenticate = (email, password, userId = null) => {
 };
 
 
+const userAuthenticateByCode = (userId, code) => {
+  const body = {
+    user_id: userId,
+    code,
+  };
+  return clientPostAPIRequest('users/auth/ratatoskr-code/', body);
+};
+
+
 const userRefreshToken = (tokens) =>
   getUserTokensByRefreshTokenFromSherpa(tokens.refresh_token)
     .catch(errorResolve('userRefreshToken'));
@@ -236,6 +245,7 @@ module.exports = {
   },
   user: {
     authenticate: userAuthenticate,
+    authenticateByCode: userAuthenticateByCode,
     get: userGetAPIRequest,
     post: userPostAPIRequest,
     refreshToken: userRefreshToken,

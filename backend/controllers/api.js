@@ -95,6 +95,28 @@ router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
       }
       res.json({error: 'invalid credentials'});
     });
+
+// Login using code
+router.post(['/user/:id/code-login'], (req, res, next) => {
+  const code = req.body.code;
+  const userId = req.params.id;
+
+  const user = User();
+  user.id = userId;
+  user.ratatoskrCode = code;
+  user.loadSherpaData()
+    .then(() => {
+      if (user.id) {
+        res.json(user.getAPIRepresentation());
+      } else {
+        res.json({error: 'invalid'});
+      }
+    })
+    .catch((err) => {
+      res.json({error: 'server-error'});
+    });
+});
+
 });
 
 

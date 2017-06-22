@@ -16,6 +16,7 @@ const SHERPA_URLS = {
 const API_HIDDEN_FIELDS = [
   ['household', 'mainMemberId'],
   ['household', 'memberIds'],
+  ['ratatoskrCode'],
   ['OAuthTokens'],
   ['association', 'ntbId'],
   ['association', 'sherpaId'],
@@ -59,6 +60,7 @@ const User = () => {
       type: null,
     },
 
+    ratatoskrCode: null,
     OAuthTokens: null,
 
     isMainHouseholdMember() {
@@ -171,6 +173,12 @@ const User = () => {
       return self;
     },
 
+    setRatatoskrCode(code) {
+      self.ratatoskrCode = code;
+      self.OAuthTokens = null;
+      return self;
+    },
+
     sherpaRequest(path, method = 'GET', body = null, retrying = false) {
       const promise = new Promise((resolve, reject) => {
         const req = method === 'GET'
@@ -209,6 +217,18 @@ const User = () => {
     },
 
     loadSherpaData() {
+      if (self.OAuthTokens && self.OAuthTokens.access_token) {
+        return self.loadSherpaDataUsingOAuthToken();
+      } else if (self.ratatoskrCode) {
+        return self.loadSherpaDataUsingRatatoskrCode();
+      }
+
+      throw new Error(
+        'Unable to load Sherpa data because credentials are not set'
+      );
+    },
+
+    loadSherpaDataUsingOAuthToken() {
       if (!self.OAuthTokens || !self.OAuthTokens.access_token) {
         throw new Error(
           'Unable to load Sherpa data because OAuth token is not set'
@@ -260,6 +280,37 @@ const User = () => {
       });
 
       return promise;
+    },
+
+    loadSherpaDataUsingRatatoskrCode() {
+      if (!self.ratatoskrCode) {
+        throw new Error(
+          'Unable to load Sherpa data because ratatoskrCode is not set'
+        );
+      }
+
+      return sherpa.user.authenticateByCode(self.id, self.ratatoskrCode)
+        .then((data) => {
+          if (data.user && data.user.sherpaId) {
+            Object.assign(self, mapSherpaUser(data.user));
+
+            if (data.mainMember && data.mainMember.sherpaId !== self.id) {
+              self.household.mainMember =
+                User().update(mapSherpaUser(data.mainMember));
+            }
+
+            if (data.householdMembers && data.householdMembers.length) {
+              self.household.members = data.householdMembers
+                .filter((member) => member.sherpaId !== self.id)
+                .map((member) => User().update(mapSherpaUser(member)));
+            }
+          } else {
+            // Invalid code
+            self.destroy();
+          }
+
+          return self;
+        });
     },
 
     update(data) {
