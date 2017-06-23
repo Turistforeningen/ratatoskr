@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { getUser } from '../selectors/user/data';
+import { getUser } from '../../selectors/user/data';
 
-import ExternalA from './ExternalA.jsx';
+import ExternalA from '../common/ExternalA.jsx';
 
 
 class User extends Component {

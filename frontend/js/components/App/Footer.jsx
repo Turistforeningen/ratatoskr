@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators';
 import { getVersion } from '../../selectors/version';
 
 import Logout from './Logout.jsx';
-import ExternalA from '../ExternalA.jsx';
+import ExternalA from '../common/ExternalA.jsx';
 
 
 class Footer extends Component {

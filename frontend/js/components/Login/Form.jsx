@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators';
 import { getIsPending, getErrorMessage } from '../../selectors/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
-import ExternalA from '../ExternalA.jsx';
+import ExternalA from '../common/ExternalA.jsx';
 import FormError from './FormError.jsx';
 import FormIntro from './FormIntro.jsx';
 

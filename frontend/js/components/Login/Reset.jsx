@@ -10,7 +10,7 @@ import {
 import { reset } from '../../actions/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
-import ExternalA from '../ExternalA.jsx';
+import ExternalA from '../common/ExternalA.jsx';
 import ResetError from './ResetError.jsx';
 import ResetIntro from './ResetIntro.jsx';
 import ResetSuccess from './ResetSuccess.jsx';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const iconSVG = require('../../img/external-link-icon.svg');
+const iconSVG = require('../../../img/external-link-icon.svg');
 
 
 const createMarkup = () => ({__html: iconSVG});

@@ -7,9 +7,9 @@ import { getUser, getIsUpdating } from '../selectors/user/data';
 
 import NoUserAndOffline from './App/NoUserAndOffline.jsx';
 import Footer from './App/Footer.jsx';
-import User from './User.jsx';
-import Logo from './Logo.jsx';
+import Logo from './App/Logo.jsx';
 import Login from './Login/Login.jsx';
+import MemberDetails from './MemberDetails/MemberDetails.jsx';
 
 
 class App extends Component {
@@ -25,48 +25,6 @@ class App extends Component {
       <h1 className="heading">
         <em>Vennligst vent...</em>
       </h1>
-    );
-  }
-
-  @autobind
-  renderMainContent() {
-    const { user } = this.props;
-
-    if (!user || !user.id) {
-      return null;
-    }
-
-    return (
-      <div>
-        <h1 className="heading">Mitt medlemsskap</h1>
-        <User user={user} />
-
-        {!user.household.mainMember ? null : (
-          <div>
-            <h2 className="heading--sub">Hovedmedlem</h2>
-            <User
-              user={user.household.mainMember}
-              subUser={true} />
-          </div>
-        )}
-
-        {!user.household.members || !user.household.members.length ? null : (
-          <div>
-            <h2 className="heading--sub">
-              {user.household.isFamilyMember ?
-                'Familiemedlemmer' :
-                'Hustandsmedlemmer'
-              }
-            </h2>
-            {user.household.members.map((u) => (
-              <User
-                key={u.id}
-                user={u}
-                subUser={true} />
-            ))}
-          </div>
-        )}
-      </div>
     );
   }
 
@@ -90,8 +48,8 @@ class App extends Component {
         <div className="container">
           {this.renderPleaseWait()}
           <Login />
+          <MemberDetails />
           <NoUserAndOffline />
-          {this.renderMainContent()}
         </div>
 
         <Footer />
