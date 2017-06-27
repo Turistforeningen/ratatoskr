@@ -1,4 +1,4 @@
-secrets:
+ratatoskr-beta-secrets:
   image: 'turistforeningen/ratatoskr-secrets:v5'
   tags:
     - app
@@ -6,7 +6,7 @@ secrets:
   volumes:
     - /secrets
 
-ratatoskr-backend:
+ratatoskr-beta-backend:
   image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
   autoredeploy: true
   environment:
@@ -23,16 +23,16 @@ ratatoskr-backend:
     - '8080'
   links:
     - 'statsd.statsd-librato:statsd'
-    - 'ratatoskr-redis:redis'
+    - 'ratatoskr-beta-redis:redis'
   restart: always
   command: node backend/index.js
   tags:
     - app
   volumes_from:
-    - secrets:ro
-    - ratatoskr-assets:ro
+    - ratatoskr-beta-secrets:ro
+    - ratatoskr-beta-assets:ro
 
-ratatoskr-assets:
+ratatoskr-beta-assets:
   image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
   tags:
     - app
@@ -41,7 +41,7 @@ ratatoskr-assets:
     - /ratatoskr
   command: /bin/true
 
-ratatoskr-redis:
+ratatoskr-beta-redis:
   autoredeploy: true
   command: redis-server --appendonly yes
   image: 'redis:3.0'
