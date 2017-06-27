@@ -127,3 +127,34 @@ deploy:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
         pipeline: deploy
+
+deploy-beta:
+  box:
+      id: alpine:3.4
+      cmd: /bin/sh
+  steps:
+    - script:
+        name: create tag
+        code: |
+            export BUILD_TAG=${WERCKER_GIT_COMMIT:0:9}
+
+    - script:
+        name: install tools
+        code: |
+            apk update
+            apk add python py-pip curl
+            # docker-cloud + requests 2.14 gives error "get_environ_proxies() takes exactly 2 arguments (1 given)"
+            pip install docker-cloud "requests==2.13.0"
+
+    - script:
+        name: docker stack update
+        code: |
+          pip install docker-cloud
+          docker-cloud service set --image turistforeningen/ratatoskr-beta:assets-${BUILD_TAG} ratatoskr-assets --sync
+          docker-cloud service set --image turistforeningen/ratatoskr-beta:backend-${BUILD_TAG} ratatoskr-backend --sync
+          docker-cloud service redeploy --not-reuse-volumes ratatoskr-beta-assets ratatoskr-beta-backend --sync
+
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        pipeline: deploy

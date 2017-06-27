@@ -1,0 +1,50 @@
+secrets:
+  image: 'turistforeningen/ratatoskr-secrets:v5'
+  tags:
+    - app
+    - volume-1
+  volumes:
+    - /secrets
+
+ratatoskr-backend:
+  image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
+  autoredeploy: true
+  environment:
+    - FORCE_SSL=true
+    - HSTS_MAX_AGE=31536000
+    - NODE_ENV=production
+    - STATSD_HOST=statsd
+    - STATSD_PORT=8125
+    - 'VIRTUAL_HOST=http://beta-medlem.dnt.no*,https://beta-medlem.dnt.no*'
+    - VIRTUAL_HOST_WEIGHT=20
+    - VIRTUAL_PATH=/
+    - VIRTUAL_PORT=8080
+  expose:
+    - '8080'
+  links:
+    - 'statsd.statsd-librato:statsd'
+    - 'ratatoskr-redis:redis'
+  restart: always
+  command: node backend/index.js
+  tags:
+    - app
+  volumes_from:
+    - secrets:ro
+    - ratatoskr-assets:ro
+
+ratatoskr-assets:
+  image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
+  tags:
+    - app
+    - volume-1
+  volumes:
+    - /ratatoskr
+  command: /bin/true
+
+ratatoskr-redis:
+  autoredeploy: true
+  command: redis-server --appendonly yes
+  image: 'redis:3.0'
+  restart: on-failure
+  tags:
+    - app
