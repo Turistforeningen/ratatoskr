@@ -1,6 +1,7 @@
 import React from 'react';
 
-const FormError = (props) => {
+
+const Intro = (props) => {
   if (props.error) {
     return null;
   }
@@ -13,4 +14,4 @@ const FormError = (props) => {
 };
 
 
-export default FormError;
+export default Intro;

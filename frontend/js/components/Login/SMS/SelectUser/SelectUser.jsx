@@ -2,30 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { getUserList } from '../../selectors/user/login';
+import { getUserList } from '../../../../selectors/user/loginSMSselectUser';
+
+import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
+import ExternalA from '../../../common/ExternalA.jsx';
+import Error from './Error.jsx';
+import Intro from './Intro.jsx';
 
 
-class UserSelect extends Component {
+class SelectUser extends Component {
   @autobind
   select(userId) {
-    return () => {
+    return (e) => {
       const { onSelect } = this.props;
+      e.preventDefault();
       onSelect(userId);
     };
   }
 
+  @autobind
+  onCancel(e) {
+    const { onCancel } = this.props;
+    e.preventDefault();
+    onCancel();
+  }
+
   render() {
-    const { userList, onCancel } = this.props;
+    const { userList } = this.props;
+
     return (
       <div>
-        <h4>Vi fant flere brukere</h4>
-        <p>
-          Det er flere brukere som har samme kombinasjon av epost og passord.
-        </p>
-        <p>
-          Velg den brukeren du ønsker å logge inn med.
-        </p>
-
         {userList.map((user) =>
           <div
             key={user.id}
@@ -55,10 +61,11 @@ class UserSelect extends Component {
 
         <div className="login-form__button-container">
           <button
-            onClick={onCancel}>
+            onClick={this.onCancel}>
             Avbryt
           </button>
         </div>
+
       </div>
     );
   }
@@ -75,6 +82,6 @@ const connectedComponent = connect(
   {},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
-)(UserSelect);
+)(SelectUser);
 
 export default connectedComponent;

@@ -1,9 +1,24 @@
 import { getIsPending } from '../../selectors/user/login';
-import { login as APIlogin, reset as APIreset } from '../../api/user';
+import {
+  login as APIlogin,
+  reset as APIreset,
+} from '../../api/user';
 
 
-export const login = (email, password, userId) => (dispatch, getState) => {
+export const login = (inputEmail, password, userId) => (dispatch, getState) => {
   if (getIsPending(getState())) {
+    return Promise.resolve();
+  }
+
+  const email = inputEmail.trim();
+  if (!email || !password) {
+    dispatch({
+      type: 'USER_LOGIN_COMMIT',
+      payload: {
+        VERSION_TAG: null,
+        error: 'invalid credentials',
+      },
+    });
     return Promise.resolve();
   }
 
@@ -31,29 +46,3 @@ export const login = (email, password, userId) => (dispatch, getState) => {
 export const clearUsers = () => ({
   type: 'USER_LOGIN_RESET_USER_LIST',
 });
-
-
-export const reset = (email) => (dispatch, getState) => {
-  if (getIsPending(getState())) {
-    return Promise.resolve();
-  }
-
-  dispatch({
-    type: 'USER_RESET',
-  });
-
-  return APIreset(email).then(
-    (response) => {
-      dispatch({
-        type: 'USER_RESET_COMMIT',
-        payload: response,
-      });
-    },
-    (error) => {
-      dispatch({
-        type: 'USER_RESET_ROLLBACK',
-        message: error.message || 'unknown error',
-      });
-    }
-  );
-};

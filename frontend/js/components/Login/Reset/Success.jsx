@@ -1,16 +1,16 @@
 import React from 'react';
 
-const FormError = (props) => {
+const Success = (props) => {
   if (props.error) {
     return null;
   }
 
   return (
     <div className="login-form__intro">
-      Skriv inn epostadressen din for å få tilsendt videre instruksjoner.
+      En epost er nå sendt til {props.email}.
     </div>
   );
 };
 
 
-export default FormError;
+export default Success;

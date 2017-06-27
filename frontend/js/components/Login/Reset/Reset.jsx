@@ -6,21 +6,23 @@ import {
   getIsPending,
   getErrorMessage,
   getWasSuccess,
-} from '../../selectors/user/reset';
-import { reset } from '../../actions/user/login';
+} from '../../../selectors/user/reset';
+import { reset } from '../../../actions/user/reset';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
-import ExternalA from '../common/ExternalA.jsx';
-import ResetError from './ResetError.jsx';
-import ResetIntro from './ResetIntro.jsx';
-import ResetSuccess from './ResetSuccess.jsx';
+import ExternalA from '../../common/ExternalA.jsx';
+import Error from './Error.jsx';
+import Intro from './Intro.jsx';
+import Success from './Success.jsx';
 
 
 class Reset extends Component {
   @autobind
-  onSubmit() {
+  onSubmit(e) {
     const { actions } = this.props;
     actions.reset(this.emailInput.value);
+
+    e.preventDefault();
   }
 
   render() {
@@ -29,9 +31,9 @@ class Reset extends Component {
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
         <h4>Gjennopprett passordet ditt</h4>
-        {wasSuccess ? null : <ResetError error={errorMessage} />}
-        {wasSuccess ? null : <ResetIntro error={errorMessage} />}
-        {!wasSuccess ? null : <ResetSuccess email={this.emailInput.value} />}
+        {wasSuccess ? null : <Error error={errorMessage} />}
+        {wasSuccess ? null : <Intro error={errorMessage} />}
+        {!wasSuccess ? null : <Success email={this.emailInput.value} />}
         {wasSuccess ? null : (
           <div>
             <div>
@@ -58,6 +60,7 @@ class Reset extends Component {
                 Gjenopprett
               </LaddaButton>
               <button
+                type="button"
                 onClick={onCancel}>
                 Avbryt
               </button>
@@ -72,6 +75,7 @@ class Reset extends Component {
         )}
         {!wasSuccess ? null : (
           <button
+            type="button"
             onClick={onCancel}
             className="success">
             Gå tilbake

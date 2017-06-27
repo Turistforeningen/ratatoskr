@@ -9,11 +9,18 @@ import {
   getUserList,
   getErrorMessage,
 } from '../../selectors/user/login';
-
-import Reset from './Reset.jsx';
-import Form from './Form.jsx';
-import UserSelect from './UserSelect.jsx';
 import { login, clearUsers } from '../../actions/user/login';
+import { sendSMS } from '../../actions/user/loginSMSsend';
+import { verifySMScode } from '../../actions/user/loginSMSverify';
+import {
+  selectUser,
+  clearUsers as SMSclearUsers,
+} from '../../actions/user/loginSMSselectUser';
+
+import Reset from './Reset/Reset.jsx';
+import DNTUser from './DNTUser/DNTUser.jsx';
+import SMS from './SMS/SMS.jsx';
+import UserSelect from './UserSelect/UserSelect.jsx';
 
 
 class Login extends Component {
@@ -23,6 +30,8 @@ class Login extends Component {
       email: null,
       password: null,
       reset: false,
+      phoneNumber: null,
+      view: 'sms',
     };
   }
 
@@ -34,33 +43,85 @@ class Login extends Component {
   }
 
   @autobind
+  sendSMS(phoneNumber) {
+    const { actions } = this.props;
+    this.setState({phoneNumber});
+    actions.sendSMS(phoneNumber);
+  }
+
+  @autobind
+  verifySMS(code) {
+    const { actions } = this.props;
+    actions.verifySMScode(this.state.phoneNumber, code);
+  }
+
+  @autobind
   selectUser(userId) {
     const { actions } = this.props;
-    actions.login(this.state.email, this.state.password, userId);
+    const { view, phoneNumber } = this.state;
+    if (view === 'sms') {
+      actions.selectUser(phoneNumber, userId);
+    } else {
+      actions.login(this.state.email, this.state.password, userId);
+    }
   }
 
   @autobind
   resetUserSelectList() {
     const { actions } = this.props;
-    actions.clearUsers();
+    const { view } = this.state;
+    if (view === 'sms') {
+      actions.SMSclearUsers();
+    } else {
+      actions.clearUsers();
+    }
   }
 
   @autobind
   toggleReset() {
     this.setState({
-      reset: !this.state.reset,
+      view: 'reset',
     });
   }
 
   @autobind
-  renderForm() {
+  toggleDNTUser() {
+    this.setState({
+      view: 'dnt-user',
+    });
+  }
+
+  @autobind
+  toggleSMS() {
+    this.setState({
+      view: 'sms',
+    });
+  }
+
+  @autobind
+  renderSMS() {
     const { userList } = this.props;
     const { reset } = this.state;
 
     return userList.length || reset
       ? null
       : (
-        <Form
+        <SMS
+          onSubmitPhoneNumber={this.sendSMS}
+          onSubmitCode={this.verifySMS}
+          toggleReset={this.toggleReset} />
+      );
+  }
+
+  @autobind
+  renderDNTUser() {
+    const { userList } = this.props;
+    const { reset } = this.state;
+
+    return userList.length || reset
+      ? null
+      : (
+        <DNTUser
           onSubmit={this.login}
           toggleReset={this.toggleReset} />
       );
@@ -87,7 +148,7 @@ class Login extends Component {
       : (
         <UserSelect
           onSelect={this.selectUser}
-          onCancel={this.resetUserSelectList} />
+          onCancel={this.toggleDNTUser} />
       );
   }
 
@@ -98,13 +159,45 @@ class Login extends Component {
       return null;
     }
 
-    return (
-      <div>
-        {this.renderForm()}
-        {this.renderReset()}
-        {this.renderUserSelect()}
-      </div>
-    );
+    const { view } = this.state;
+
+    switch (view) {
+      // Reset password for DNT user
+      case 'reset':
+        return (
+          <Reset
+            onCancel={this.toggleDNTUser}/>
+        );
+
+      // Login form for DNT user
+      case 'dnt-user':
+        return (
+          <DNTUser
+            onSubmit={this.login}
+            toggleReset={this.toggleReset}
+            toggleSMS={this.toggleSMS} />
+        );
+
+      // SMS login form (default)
+      default:
+        return (
+          <SMS
+            onSubmitSend={this.sendSMS}
+            onSubmitCode={this.verifySMS}
+            onSelectUser={this.selectUser}
+            toggleDNTUser={this.toggleDNTUser}
+            onResetuserList={this.resetUserSelectList} />
+        );
+    }
+
+    // return (
+    //   <div>
+    //     {this.renderSMS()}
+    //     {this.renderForm()}
+    //     {this.renderReset()}
+    //     {this.renderUserSelect()}
+    //   </div>
+    // );
   }
 }
 
@@ -121,7 +214,7 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {login, clearUsers},
+  {login, clearUsers, sendSMS, verifySMScode, selectUser, SMSclearUsers},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(Login);

@@ -2,31 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { getIsPending, getErrorMessage } from '../../selectors/user/login';
+import { getIsPending, getErrorMessage } from '../../../selectors/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
-import ExternalA from '../common/ExternalA.jsx';
-import FormError from './FormError.jsx';
-import FormIntro from './FormIntro.jsx';
+import ExternalA from '../../common/ExternalA.jsx';
+import Error from './Error.jsx';
+import Intro from './Intro.jsx';
 
 
-class Form extends Component {
+class DNTUser extends Component {
   @autobind
-  onSubmit() {
+  onSubmit(e) {
     const { onSubmit } = this.props;
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
     onSubmit(email, password);
+
+    e.preventDefault();
   }
 
   render() {
-    const { onSubmit, pending, errorMessage, toggleReset } = this.props;
+    const {
+      onSubmit,
+      pending,
+      errorMessage,
+      toggleReset,
+      toggleSMS,
+    } = this.props;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
         <h4>Logg inn med din DNT-bruker.</h4>
-        <FormError error={errorMessage} />
-        <FormIntro error={errorMessage} />
+        <Error error={errorMessage} />
+        <Intro error={errorMessage} />
         <div>
           <label htmlFor="login-form-email">E-post</label>
           <input
@@ -67,6 +75,11 @@ class Form extends Component {
           <ExternalA href="https://www.dnt.no/minside/logg-inn/#registrering">
             Opprett DNT-bruker
           </ExternalA>
+          <br />
+          <br />
+          <a onClick={toggleSMS}>
+            Logg inn med SMS
+          </a>
         </div>
       </form>
     );
@@ -85,6 +98,6 @@ const connectedComponent = connect(
   {},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
-)(Form);
+)(DNTUser);
 
 export default connectedComponent;

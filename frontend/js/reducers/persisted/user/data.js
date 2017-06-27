@@ -6,6 +6,7 @@ export default (state = {}, action) => {
     case 'USER_FETCH_COMMIT':
     case 'USER_UPDATE_COMMIT':
     case 'USER_LOGIN_COMMIT':
+    case 'USER_LOGIN_SMS_SELECT_USER_COMMIT':
       return action.payload.data
         ? action.payload.data
         : state;

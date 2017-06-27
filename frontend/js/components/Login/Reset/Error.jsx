@@ -1,6 +1,7 @@
 import React from 'react';
 
-const FormError = (props) => {
+
+const Error = (props) => {
   if (!props.error) {
     return null;
   }
@@ -28,6 +29,8 @@ const FormError = (props) => {
     msg = 'Denne e-postadressen er ikke registrert på noen av våre brukere. ' +
           'Er det denne adressen du er registrert med? Sjekk også at du har ' +
           'skrevet adressen riktig.';
+  } else if (props.error === 'empty email') {
+    msg = 'Du må skrive inn e-postadressen din.';
   }
 
   return (
@@ -38,4 +41,4 @@ const FormError = (props) => {
 };
 
 
-export default FormError;
+export default Error;
