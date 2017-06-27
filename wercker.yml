@@ -150,8 +150,8 @@ deploy-beta:
         name: docker stack update
         code: |
           pip install docker-cloud
-          docker-cloud service set --image turistforeningen/ratatoskr-beta:assets-${BUILD_TAG} ratatoskr-assets --sync
-          docker-cloud service set --image turistforeningen/ratatoskr-beta:backend-${BUILD_TAG} ratatoskr-backend --sync
+          docker-cloud service set --image turistforeningen/ratatoskr:assets-${BUILD_TAG} ratatoskr-beta-assets --sync
+          docker-cloud service set --image turistforeningen/ratatoskr:backend-${BUILD_TAG} ratatoskr-beta-backend --sync
           docker-cloud service redeploy --not-reuse-volumes ratatoskr-beta-assets ratatoskr-beta-backend --sync
 
   after-steps:
