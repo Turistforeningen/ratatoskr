@@ -85,7 +85,7 @@ class Verify extends Component {
               ref={(node) => { this.codeInput = node; }}
               defaultValue=""
               disabled={pending}
-              type="text"/>
+              type="number"/>
             <br />
           </div>
           <div className="login-form__button-container">

@@ -274,6 +274,7 @@ label {
 }
 
 input {
+  &[type='number'],
   &[type='email'],
   &[type='password'],
   &[type='text'] {
