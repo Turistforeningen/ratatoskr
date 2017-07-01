@@ -10,7 +10,8 @@ const User = require('../models/User');
 const router = new Router();
 
 
-router.get('/*', (req, res, next) => {
+// Add version header
+router.use((req, res, next) => {
   res.header('RATATOSKR-VERSION', version.tag);
   next();
 });
