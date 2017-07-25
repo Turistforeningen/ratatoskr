@@ -38,29 +38,4 @@ router.use('/manifest.json', (req, res, next) => {
 });
 
 
-// Service Worker Manifest
-router.get('/appcache/manifest.html', (req, res, next) => {
-  if (environment.production) {
-    res.sendFile('/ratatoskr/build/appcache/manifest.html');
-  } else {
-    loadFromWebpackDevServer('appcache/manifest.html')
-      .then((src) => {
-        res.send(src);
-      });
-  }
-});
-
-
-router.get('/appcache/manifest.appcache', (req, res, next) => {
-  if (environment.production) {
-    res.sendFile('/ratatoskr/build/appcache/manifest.appcache');
-  } else {
-    loadFromWebpackDevServer('appcache/manifest.appcache')
-      .then((src) => {
-        res.send(src);
-      });
-  }
-});
-
-
 module.exports = router;
