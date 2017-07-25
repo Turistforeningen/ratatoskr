@@ -8,9 +8,8 @@ const Error = (props) => {
 
   let msg = 'Det oppstod et problem under innlogging. Vennligst prøv igjen.';
 
-  if (props.error === 'invalid credentials') {
-    msg = 'Du har oppgitt feil brukernavn og/eller passord. ' +
-          'Vennligst prøv igjen.';
+  if (props.error === 'invalid phone number') {
+    msg = 'Du har skrevet inn et ugyldig mobilnummer. Vennligst prøv igjen.';
   } else if (props.error === 'network error') {
     msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';

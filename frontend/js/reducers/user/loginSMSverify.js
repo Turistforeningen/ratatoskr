@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 const active = (state = false, action) => {
   switch (action.type) {
     case 'USER_LOGIN_SEND_SMS_COMMIT':
-      return true;
+      return !action.payload.error;
     case 'USER_LOGIN_SMS_SELECT_USER_COMMIT':
     case 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT':
     case 'USER_LOGIN_VERIFY_SMS_CODE_CANCEL':
