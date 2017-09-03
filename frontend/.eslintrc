@@ -14,8 +14,9 @@
     "allowImportExportEverywhere": true,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
+      "experimentalDecorators": true,
       "jsx": true
-    },
+    }
   },
   "rules": {
     "strict": [2, "global"],
@@ -36,7 +37,7 @@
       "functions": "ignore"
     }],
     "class-methods-use-this": ["error", {
-      exceptMethods: [
+      "exceptMethods": [
         "render",
         "getInitialState",
         "getDefaultProps",
@@ -46,8 +47,8 @@
         "shouldComponentUpdate",
         "componentWillUpdate",
         "componentDidUpdate",
-        "componentWillUnmount",
-      ],
-    }],
+        "componentWillUnmount"
+      ]
+    }]
   }
 }
