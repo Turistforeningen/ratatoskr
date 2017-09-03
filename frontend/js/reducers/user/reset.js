@@ -18,6 +18,7 @@ const success = (state = false, action) => {
   switch (action.type) {
     case 'USER_RESET':
     case 'USER_RESET_ROLLBACK':
+    case 'USER_RESET_CLOSE':
       return false;
     case 'USER_RESET_COMMIT':
       return !!action.payload.success;

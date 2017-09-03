@@ -2,7 +2,6 @@ import { getIsPending } from '../../selectors/user/reset';
 import { reset as APIreset } from '../../api/user';
 
 
-// eslint-disable-next-line
 export const reset = (inputEmail) => (dispatch, getState) => {
   if (getIsPending(getState())) {
     return Promise.resolve();
@@ -39,3 +38,8 @@ export const reset = (inputEmail) => (dispatch, getState) => {
     }
   );
 };
+
+
+export const closeReset = (email) => ({
+  type: 'USER_RESET_CLOSE',
+});

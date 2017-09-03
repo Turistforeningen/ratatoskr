@@ -42,7 +42,7 @@ module.exports = (rawData) => {
       memberIds: data.tilknyttedeHusstandsmedlemmer || [],
     },
 
-    association: {
+    association: !data.forening ? null : {
       name: data.forening.navn,
       ntbId: data.forening.objectId,
       sherpaId: data.forening.sherpaId,
