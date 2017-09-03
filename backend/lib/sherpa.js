@@ -49,8 +49,8 @@ const getClientTokensFromSherpa = () => (
 
 const getUserTokensFromSherpa = (email, password, userId) => {
   const body =
-    `grant_type=password&username=${email}` +
-    `&password=${password}&userid=${userId}`;
+    `grant_type=password&username=${encodeURIComponent(email)}` +
+    `&password=${encodeURIComponent(password)}&userid=${userId}`;
 
   return tokenRequest(body)
     .then((result) => result.json())
