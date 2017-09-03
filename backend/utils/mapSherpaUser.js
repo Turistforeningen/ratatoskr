@@ -31,7 +31,7 @@ module.exports = (data) => ({
     memberIds: data.tilknyttede_husstandsmedlemmer || [],
   },
 
-  association: {
+  association: !data.forening ? null : {
     name: data.forening.navn,
     ntbId: data.forening.object_id,
     sherpaId: data.forening.sherpa_id,
