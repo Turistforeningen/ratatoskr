@@ -57,3 +57,8 @@ export const reset = (email) => (dispatch, getState) => {
     }
   );
 };
+
+
+export const closeReset = (email) => ({
+  type: 'USER_RESET_CLOSE',
+});

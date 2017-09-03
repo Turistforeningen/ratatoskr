@@ -7,7 +7,7 @@ import {
   getErrorMessage,
   getWasSuccess,
 } from '../../selectors/user/reset';
-import { reset } from '../../actions/user/login';
+import { reset, closeReset } from '../../actions/user/login';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
 import ExternalA from '../ExternalA.jsx';
@@ -18,9 +18,18 @@ import ResetSuccess from './ResetSuccess.jsx';
 
 class Reset extends Component {
   @autobind
-  onSubmit() {
+  onSubmit(e) {
     const { actions } = this.props;
     actions.reset(this.emailInput.value);
+    e.preventDefault();
+  }
+
+  @autobind
+  onClose(e) {
+    const { actions, onCancel } = this.props;
+    e.preventDefault();
+    actions.closeReset();
+    onCancel();
   }
 
   render() {
@@ -72,7 +81,8 @@ class Reset extends Component {
         )}
         {!wasSuccess ? null : (
           <button
-            onClick={onCancel}
+            onClick={this.onClose}
+            type="button"
             className="success">
             Gå tilbake
           </button>
@@ -92,7 +102,7 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {reset},
+  {reset, closeReset},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(Reset);
