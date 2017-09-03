@@ -35,7 +35,7 @@ class Login extends Component {
       password: null,
       reset: false,
       phoneNumber: null,
-      view: 'sms',
+      view: 'dnt-user',
     };
   }
 
