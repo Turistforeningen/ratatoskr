@@ -61,6 +61,28 @@ router.post('/user/me/update', (req, res, next) => {
 });
 
 
+// Login using admin token
+router.post('/user/login/admin-token', (req, res, next) => {
+  const { token, userId } = req.body;
+
+  const user = User();
+  user.id = userId;
+  user.adminToken = token;
+  user.loadSherpaData()
+    .then(() => {
+      if (user.id) {
+        res.json({data: user.getAPIRepresentation()});
+      } else {
+        res.json({error: 'invalid'});
+      }
+    })
+    .catch((err) => {
+      res.json({error: 'server-error'});
+    });
+});
+
+
+// Login helper
 const login = (req, res, next, email, password, userId, smsAuth = false) => {
   sherpa.user.authenticate(email, password, userId, smsAuth)
     .then((data) => {
@@ -103,28 +125,6 @@ router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
   const userId = req.params.id || null;
 
   login(req, res, next, email, password, userId);
-});
-
-
-// Login using code
-router.post(['/user/:id/code-login'], (req, res, next) => {
-  const code = req.body.code;
-  const userId = req.params.id;
-
-  const user = User();
-  user.id = userId;
-  user.ratatoskrCode = code;
-  user.loadSherpaData()
-    .then(() => {
-      if (user.id) {
-        res.json(user.getAPIRepresentation());
-      } else {
-        res.json({error: 'invalid'});
-      }
-    })
-    .catch((err) => {
-      res.json({error: 'server-error'});
-    });
 });
 
 

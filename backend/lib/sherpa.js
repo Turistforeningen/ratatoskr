@@ -229,12 +229,12 @@ const userAuthenticate = (email, password, userId = null, smsAuth = false) => {
 };
 
 
-const userAuthenticateByCode = (userId, code) => {
+const userAuthenticateByAdminToken = (userId, token) => {
   const body = {
     user_id: userId,
-    code,
+    token,
   };
-  return clientPostAPIRequest('users/auth/ratatoskr-code/', body);
+  return clientPostAPIRequest('users/auth/ratatoskr-admin-code/', body);
 };
 
 
@@ -251,7 +251,7 @@ module.exports = {
   },
   user: {
     authenticate: userAuthenticate,
-    authenticateByCode: userAuthenticateByCode,
+    authenticateByAdminToken: userAuthenticateByAdminToken,
     get: userGetAPIRequest,
     post: userPostAPIRequest,
     refreshToken: userRefreshToken,

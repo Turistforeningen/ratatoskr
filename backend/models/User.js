@@ -60,7 +60,7 @@ const User = () => {
       type: null,
     },
 
-    ratatoskrCode: null,
+    adminToken: null,
     OAuthTokens: null,
 
     isMainHouseholdMember() {
@@ -219,8 +219,8 @@ const User = () => {
     loadSherpaData() {
       if (self.OAuthTokens && self.OAuthTokens.access_token) {
         return self.loadSherpaDataUsingOAuthToken();
-      } else if (self.ratatoskrCode) {
-        return self.loadSherpaDataUsingRatatoskrCode();
+      } else if (self.adminToken) {
+        return self.loadSherpaDataUsingAdminToken();
       }
 
       throw new Error(
@@ -282,14 +282,14 @@ const User = () => {
       return promise;
     },
 
-    loadSherpaDataUsingRatatoskrCode() {
-      if (!self.ratatoskrCode) {
+    loadSherpaDataUsingAdminToken() {
+      if (!self.adminToken) {
         throw new Error(
-          'Unable to load Sherpa data because ratatoskrCode is not set'
+          'Unable to load Sherpa data because adminToken is not set'
         );
       }
 
-      return sherpa.user.authenticateByCode(self.id, self.ratatoskrCode)
+      return sherpa.user.authenticateByAdminToken(self.id, self.adminToken)
         .then((data) => {
           if (data.user && data.user.sherpaId) {
             Object.assign(self, mapSherpaUser(data.user));
