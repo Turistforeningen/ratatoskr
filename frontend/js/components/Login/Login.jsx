@@ -9,6 +9,9 @@ import {
   getUserList,
   getErrorMessage,
 } from '../../selectors/user/login';
+import {
+  getIsActive as getIsAdminTokenLoginActive,
+} from '../../selectors/user/loginAdminToken';
 import { login, clearUsers } from '../../actions/user/login';
 import { sendSMS } from '../../actions/user/loginSMSsend';
 import { verifySMScode } from '../../actions/user/loginSMSverify';
@@ -17,6 +20,7 @@ import {
   clearUsers as SMSclearUsers,
 } from '../../actions/user/loginSMSselectUser';
 
+import AdminToken from './AdminToken/AdminToken.jsx';
 import Reset from './Reset/Reset.jsx';
 import DNTUser from './DNTUser/DNTUser.jsx';
 import SMS from './SMS/SMS.jsx';
@@ -153,10 +157,20 @@ class Login extends Component {
   }
 
   render() {
-    const { user, isOffline, isUpdating, errorMessage } = this.props;
+    const {
+      user,
+      isOffline,
+      isUpdating,
+      errorMessage,
+      adminTokenLoginIsActive,
+    } = this.props;
 
     if (isOffline || isUpdating || (user && user.id)) {
       return null;
+    }
+
+    if (adminTokenLoginIsActive) {
+      return <AdminToken />;
     }
 
     const { view } = this.state;
@@ -209,6 +223,7 @@ const mapStateToProps = (state) => ({
   isPending: getIsPending(state),
   errorMessage: getErrorMessage(state),
   userList: getUserList(state),
+  adminTokenLoginIsActive: getIsAdminTokenLoginActive(state),
 });
 
 

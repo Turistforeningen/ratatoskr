@@ -6,6 +6,7 @@ import login from './login';
 import loginSMSsend from './loginSMSsend';
 import loginSMSverify from './loginSMSverify';
 import loginSMSselectUser from './loginSMSselectUser';
+import loginAdminToken from './loginAdminToken';
 import reset from './reset';
 
 
@@ -15,6 +16,7 @@ const userReducer = combineReducers({
   loginSMSsend,
   loginSMSverify,
   loginSMSselectUser,
+  loginAdminToken,
   update,
   reset,
 });
