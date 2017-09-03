@@ -252,7 +252,18 @@ module.exports = (env) => {
           navigateFallbackForRedirects: false,
           output: 'sw.js',
         },
-        AppCache: false,
+        AppCache: {
+          events: true,
+          FALLBACK: {
+            '/': '/is-offline',
+          },
+          NETWORK: [
+            '*',
+            '/api/',
+            '/login',
+            '/logout',
+          ],
+        },
       }),
 
       // App server HTML template
