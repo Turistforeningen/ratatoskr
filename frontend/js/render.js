@@ -1,5 +1,3 @@
-/* global ratatoskr */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -13,8 +11,8 @@ import Root from './components/Root.jsx';
 
 
 const container = document.getElementById('root');
-const initialState = ratatoskr.user
-  ? {user: {data: ratatoskr.user}}
+const initialState = window.ratatoskr.user
+  ? {user: {data: window.ratatoskr.user}}
   : {};
 
 const render = (Component, store) => {
@@ -64,7 +62,7 @@ const bootstrap = () => {
       store.dispatch(loginAdminToken(userId, admToken));
 
       // Replace the url in history
-      history.replaceState({}, '', '/');
+      window.history.replaceState({}, '', '/');
     }
 
     // Hot Module Replacement API

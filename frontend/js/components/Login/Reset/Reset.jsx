@@ -33,7 +33,9 @@ class Reset extends Component {
   }
 
   render() {
-    const { pending, errorMessage, onCancel, wasSuccess } = this.props;
+    const {
+      pending, errorMessage, onCancel, wasSuccess,
+    } = this.props;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>

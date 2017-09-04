@@ -32,7 +32,7 @@ class SelectUser extends Component {
 
     return (
       <div>
-        {userList.map((user) =>
+        {userList.map((user) => (
           <div
             key={user.id}
             className="box box--inactive">
@@ -57,7 +57,7 @@ class SelectUser extends Component {
               )}
             </div>
           </div>
-        )}
+        ))}
 
         <div className="login-form__button-container">
           <button

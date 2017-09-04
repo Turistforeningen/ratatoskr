@@ -26,7 +26,7 @@ class UserSelect extends Component {
           Velg den brukeren du ønsker å logge inn med.
         </p>
 
-        {userList.map((user) =>
+        {userList.map((user) => (
           <div
             key={user.id}
             className="box box--inactive">
@@ -51,7 +51,7 @@ class UserSelect extends Component {
               )}
             </div>
           </div>
-        )}
+        ))}
 
         <div className="login-form__button-container">
           <button

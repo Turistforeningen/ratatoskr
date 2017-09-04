@@ -229,7 +229,14 @@ const mapStateToProps = (state) => ({
 
 const connectedComponent = connect(
   mapStateToProps,
-  {login, clearUsers, sendSMS, verifySMScode, selectUser, SMSclearUsers},
+  {
+    login,
+    clearUsers,
+    sendSMS,
+    verifySMScode,
+    selectUser,
+    SMSclearUsers,
+  },
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(Login);
