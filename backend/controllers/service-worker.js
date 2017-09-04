@@ -30,10 +30,12 @@ router.use('/manifest.json', (req, res, next) => {
   res.json({
     name: 'Mitt medlemskap - Den Norske Turistforening',
     short_name: 'DNT Medlem',
+    lang: "nb-NO",
     theme_color: '#b43f2e',
     background_color: '#f1f1f1',
     start_url: '/',
     display: 'standalone',
+    orientation: 'portrait',
   });
 });
 
