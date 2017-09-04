@@ -83,11 +83,10 @@ app.use((req, res, next) => {
       req.user = user;
       nunjucksEnvironment.addGlobal('user', user);
       next();
-    })
-    .catch(() => next());
+      return Promise.resolve();
+    }).catch(() => next());
   }
 });
-
 
 // Set the base router
 app.use(process.env.VIRTUAL_PATH, controllers);
