@@ -1,8 +1,7 @@
 'use strict';
 
 const { Router } = require('express');
-
-const environment = require('../lib/environment');
+const morgan = require('morgan');
 
 const serviceWorkerController = require('./service-worker');
 const loginController = require('./login');
@@ -12,14 +11,8 @@ const apiController = require('./api');
 
 const router = new Router();
 
-
-if (environment.development) {
-  router.get('/*', (req, res, next) => {
-    // eslint-disable-next-line
-    console.log(`Request: ${req.protocol}://${req.hostname}${req.url}`);
-    next();
-  });
-}
+// Access logs
+router.use(morgan('combined'));
 
 
 // Return React app if user is authenticated or redirect to login
