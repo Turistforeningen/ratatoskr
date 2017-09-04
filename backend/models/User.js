@@ -114,7 +114,7 @@ const User = () => {
 
     /**
      ** Save and load from Redis
-     **/
+     ** */
 
     load(id) {
       return redis.hgetall(id)
@@ -166,7 +166,7 @@ const User = () => {
 
     /**
      ** Communication with Sherpa
-     **/
+     ** */
 
     setTokens(tokens) {
       self.OAuthTokens = Object.assign({}, tokens);
@@ -236,7 +236,7 @@ const User = () => {
       }
 
       const promise = new Promise((resolve, reject) => {
-        this.sherpaRequest(SHERPA_URLS.membership)
+        self.sherpaRequest(SHERPA_URLS.membership)
           .then((data) => {
             if (!data) {
               self.destroy();
@@ -275,7 +275,12 @@ const User = () => {
             }
           })
           .catch((err) => {
-            throw new Error(err);
+            if (err === 401) {
+              self.destroy();
+              resolve(self);
+            } else {
+              throw new Error(err);
+            }
           });
       });
 

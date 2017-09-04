@@ -12,7 +12,7 @@ const CREDENTIALS = new Buffer(
 
 
 const errorResolve = (name) => (err) => {
-  console.log('****** ERROR'); // eslint-disable-line
+  console.log(`****** ERROR :: ${name}`); // eslint-disable-line
   console.log(err); // eslint-disable-line
   return Promise.reject(err);
 };
@@ -239,8 +239,7 @@ const userAuthenticateByAdminToken = (userId, token) => {
 
 
 const userRefreshToken = (tokens) =>
-  getUserTokensByRefreshTokenFromSherpa(tokens.refresh_token)
-    .catch(errorResolve('userRefreshToken'));
+  getUserTokensByRefreshTokenFromSherpa(tokens.refresh_token);
 
 
 module.exports = {

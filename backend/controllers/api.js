@@ -71,7 +71,7 @@ router.post('/user/login/admin-token', (req, res, next) => {
   user.loadSherpaData()
     .then(() => {
       if (user.id) {
-        res.json({data: user.getAPIRepresentation()});
+        res.json({user: user.getAPIRepresentation()});
       } else {
         res.json({error: 'invalid'});
       }
@@ -97,7 +97,7 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
                 .then(() => {
                   req.session.userId = user.id;
                   req.session.smsCodeToken = null;
-                  res.json({data: user.getAPIRepresentation()});
+                  res.json({user: user.getAPIRepresentation()});
                 });
             } else {
               res.json({error: 'missing user id'});
@@ -120,8 +120,7 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
 
 // Login
 router.post(['/user/login', '/user/login/:id'], (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
   const userId = req.params.id || null;
 
   login(req, res, next, email, password, userId);
@@ -168,8 +167,7 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
       if (data.users && data.users.length === 1) {
         login(req, res, next, phoneNumber, data.token, null, true);
       } else {
-        const users = data.users;
-        const token = data.token;
+        const { users, token } = data;
         if (!users || !token) {
           res
             .status(503)
@@ -219,7 +217,7 @@ router.post(['/user/sms-code/select-user'], (req, res, next) => {
 
 // Reset password
 router.post('/user/reset', (req, res, next) => {
-  const email = req.body.email;
+  const { email } = req.body;
 
   sherpa.client.post('users/reset/', {email})
     .then((json) => {
