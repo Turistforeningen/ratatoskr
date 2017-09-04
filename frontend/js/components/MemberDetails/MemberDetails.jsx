@@ -46,7 +46,6 @@ class MemberDetails extends Component {
     }
 
     if (user && user.id && shouldUpdate && !isUpdating) {
-      console.log('** DO THE UPDATE', isUpdating); // eslint-disable-line
       actions.update();
     }
   }
