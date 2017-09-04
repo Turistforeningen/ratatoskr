@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 
 const pending = (state = false, action) => {
   switch (action.type) {
-    case 'USER_UPDATE':
+    case 'USER_FETCH':
       return true;
     case 'USER_FETCH_COMMIT':
     case 'USER_FETCH_ROLLBACK':

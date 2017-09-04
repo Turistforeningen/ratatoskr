@@ -24,7 +24,6 @@ const errorMessage = (state = null, action) => {
         : null;
     case 'USER_UPDATE_ROLLBACK':
       return 'network error';
-      // return action.message;
     default:
       return state;
   }

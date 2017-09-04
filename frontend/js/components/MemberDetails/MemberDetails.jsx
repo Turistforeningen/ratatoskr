@@ -2,12 +2,55 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { getUser } from '../../selectors/user/data';
+import { update } from '../../actions/user/data';
+import {
+  getUser,
+  getLastUpdated,
+  getIsUpdating,
+} from '../../selectors/user/data';
 
 import UserCard from './UserCard.jsx';
 
 
 class MemberDetails extends Component {
+  updateIntervalHandler = null;
+
+  componentWillMount() {
+    this.updateIntervalHandler = setInterval(this.updateUserData, 60000);
+  }
+
+  componentWillUnount() {
+    if (this.updateIntervalHandler) {
+      clearInterval(this.updateIntervalHandler);
+    }
+  }
+
+  @autobind
+  updateUserData() {
+    const {
+      user,
+      lastUpdated,
+      isUpdating,
+      actions,
+    } = this.props;
+
+    let shouldUpdate = false;
+    if (lastUpdated === null) {
+      shouldUpdate = true;
+    } else {
+      const diff =
+        (new Date().getTime() / 1000) - (lastUpdated.getTime() / 1000);
+      if (diff > 3600) {
+        shouldUpdate = true;
+      }
+    }
+
+    if (user && user.id && shouldUpdate && !isUpdating) {
+      console.log('** DO THE UPDATE', isUpdating); // eslint-disable-line
+      actions.update();
+    }
+  }
+
   render() {
     const { user } = this.props;
 
@@ -53,12 +96,14 @@ class MemberDetails extends Component {
 
 const mapStateToProps = (state) => ({
   user: getUser(state),
+  lastUpdated: getLastUpdated(state),
+  isUpdating: getIsUpdating(state),
 });
 
 
 const connectedComponent = connect(
   mapStateToProps,
-  {},
+  {update},
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})
 )(MemberDetails);

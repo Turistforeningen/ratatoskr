@@ -1,5 +1,5 @@
 
-export const getIsPending = (state) => state.user.fetch.pending;
+export const getIsPending = (state) => state.user.update.pending;
 
 
-export const getErrorMessage = (state) => state.user.fetch.errorMessage;
+export const getErrorMessage = (state) => state.user.update.errorMessage;

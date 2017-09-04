@@ -19,7 +19,7 @@ export const update = () => ({
   meta: {
     offline: {
       effect: {
-        url: '/api/user/update',
+        url: '/api/user/me/update',
         method: 'POST',
       },
       commit: { type: 'USER_UPDATE_COMMIT' },
