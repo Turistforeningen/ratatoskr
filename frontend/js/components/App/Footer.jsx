@@ -13,6 +13,11 @@ class Footer extends Component {
   @autobind
   renderLastUpdate() {
     const { lastUpdated } = this.props;
+
+    if (!lastUpdated) {
+      return null;
+    }
+
     const pad = '00';
     const ddStr = lastUpdated.getDate().toString();
     const DD = pad.substring(0, 2 - ddStr.length) + ddStr;
@@ -24,7 +29,13 @@ class Footer extends Component {
     const iiStr = lastUpdated.getMinutes().toString();
     const II = pad.substring(0, 2 - iiStr.length) + iiStr;
 
-    return `${DD}.${MM}.${YYYY} ${HH}:${II}`;
+    const dateStr = `${DD}.${MM}.${YYYY} ${HH}:${II}`;
+
+    return (
+      <div className="updated-timestamp">
+        Medlemsdetaljer sist oppdatert: {dateStr}
+      </div>
+    );
   }
 
   render() {
@@ -37,9 +48,7 @@ class Footer extends Component {
           <nav>
             <Logout />
 
-            <div className="updated-timestamp">
-              Medlemsdetaljer sist oppdatert: {this.renderLastUpdate()}
-            </div>
+            {this.renderLastUpdate()}
 
             <ul className="footer-menu footer-menu--sub">
               <li className="footer-menu__item">
