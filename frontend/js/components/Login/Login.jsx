@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 import { getIsOffline } from '../../selectors/offline';
-import { getUser, getIsUpdating } from '../../selectors/user/data';
+import { getUser } from '../../selectors/user/data';
+import { getIsPending as getIsUpdating } from '../../selectors/user/update';
 import {
   getIsPending,
   getUserList,

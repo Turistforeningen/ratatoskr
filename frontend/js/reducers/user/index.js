@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-import fetch from './fetch';
 import update from './update';
 import login from './login';
 import loginSMSsend from './loginSMSsend';
@@ -11,7 +10,6 @@ import reset from './reset';
 
 
 const userReducer = combineReducers({
-  fetch,
   login,
   loginSMSsend,
   loginSMSverify,

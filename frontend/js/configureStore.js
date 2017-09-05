@@ -8,7 +8,7 @@ import effectReconciler from './api';
 import rootReducer from './reducers/index.js';
 
 
-const configureStore = (initialState, cb) => {
+const configureStore = (cb) => {
   const offlineConfig = {
     ...defaultConfig,
     effect: (effect, _action) => effectReconciler(effect),
@@ -29,7 +29,7 @@ const configureStore = (initialState, cb) => {
 
   const store = offline(offlineConfig)(createStore)(
     rootReducer,
-    initialState,
+    {},
     getMiddlewares()
   );
 

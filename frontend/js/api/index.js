@@ -4,8 +4,28 @@ import { checkStatus, fetchOptions } from './api-utils';
 export default ({url, ...effectOpts}) => {
   const method = effectOpts.method || 'GET';
   const defaultOptions = fetchOptions[effectOpts.method];
-  const options = { ...defaultOptions, ...effectOpts };
 
+  // Add token headers
+  let headers = {};
+  if (effectOpts.tokens) {
+    headers = {
+      'RATATOSKR-AT': effectOpts.tokens.accessToken,
+      'RATATOSKR-RT': effectOpts.tokens.refreshToken,
+    };
+    delete effectOpts.tokens;
+  }
+
+  // Set fetch options
+  const options = {
+    ...defaultOptions,
+    ...effectOpts,
+    headers: {
+      ...defaultOptions.headers,
+      ...headers,
+    },
+  };
+
+  // Run fetch query
   return fetch(url, options)
     .then(checkStatus)
     .then(({res, headerOpts}) => {

@@ -16,6 +16,8 @@ export const fetchOptions = {
 export const checkStatus = (res) => {
   const headerOpts = {
     version: res.headers.get('RATATOSKR-VERSION'),
+    accessToken: res.headers.get('RATATOSKR-AT'),
+    refreshToken: res.headers.get('RATATOSKR-RT'),
   };
   if (res.status >= 200 && res.status < 300) {
     return {headerOpts, res};

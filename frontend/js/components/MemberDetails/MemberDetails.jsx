@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
 import { update } from '../../actions/user/data';
-import {
-  getUser,
-  getLastUpdated,
-  getIsUpdating,
-} from '../../selectors/user/data';
+import { getTokens } from '../../selectors/user/tokens';
+import { getIsPending as getIsUpdating } from '../../selectors/user/update';
+import { getUser, getLastUpdated } from '../../selectors/user/data';
 
 import UserCard from './UserCard.jsx';
 
@@ -17,6 +15,7 @@ class MemberDetails extends Component {
 
   componentWillMount() {
     this.updateIntervalHandler = setInterval(this.updateUserData, 60000);
+    this.updateUserData(true);
   }
 
   componentWillUnount() {
@@ -26,15 +25,16 @@ class MemberDetails extends Component {
   }
 
   @autobind
-  updateUserData() {
+  updateUserData(force = false) {
     const {
       user,
       lastUpdated,
       isUpdating,
       actions,
+      tokens,
     } = this.props;
 
-    let shouldUpdate = false;
+    let shouldUpdate = force;
     if (lastUpdated === null) {
       shouldUpdate = true;
     } else {
@@ -46,12 +46,12 @@ class MemberDetails extends Component {
     }
 
     if (user && user.id && shouldUpdate && !isUpdating) {
-      actions.update();
+      actions.update(tokens);
     }
   }
 
   render() {
-    const { user } = this.props;
+    const { user, isUpdating } = this.props;
 
     if (!user || !user.id) {
       return null;
@@ -59,7 +59,16 @@ class MemberDetails extends Component {
 
     return (
       <div>
-        <h1 className="heading">Mitt medlemsskap</h1>
+        <h1 className="heading">
+          Mitt medlemsskap
+          {isUpdating && (
+            <small>
+              Oppdaterer
+            </small>
+          )}
+        </h1>
+
+        <a onClick={() => this.updateUserData(true)}>Oppdater</a>
         <UserCard user={user} />
 
         {!user.household.mainMember ? null : (
@@ -97,6 +106,7 @@ const mapStateToProps = (state) => ({
   user: getUser(state),
   lastUpdated: getLastUpdated(state),
   isUpdating: getIsUpdating(state),
+  tokens: getTokens(state),
 });
 
 
