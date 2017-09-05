@@ -62,13 +62,12 @@ class MemberDetails extends Component {
         <h1 className="heading">
           Mitt medlemsskap
           {isUpdating && (
-            <small>
-              Oppdaterer
+            <small className="updating-status">
+              Oppdaterer...
             </small>
           )}
         </h1>
 
-        <a onClick={() => this.updateUserData(true)}>Oppdater</a>
         <UserCard user={user} />
 
         {!user.household.mainMember ? null : (

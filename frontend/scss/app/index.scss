@@ -307,3 +307,29 @@ input {
   fill: $color-red;
   opacity: .7;
 }
+
+
+.updating-status {
+  float: right;
+  font-weight: lighter;
+  line-height: 25px;
+  display: block;
+
+  animation: pulsate 2s ease-out;
+  -webkit-animation: pulsate 2s ease-out;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  opacity: 0.5;
+}
+
+@keyframes pulsate {
+  0% {
+      opacity: 0.3;
+  }
+  50% {
+      opacity: 1.0;
+  }
+  100% {
+      opacity: 0.3;
+  }
+}
