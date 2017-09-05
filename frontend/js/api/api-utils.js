@@ -14,9 +14,11 @@ export const fetchOptions = {
 
 
 export const checkStatus = (res) => {
-  const versionTag = res.headers.get('RATATOSKR-VERSION');
+  const headerOpts = {
+    version: res.headers.get('RATATOSKR-VERSION'),
+  };
   if (res.status >= 200 && res.status < 300) {
-    return {versionTag, res};
+    return {headerOpts, res};
   }
 
   const error = new Error(res.statusText);

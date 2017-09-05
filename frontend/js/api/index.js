@@ -8,7 +8,7 @@ export default ({url, ...effectOpts}) => {
 
   return fetch(url, options)
     .then(checkStatus)
-    .then(({res, versionTag}) => {
+    .then(({res, headerOpts}) => {
       if (!res.ok) {
         return Promise.reject(res.text().then((msg) => new Error(msg)));
       }
@@ -16,7 +16,7 @@ export default ({url, ...effectOpts}) => {
       const promise = new Promise((resolve, reject) => {
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));

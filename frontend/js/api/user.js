@@ -13,14 +13,14 @@ export const login = (email, password, userId) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -45,14 +45,14 @@ export const sendSMS = (phoneNumber) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -77,14 +77,14 @@ export const verifySMScode = (phoneNumber, code) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -109,14 +109,14 @@ export const loginAdminToken = (userId, token) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -141,14 +141,14 @@ export const selectUser = (phoneNumber, userId) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -169,14 +169,14 @@ export const logout = () => {
 
     fetch(url, fetchOptions.GET)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
@@ -198,14 +198,14 @@ export const reset = (email) => {
 
     fetch(url, options)
       .then(checkStatus)
-      .then(({res, versionTag}) => {
+      .then(({res, headerOpts}) => {
         if (!res.ok) {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
         res.json()
           .then((json) => {
-            resolve({...json, VERSION_TAG: versionTag});
+            resolve({...json, HEADER_OPTS: headerOpts});
           })
           .catch((err) => {
             reject(new Error(err));
