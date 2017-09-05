@@ -4,8 +4,6 @@ const { Router } = require('express');
 const morgan = require('morgan');
 
 const serviceWorkerController = require('./service-worker');
-const loginController = require('./login');
-const logoutController = require('./logout');
 const apiController = require('./api');
 
 
@@ -35,8 +33,6 @@ router.get('/is-offline', (req, res, next) => {
 
 // Add controllers
 router.use('/', serviceWorkerController);
-router.use('/login', loginController);
-router.use('/logout', logoutController);
 router.use('/api', apiController);
 
 
