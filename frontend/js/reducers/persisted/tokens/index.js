@@ -2,38 +2,26 @@ import { combineReducers } from 'redux';
 
 
 const accessToken = (state = null, action) => {
-  if (
-    action.type === 'USER_UPDATE_COMMIT' &&
-    !action.payload.HEADER_OPTS.accessToken
-  ) {
+  const { type, payload } = action;
+  const { accessToken: token } = ((payload || {}).HEADER_OPTS || {});
+
+  if ((type === 'USER_UPDATE_COMMIT' && !token) || type === 'USER_LOGOUT') {
     return null;
   }
 
-  if (!action.payload || !action.payload.HEADER_OPTS) {
-    return state;
-  }
-
-  return action.payload.HEADER_OPTS.accessToken
-    ? action.payload.HEADER_OPTS.accessToken
-    : state;
+  return token || state;
 };
 
 
 const refreshToken = (state = null, action) => {
-  if (
-    action.type === 'USER_UPDATE_COMMIT' &&
-    !action.payload.HEADER_OPTS.refreshToken
-  ) {
+  const { type, payload } = action;
+  const { refreshToken: token } = ((payload || {}).HEADER_OPTS || {});
+
+  if ((type === 'USER_UPDATE_COMMIT' && !token) || type === 'USER_LOGOUT') {
     return null;
   }
 
-  if (!action.payload || !action.payload.HEADER_OPTS) {
-    return state;
-  }
-
-  return action.payload.HEADER_OPTS.refreshToken
-    ? action.payload.HEADER_OPTS.refreshToken
-    : state;
+  return token || state;
 };
 
 

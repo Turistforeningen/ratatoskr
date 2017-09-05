@@ -163,31 +163,6 @@ export const selectUser = (phoneNumber, userId, smsVerifyToken) => {
 };
 
 
-export const logout = () => {
-  const promise = new Promise((resolve, reject) => {
-    const url = '/api/user/logout';
-
-    fetch(url, fetchOptions.GET)
-      .then(checkStatus)
-      .then(({res, headerOpts}) => {
-        if (!res.ok) {
-          reject(res.text().then((msg) => new Error(msg)));
-        }
-
-        res.json()
-          .then((json) => {
-            resolve({...json, HEADER_OPTS: headerOpts});
-          })
-          .catch((err) => {
-            reject(new Error(err));
-          });
-      });
-  });
-
-  return promise;
-};
-
-
 export const reset = (email) => {
   const promise = new Promise((resolve, reject) => {
     const url = '/api/user/reset';
