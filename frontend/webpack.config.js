@@ -18,7 +18,6 @@ const baseOuputPath = path.resolve(basePath, 'build');
 
 
 const cssApp = new ExtractTextPlugin('assets/css/app.[hash].css');
-const cssOffline = new ExtractTextPlugin('assets/css/offline.[hash].css');
 
 
 const createSCSSRule = (extractor, fileRegexps, issuerRegexs) => ({
@@ -59,7 +58,6 @@ module.exports = (env) => {
         'whatwg-fetch',
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
-      offline: path.resolve(__dirname, 'scss', 'offline', 'index.js'),
     },
     output: {
       pathinfo: ifDevelopment(true),
@@ -105,11 +103,6 @@ module.exports = (env) => {
             ifProduction(createSCSSRule(cssApp, [/\.scss/], [
               /js\/index\.js/,
               /scss\/app\/index\.scss/,
-            ])),
-            // offline.css if in production mode
-            ifProduction(createSCSSRule(cssOffline, [/\.scss/], [
-              /offline\/index\.js/,
-              /scss\/offline\/index\.scss/,
             ])),
 
             // SCSS to be included into the .js files
@@ -192,7 +185,6 @@ module.exports = (env) => {
 
       // Css
       ifProduction(cssApp),
-      ifProduction(cssOffline),
 
       // Favicons
       new FaviconsWebpackPlugin({
@@ -263,16 +255,6 @@ module.exports = (env) => {
         ),
         template: path.resolve(basePath, 'templates', 'app.html'),
         chunks: ['app'],
-      }),
-
-      // Offline server HTML template
-      new HtmlWebpackPlugin({
-        filename: ifDevelopment(
-          'templates/offline.html',
-          path.resolve(baseOuputPath, 'templates', 'offline.html')
-        ),
-        template: path.resolve(basePath, 'templates', 'offline.html'),
-        chunks: ['offline'],
       }),
 
       // Analytics (Should only be used when testing with `webpack` in CLI)
