@@ -13,3 +13,7 @@ export const getUserList = (state) =>
 
 export const getHasUsers = (state) =>
   !!state.user.loginSMSselectUser.users.length;
+
+
+export const getSmsVerifyToken = (state) =>
+  state.user.loginSMSselectUser.smsVerifyToken;

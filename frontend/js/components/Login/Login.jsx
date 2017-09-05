@@ -13,6 +13,9 @@ import {
 import {
   getIsActive as getIsAdminTokenLoginActive,
 } from '../../selectors/user/loginAdminToken';
+import {
+  getSmsVerifyToken,
+} from '../../selectors/user/loginSMSselectUser';
 import { login, clearUsers } from '../../actions/user/login';
 import { sendSMS } from '../../actions/user/loginSMSsend';
 import { verifySMScode } from '../../actions/user/loginSMSverify';
@@ -62,10 +65,10 @@ class Login extends Component {
 
   @autobind
   selectUser(userId) {
-    const { actions } = this.props;
+    const { actions, smsVerifyToken } = this.props;
     const { view, phoneNumber } = this.state;
     if (view === 'sms') {
-      actions.selectUser(phoneNumber, userId);
+      actions.selectUser(phoneNumber, userId, smsVerifyToken);
     } else {
       actions.login(this.state.email, this.state.password, userId);
     }
@@ -225,6 +228,7 @@ const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state),
   userList: getUserList(state),
   adminTokenLoginIsActive: getIsAdminTokenLoginActive(state),
+  smsVerifyToken: getSmsVerifyToken(state),
 });
 
 

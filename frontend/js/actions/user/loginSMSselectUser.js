@@ -2,7 +2,7 @@ import { getIsPending } from '../../selectors/user/loginSMSselectUser';
 import { selectUser as APIselectUser } from '../../api/user';
 
 
-export const selectUser = (inputPhoneNumber, userId) =>
+export const selectUser = (inputPhoneNumber, userId, smsVerifyToken) =>
   (dispatch, getState) => {
     if (getIsPending(getState())) {
       return Promise.resolve();
@@ -24,7 +24,7 @@ export const selectUser = (inputPhoneNumber, userId) =>
       type: 'USER_LOGIN_SMS_SELECT_USER',
     });
 
-    return APIselectUser(phoneNumber, userId).then(
+    return APIselectUser(phoneNumber, userId, smsVerifyToken).then(
       (response) => {
         dispatch({
           type: 'USER_LOGIN_SMS_SELECT_USER_COMMIT',

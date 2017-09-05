@@ -131,12 +131,12 @@ export const loginAdminToken = (userId, token) => {
 };
 
 
-export const selectUser = (phoneNumber, userId) => {
+export const selectUser = (phoneNumber, userId, smsVerifyToken) => {
   const promise = new Promise((resolve, reject) => {
     const url = '/api/user/sms-code/select-user';
     const options = {
       ...fetchOptions.POST,
-      ...{body: JSON.stringify({phoneNumber, userId})},
+      ...{body: JSON.stringify({phoneNumber, userId, smsVerifyToken})},
     };
 
     fetch(url, options)

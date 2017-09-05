@@ -45,10 +45,26 @@ const users = (state = [], action) => {
 };
 
 
+const smsVerifyToken = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT':
+      return action.payload.smsVerifyToken
+        ? action.payload.smsVerifyToken
+        : null;
+    case 'USER_LOGIN_SMS_SELECT_USER_COMMIT':
+    case 'USER_LOGIN_SMS_SELECT_USER_RESET_LIST':
+      return null;
+    default:
+      return state;
+  }
+};
+
+
 const loginSMSselectUser = combineReducers({
   pending,
   errorMessage,
   users,
+  smsVerifyToken,
 });
 
 

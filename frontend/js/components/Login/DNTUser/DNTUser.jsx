@@ -75,11 +75,11 @@ class DNTUser extends Component {
           <ExternalA href="https://www.dnt.no/minside/logg-inn/#registrering">
             Opprett DNT-bruker
           </ExternalA>
-          {/* <br />
+          <br />
           <br />
           <a onClick={toggleSMS}>
             Logg inn med SMS
-          </a> */}
+          </a>
         </div>
       </form>
     );
