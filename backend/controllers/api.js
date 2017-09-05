@@ -10,6 +10,19 @@ const User = require('../models/User');
 const router = new Router();
 
 
+// Helpers
+const setTokenHeaders = (res, user) => {
+  if (
+    user.OAuthTokens &&
+    user.OAuthTokens.access_token &&
+    user.OAuthTokens.refresh_token
+  ) {
+    res.header('RATATOSKR-AT', user.OAuthTokens.access_token);
+    res.header('RATATOSKR-RT', user.OAuthTokens.refresh_token);
+  }
+};
+
+
 // Add version header
 router.use((req, res, next) => {
   res.header('RATATOSKR-VERSION', version.tag);
@@ -23,40 +36,40 @@ router.get('/version', (req, res, next) => {
 });
 
 
-// Return user data
+// Get user data from Sherpa
 router.get('/user/me', (req, res, next) => {
-  const data = req.user
-    ? req.user.getAPIRepresentation()
-    : {};
+  const accessToken = req.get('RATATOSKR-AT');
+  const refreshToken = req.get('RATATOSKR-RT');
 
-  res.json({user: data});
-});
+  if (!accessToken || !refreshToken) {
+    // Tokens are not set, return empty user object (logout)
+    res.json({user: {}});
+  } else {
+    // Attempt to load user data from sherpa using tokens
 
+    // Initiate user
+    const user = User();
+    user.setTokens({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    });
 
-// Update user data from Sherpa
-router.post('/user/me/update', (req, res, next) => {
-  if (req.user) {
-    req.user.loadSherpaData()
+    // Load sherpa data
+    user.loadSherpaData()
       .then(() => {
-        if (!req.user.id) {
-          req.session.userId = null;
+        // Set access and refresh token as header values
+        setTokenHeaders(res, user);
+
+        // Return user data
+        if (user.id) {
+          res.json({user: user.getAPIRepresentation()});
+        } else {
+          res.json({user: {}});
         }
-
-        const data = req.user
-          ? req.user.getAPIRepresentation()
-          : {};
-
-        res.json({user: data});
       })
       .catch((err) => {
-        res.json({err: 'err'});
+        res.json({err: 'unable to load user data'});
       });
-  } else {
-    const data = req.user
-      ? req.user.getAPIRepresentation()
-      : {};
-
-    res.json({user: data});
   }
 });
 
@@ -93,12 +106,13 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
         User().setTokens(data).loadSherpaData()
           .then((user) => {
             if (user.id) {
-              user.save()
-                .then(() => {
-                  req.session.userId = user.id;
-                  req.session.smsCodeToken = null;
-                  res.json({user: user.getAPIRepresentation()});
-                });
+              req.session.smsCodeToken = null;
+
+              // Set access and refresh token as header values
+              setTokenHeaders(res, user);
+
+              // Return user data
+              res.json({user: user.getAPIRepresentation()});
             } else {
               res.json({error: 'missing user id'});
             }

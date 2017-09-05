@@ -11,7 +11,7 @@ const version = require('./version');
 const controllers = require('./controllers');
 const session = require('./lib/session');
 const settings = require('./lib/settings');
-const User = require('./models/User');
+
 
 // Initialize Raven
 if (environment.production) {
@@ -68,25 +68,6 @@ nunjucksEnvironment
 version.promise.then((tag) => {
   nunjucksEnvironment.addGlobal('VERSION', tag);
 }).catch(() => {});
-
-
-// Set user on request object
-app.use((req, res, next) => {
-  const userId = req.session ? req.session.userId : null;
-  if (!userId) {
-    res.user = null;
-    nunjucksEnvironment.addGlobal('user', null);
-    next();
-  } else {
-    const user = User();
-    user.load(userId).then(() => {
-      req.user = user;
-      nunjucksEnvironment.addGlobal('user', user);
-      next();
-      return Promise.resolve();
-    }).catch(() => next());
-  }
-});
 
 // Set the base router
 app.use(process.env.VIRTUAL_PATH, controllers);

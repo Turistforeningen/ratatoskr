@@ -113,58 +113,6 @@ const User = () => {
     },
 
     /**
-     ** Save and load from Redis
-     ** */
-
-    load(id) {
-      return redis.hgetall(id)
-        .then((data) => {
-          Object.assign(self, JSON.parse(data.user));
-
-          if (self.household.memberIds.length) {
-            self.household.members = self.household.members
-              .map((m) => User().update(JSON.parse(m)));
-          }
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
-    },
-
-    save() {
-      if (!self.id) {
-        throw new Error('Unable to save user because no id is set');
-      }
-
-      const promise = new Promise((resolve, reject) => {
-        redis.hmset(self.id, 'user', self.serialize())
-          .then(() => { resolve(self); })
-          .catch((err) => { reject(err); });
-      });
-      return promise;
-    },
-
-    serialize() {
-      const serialized = {};
-      Object.keys(self).forEach((key) => {
-        if (typeof self[key] !== 'function') {
-          if (key === 'household') {
-            serialized.household = Object.assign({}, self.household);
-            if (serialized.household.memberIds.length &&
-                serialized.household.members) {
-              serialized.household.members = serialized.household.members
-                .map((m) => m.serialize());
-            }
-          } else {
-            serialized[key] = self[key];
-          }
-        }
-      });
-
-      return JSON.stringify(serialized);
-    },
-
-    /**
      ** Communication with Sherpa
      ** */
 
@@ -196,7 +144,6 @@ const User = () => {
                 .then((tokens) => {
                   if (tokens) {
                     self.setTokens(tokens);
-                    self.save();
                     self.sherpaRequest(path, method, body, true)
                       .then((res) => {
                         resolve(res);
