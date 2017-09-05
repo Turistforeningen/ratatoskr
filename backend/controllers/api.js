@@ -187,8 +187,10 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
             .status(503)
             .json({error: 'unknown error'});
         }
-        req.session.smsCodeToken = token;
-        res.json({users});
+        res.json({
+          users,
+          smsVerifyToken: token,
+        });
       }
     })
     .catch((err) => {
@@ -207,7 +209,8 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
 router.post(['/user/sms-code/select-user'], (req, res, next) => {
   const userId = req.body.userId || null;
   const phoneNumber = (req.body.phoneNumber || '').trim();
-  const token = req.session.smsCodeToken;
+  const smsVerifyToken = (req.body.smsVerifyToken || '').trim();
+
   let error = null;
   if (!userId) {
     error = 'missing user id';
@@ -215,8 +218,8 @@ router.post(['/user/sms-code/select-user'], (req, res, next) => {
   if (!phoneNumber) {
     error = 'phone number not set';
   }
-  if (!token) {
-    error = 'token not set';
+  if (!smsVerifyToken) {
+    error = 'smsVerifyToken not set';
   }
 
   if (error) {
@@ -224,7 +227,7 @@ router.post(['/user/sms-code/select-user'], (req, res, next) => {
       .status(403)
       .json({error});
   } else {
-    login(req, res, next, phoneNumber, token, userId, true);
+    login(req, res, next, phoneNumber, smsVerifyToken, userId, true);
   }
 });
 
