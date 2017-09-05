@@ -106,8 +106,6 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
         User().setTokens(data).loadSherpaData()
           .then((user) => {
             if (user.id) {
-              req.session.smsCodeToken = null;
-
               // Set access and refresh token as header values
               setTokenHeaders(res, user);
 
@@ -123,11 +121,9 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
       }
     })
     .catch((err) => {
-      if (err === 'auth-check-error') {
-        res.json({error: 'auth-check-error'});
-      }
-      req.session.smsCodeToken = null;
-      res.json({error: 'invalid credentials'});
+      res.json({
+        error: err === 'auth-check-error' ? err : 'invalid credentials',
+      });
     });
 };
 
@@ -247,14 +243,6 @@ router.post('/user/reset', (req, res, next) => {
     .catch((err) => {
       res.json({error: 'sherpa error'});
     });
-});
-
-
-// Logout
-router.get('/user/logout', (req, res, next) => {
-  req.session.destroy(() => {
-    res.json({logout: 'ok'});
-  });
 });
 
 

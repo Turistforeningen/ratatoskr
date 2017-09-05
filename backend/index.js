@@ -9,7 +9,6 @@ const Raven = require('raven');
 const environment = require('./lib/environment');
 const version = require('./version');
 const controllers = require('./controllers');
-const session = require('./lib/session');
 const settings = require('./lib/settings');
 
 
@@ -28,12 +27,6 @@ app.set('x-powered-by', false);
 
 app.use(bodyParser.json());
 
-// Initiate session handling
-app.use(session);
-if (environment.production) {
-  // https://github.com/expressjs/session#cookiesecure
-  app.set('trust proxy', 1);
-}
 
 // Serve assests
 // Assets are built through Webpack and will be loaded using webpack dev server
