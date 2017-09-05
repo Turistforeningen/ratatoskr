@@ -19,7 +19,6 @@ const baseOuputPath = path.resolve(basePath, 'build');
 
 const cssApp = new ExtractTextPlugin('assets/css/app.[hash].css');
 const cssOffline = new ExtractTextPlugin('assets/css/offline.[hash].css');
-const cssSplash = new ExtractTextPlugin('assets/css/splash.[hash].css');
 
 
 const createSCSSRule = (extractor, fileRegexps, issuerRegexs) => ({
@@ -60,7 +59,6 @@ module.exports = (env) => {
         'whatwg-fetch',
         path.resolve(__dirname, 'js', 'index.js'),
       ]),
-      splash: path.resolve(__dirname, 'scss', 'splash', 'index.js'),
       offline: path.resolve(__dirname, 'scss', 'offline', 'index.js'),
     },
     output: {
@@ -107,11 +105,6 @@ module.exports = (env) => {
             ifProduction(createSCSSRule(cssApp, [/\.scss/], [
               /js\/index\.js/,
               /scss\/app\/index\.scss/,
-            ])),
-            // splash.css if in production mode
-            ifProduction(createSCSSRule(cssSplash, [/\.scss/], [
-              /splash\/index\.js/,
-              /scss\/splash\/index\.scss/,
             ])),
             // offline.css if in production mode
             ifProduction(createSCSSRule(cssOffline, [/\.scss/], [
@@ -199,7 +192,6 @@ module.exports = (env) => {
 
       // Css
       ifProduction(cssApp),
-      ifProduction(cssSplash),
       ifProduction(cssOffline),
 
       // Favicons
@@ -254,9 +246,6 @@ module.exports = (env) => {
         },
         AppCache: {
           events: true,
-          FALLBACK: {
-            '/': '/is-offline',
-          },
           NETWORK: [
             '*',
             '/api/',
@@ -276,17 +265,7 @@ module.exports = (env) => {
         chunks: ['app'],
       }),
 
-      // Splash server HTML template
-      new HtmlWebpackPlugin({
-        filename: ifDevelopment(
-          'templates/splash.html',
-          path.resolve(baseOuputPath, 'templates', 'splash.html')
-        ),
-        template: path.resolve(basePath, 'templates', 'splash.html'),
-        chunks: ['splash'],
-      }),
-
-      // Splash server HTML template
+      // Offline server HTML template
       new HtmlWebpackPlugin({
         filename: ifDevelopment(
           'templates/offline.html',
