@@ -32,6 +32,9 @@ export const login = (inputEmail, password, userId) => (dispatch, getState) => {
         type: 'USER_LOGIN_COMMIT',
         payload: response,
       });
+
+      // Scroll to top
+      window.scrollTo(0, 0);
     },
     (error) => {
       dispatch({

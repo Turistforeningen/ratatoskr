@@ -30,6 +30,9 @@ export const sendSMS = (inputPhoneNumber) => (dispatch, getState) => {
         type: 'USER_LOGIN_SEND_SMS_COMMIT',
         payload: response,
       });
+
+      // Scroll to top
+      window.scrollTo(0, 0);
     },
     (error) => {
       dispatch({

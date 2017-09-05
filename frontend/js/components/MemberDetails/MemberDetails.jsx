@@ -24,6 +24,16 @@ class MemberDetails extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { nextUser } = nextProps;
+    const { user } = this.props;
+
+    // Scroll to top if user data gets set
+    if ((nextUser || {}).id !== (user || {}).id) {
+      window.scrollTo(0, 0);
+    }
+  }
+
   @autobind
   updateUserData(force = false) {
     const {

@@ -17,6 +17,9 @@ export const loginAdminToken = (userId, token) => (dispatch, getState) => {
         type: 'USER_LOGIN_ADMIN_TOKEN_COMMIT',
         payload: response,
       });
+
+      // Scroll to top
+      window.scrollTo(0, 0);
     },
     (error) => {
       dispatch({

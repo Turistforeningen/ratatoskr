@@ -30,6 +30,9 @@ export const selectUser = (inputPhoneNumber, userId, smsVerifyToken) =>
           type: 'USER_LOGIN_SMS_SELECT_USER_COMMIT',
           payload: response,
         });
+
+        // Scroll to top
+        window.scrollTo(0, 0);
       },
       (error) => {
         dispatch({

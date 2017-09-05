@@ -31,6 +31,9 @@ export const verifySMScode = (inputPhoneNumber, inputCode) =>
           type: 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT',
           payload: response,
         });
+
+        // Scroll to top
+        window.scrollTo(0, 0);
       },
       (error) => {
         dispatch({
