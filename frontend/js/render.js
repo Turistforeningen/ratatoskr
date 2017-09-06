@@ -38,8 +38,6 @@ function getUrlParam(name) {
 const bootstrap = () => {
   // Render after state redydration is done
   const store = configureStore(() => {
-    render(Root, store);
-
     const admToken = getUrlParam('admtoken');
 
     // If admin token url-parameter is set
@@ -54,6 +52,8 @@ const bootstrap = () => {
       // Replace the url in history
       window.history.replaceState({}, '', '/');
     }
+
+    render(Root, store);
 
     // Hot Module Replacement API
     if (module.hot) {
