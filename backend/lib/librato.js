@@ -38,15 +38,19 @@ const createName = (req, key) => {
   // "ID". It's not very foolproof, and any new routes that are added later
   // will need to accomedate this (or change it).
 
-  const pathName = req.url
-    .toLowerCase()
-    .substr(1)
-    .replace(/[:.]/g, '')
-    .replace(/\//g, '.')
-    .replace(/login\.\d+$/, 'ID');
-  const method = req.method.toLowerCase();
+  if (req) {
+    const pathName = req.url
+      .toLowerCase()
+      .substr(1)
+      .replace(/[:.]/g, '')
+      .replace(/\//g, '.')
+      .replace(/login\.\d+$/, 'ID');
+    const method = req.method.toLowerCase();
 
-  return `${LIBRATO_PREFIX}.api.${method}.${pathName}.${key}`;
+    return `${LIBRATO_PREFIX}.api.${method}.${pathName}.${key}`;
+  }
+
+  return `${LIBRATO_PREFIX}.api.${key}`;
 };
 
 

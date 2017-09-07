@@ -14,6 +14,11 @@ const router = new Router();
 
 // Log request count and response time to librato
 router.use(responseTime((req, res, time) => {
+  // General counts and meassurements
+  librato.increment(null, 'count');
+  librato.measure(null, 'response-time', time);
+
+  // Path specific measurements
   librato.increment(req, 'count');
   librato.measure(req, 'response-time', time);
 }));
@@ -97,12 +102,15 @@ router.post('/user/login/admin-token', (req, res, next) => {
   user.loadSherpaData()
     .then(() => {
       if (user.id) {
+        librato.increment(req, 'ok');
         res.json({user: user.getAPIRepresentation()});
       } else {
+        librato.increment(req, 'invalid-token');
         res.json({error: 'invalid'});
       }
     })
     .catch((err) => {
+      librato.increment(req, 'error');
       res.json({error: 'server-error'});
     });
 });
@@ -114,6 +122,7 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
     .then((data) => {
       if (data.users) {
         const { users } = data;
+        librato.increment(req, 'multi-user-response');
         res.json({users});
       } else {
         User().setTokens(data).loadSherpaData()
@@ -123,20 +132,26 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
               setTokenHeaders(res, user);
 
               // Return user data
+              librato.increment(req, 'ok');
               res.json({user: user.getAPIRepresentation()});
             } else {
+              librato.increment(req, 'missing-userid');
               res.json({error: 'missing user id'});
             }
           })
           .catch((err) => {
+            librato.increment(req, 'load-sherpa-data-error');
             res.json({err});
           });
       }
     })
     .catch((err) => {
-      res.json({
-        error: err === 'auth-check-error' ? err : 'invalid credentials',
-      });
+      const error = err === 'auth-check-error'
+        ? (err || 'error')
+        : 'invalid credentials';
+
+      librato.increment(req, 'error');
+      res.json({error});
     });
 };
 
@@ -155,18 +170,22 @@ router.post(['/user/sms-code/generate'], (req, res, next) => {
   const phoneNumber = (req.body.phoneNumber || '').trim();
 
   if (!phoneNumber) {
+    librato.increment(req, 'invalid-phonenumber');
     res.json({error: 'invalid phone number'});
   } else {
     const body = {phoneNumber};
     sherpa.client.post('users/auth/generate-sms-code/', body)
       .then((data) => {
+        librato.increment(req, 'ok');
         res.json({data});
       })
       .catch((err) => {
         const errorMessage = err.payload && err.payload.error
-          ? err.payload.error
+          ? (err.payload.error || 'error')
           : 'unknown error';
         const status = err.status || 503;
+
+        librato.increment(req, 'error');
         res
           .status(status)
           .json({error: errorMessage});
@@ -181,6 +200,7 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
   const code = (req.body.code || '').trim();
 
   if (!phoneNumber) {
+    librato.increment(req, 'invalid-phonenumber');
     res.json({error: 'invalid phone number'});
   }
 
@@ -192,10 +212,12 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
       } else {
         const { users, token } = data;
         if (!users || !token) {
+          librato.increment(req, 'error');
           res
             .status(503)
             .json({error: 'unknown error'});
         }
+        librato.increment(req, 'return-users');
         res.json({
           users,
           smsVerifyToken: token,
@@ -232,10 +254,12 @@ router.post(['/user/sms-code/select-user'], (req, res, next) => {
   }
 
   if (error) {
+    librato.increment(req, error.replace(' ', '-'));
     res
       .status(403)
       .json({error});
   } else {
+    librato.increment(req, 'ok');
     login(req, res, next, phoneNumber, smsVerifyToken, userId, true);
   }
 });
@@ -248,12 +272,15 @@ router.post('/user/reset', (req, res, next) => {
   sherpa.client.post('users/reset/', {email})
     .then((json) => {
       if (json.status === 'ok') {
+        librato.increment(req, 'ok');
         res.json({success: true});
       } else {
+        librato.increment(req, 'reset-error');
         res.json({error: json.status});
       }
     })
     .catch((err) => {
+      librato.increment(req, 'error');
       res.json({error: 'sherpa error'});
     });
 });
