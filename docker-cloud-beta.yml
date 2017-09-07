@@ -13,8 +13,8 @@ ratatoskr-beta-backend:
     - FORCE_SSL=true
     - HSTS_MAX_AGE=31536000
     - NODE_ENV=production
-    - STATSD_HOST=statsd
-    - STATSD_PORT=8125
+    - LIBRATO_PREFIX=ratatoskr
+    - LIBRATO_SOURCE=ratatoskr-beta
     - 'VIRTUAL_HOST=http://beta-medlem.dnt.no*,https://beta-medlem.dnt.no*'
     - VIRTUAL_HOST_WEIGHT=20
     - VIRTUAL_PATH=/
@@ -22,7 +22,6 @@ ratatoskr-beta-backend:
   expose:
     - '8080'
   links:
-    - 'statsd.statsd-librato:statsd'
     - 'ratatoskr-beta-redis:redis'
   restart: always
   command: node backend/index.js

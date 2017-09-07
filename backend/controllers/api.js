@@ -1,13 +1,22 @@
 'use strict';
 
 const { Router } = require('express');
+const responseTime = require('response-time');
 
 const version = require('../version');
 const sherpa = require('../lib/sherpa');
 const User = require('../models/User');
+const librato = require('../lib/librato');
 
 
 const router = new Router();
+
+
+// Log request count and response time to librato
+router.use(responseTime((req, res, time) => {
+  librato.increment(req, 'count');
+  librato.measure(req, 'response-time', time);
+}));
 
 
 // Helpers
@@ -43,6 +52,7 @@ router.get('/user/me', (req, res, next) => {
 
   if (!accessToken || !refreshToken) {
     // Tokens are not set, return empty user object (logout)
+    librato.increment(req, 'missing-tokens');
     res.json({user: {}});
   } else {
     // Attempt to load user data from sherpa using tokens
@@ -62,12 +72,15 @@ router.get('/user/me', (req, res, next) => {
 
         // Return user data
         if (user.id) {
+          librato.increment(req, 'ok');
           res.json({user: user.getAPIRepresentation()});
         } else {
+          librato.increment(req, 'invalid-tokens');
           res.json({user: {}});
         }
       })
       .catch((err) => {
+        librato.increment(req, 'error');
         res.json({err: 'unable to load user data'});
       });
   }

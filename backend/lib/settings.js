@@ -31,6 +31,14 @@ const variables = [
     name: 'GTM_CODE',
     env: ['production'],
   },
+  {
+    name: 'LIBRATO_EMAIL',
+    env: ['production'],
+  },
+  {
+    name: 'LIBRATO_TOKEN',
+    env: ['production'],
+  },
 ];
 
 
