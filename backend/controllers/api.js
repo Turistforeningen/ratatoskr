@@ -185,7 +185,7 @@ router.post(['/user/sms-code/generate'], (req, res, next) => {
           : 'unknown error';
         const status = err.status || 503;
 
-        librato.increment(req, 'error');
+        librato.increment(req, 'sherpa-error');
         res
           .status(status)
           .json({error: errorMessage});
@@ -212,7 +212,7 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
       } else {
         const { users, token } = data;
         if (!users || !token) {
-          librato.increment(req, 'error');
+          librato.increment(req, 'no-users-set');
           res
             .status(503)
             .json({error: 'unknown error'});
@@ -229,6 +229,8 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
         ? err.payload.error
         : 'unknown error';
       const status = err.status || 503;
+
+      librato.increment(req, 'sherpa-error');
       res
         .status(status)
         .json({error: errorMessage});
@@ -283,6 +285,12 @@ router.post('/user/reset', (req, res, next) => {
       librato.increment(req, 'error');
       res.json({error: 'sherpa error'});
     });
+});
+
+
+// Reset password
+router.post('/user/logout', (req, res, next) => {
+  res.json({user: {}});
 });
 
 
