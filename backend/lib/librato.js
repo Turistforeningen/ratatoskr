@@ -44,7 +44,7 @@ const createName = (req, key) => {
       .substr(1)
       .replace(/[:.]/g, '')
       .replace(/\//g, '.')
-      .replace(/login\.\d+$/, 'ID');
+      .replace(/login\.\d+$/, 'login.ID');
     const method = req.method.toLowerCase();
 
     return `${LIBRATO_PREFIX}.api.${method}.${pathName}.${key}`;
