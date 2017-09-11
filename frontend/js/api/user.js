@@ -21,13 +21,10 @@ export const login = (email, password, userId) => {
         res.json()
           .then((json) => {
             resolve({...json, HEADER_OPTS: headerOpts});
-          })
-          .catch((err) => {
-            reject(new Error(err));
           });
       })
       .catch((err) => {
-        reject(new Error(err));
+        reject(err);
       });
   });
 
@@ -59,7 +56,7 @@ export const sendSMS = (phoneNumber) => {
           });
       })
       .catch((err) => {
-        reject(new Error(err));
+        reject(err);
       });
   });
 
@@ -82,7 +79,8 @@ export const verifySMScode = (phoneNumber, code) => {
           reject(res.text().then((msg) => new Error(msg)));
         }
 
-        res.json()
+        res
+          .json()
           .then((json) => {
             resolve({...json, HEADER_OPTS: headerOpts});
           })
@@ -91,7 +89,7 @@ export const verifySMScode = (phoneNumber, code) => {
           });
       })
       .catch((err) => {
-        reject(new Error(err));
+        reject(err);
       });
   });
 
@@ -117,13 +115,10 @@ export const loginAdminToken = (userId, token) => {
         res.json()
           .then((json) => {
             resolve({...json, HEADER_OPTS: headerOpts});
-          })
-          .catch((err) => {
-            reject(new Error(err));
           });
       })
       .catch((err) => {
-        reject(new Error(err));
+        reject(err);
       });
   });
 
@@ -149,13 +144,10 @@ export const selectUser = (phoneNumber, userId, smsVerifyToken) => {
         res.json()
           .then((json) => {
             resolve({...json, HEADER_OPTS: headerOpts});
-          })
-          .catch((err) => {
-            reject(new Error(err));
           });
       })
       .catch((err) => {
-        reject(new Error(err));
+        reject(err);
       });
   });
 
@@ -181,9 +173,6 @@ export const reset = (email) => {
         res.json()
           .then((json) => {
             resolve({...json, HEADER_OPTS: headerOpts});
-          })
-          .catch((err) => {
-            reject(new Error(err));
           });
       });
   });

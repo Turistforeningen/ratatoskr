@@ -8,6 +8,7 @@ import {
   getWasSuccess,
 } from '../../../selectors/user/reset';
 import { reset, closeReset } from '../../../actions/user/reset';
+import { getLastUsedEmail } from '../../../selectors/user/loginDNTUser';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
 import ExternalA from '../../common/ExternalA.jsx';
@@ -17,10 +18,25 @@ import Success from './Success.jsx';
 
 
 class Reset extends Component {
+  constructor(props) {
+    super(props);
+    const { email, lastUsedEmail } = props;
+
+    this.state = {
+      valid: !!(email || lastUsedEmail || '').length,
+    };
+  }
+
+  @autobind
+  onChange(e) {
+    const email = this.emailInput.value.trim();
+    this.setState({ valid: !!email.length });
+  }
+
   @autobind
   onSubmit(e) {
     const { actions } = this.props;
-    actions.reset(this.emailInput.value);
+    actions.reset(this.emailInput.value.trim());
     e.preventDefault();
   }
 
@@ -34,8 +50,14 @@ class Reset extends Component {
 
   render() {
     const {
-      pending, errorMessage, onCancel, wasSuccess,
+      pending,
+      errorMessage,
+      onCancel,
+      wasSuccess,
+      email,
+      lastUsedEmail,
     } = this.props;
+    const { valid } = this.state;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
@@ -52,6 +74,8 @@ class Reset extends Component {
                 ref={(node) => { this.emailInput = node; }}
                 defaultValue=""
                 disabled={pending}
+                defaultValue={email || lastUsedEmail}
+                onChange={this.onChange}
                 type="email" />
             </div>
             <div className="login-form__button-container">
@@ -65,6 +89,7 @@ class Reset extends Component {
                 data-spinner-lines={12}
                 className="success"
                 type="submit"
+                disabled={!valid}
               >
                 Gjenopprett
               </LaddaButton>
@@ -100,6 +125,7 @@ const mapStateToProps = (state) => ({
   pending: getIsPending(state),
   errorMessage: getErrorMessage(state),
   wasSuccess: getWasSuccess(state),
+  lastUsedEmail: getLastUsedEmail(state),
 });
 
 

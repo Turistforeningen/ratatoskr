@@ -20,11 +20,13 @@ export const checkStatus = (res) => {
     refreshToken: res.headers.get('RATATOSKR-RT'),
   };
   if (res.status >= 200 && res.status < 300) {
-    return {headerOpts, res};
+    return Promise.resolve({headerOpts, res});
   }
 
-  const error = new Error(res.statusText);
-  error.res = res;
-
-  throw error;
+  return res.json()
+    .then((json) => {
+      const error = new Error(json.error || 'unknown error');
+      error.res = res;
+      return Promise.reject(error);
+    });
 };

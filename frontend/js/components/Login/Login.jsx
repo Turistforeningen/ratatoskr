@@ -5,18 +5,15 @@ import { autobind } from 'core-decorators';
 import { getIsOffline } from '../../selectors/offline';
 import { getUser } from '../../selectors/user/data';
 import { getIsPending as getIsUpdating } from '../../selectors/user/update';
-import {
-  getIsPending,
-  getUserList,
-  getErrorMessage,
-} from '../../selectors/user/login';
+import { getLoginMethod } from '../../selectors/user/login';
 import {
   getIsActive as getIsAdminTokenLoginActive,
 } from '../../selectors/user/loginAdminToken';
 import {
   getSmsVerifyToken,
 } from '../../selectors/user/loginSMSselectUser';
-import { login, clearUsers } from '../../actions/user/login';
+import { clearErrors, setLoginMethod } from '../../actions/user/login';
+import { loginDNTUser, clearUsers } from '../../actions/user/loginDNTUser';
 import { sendSMS } from '../../actions/user/loginSMSsend';
 import { verifySMScode } from '../../actions/user/loginSMSverify';
 import {
@@ -28,7 +25,6 @@ import AdminToken from './AdminToken/AdminToken.jsx';
 import Reset from './Reset/Reset.jsx';
 import DNTUser from './DNTUser/DNTUser.jsx';
 import SMS from './SMS/SMS.jsx';
-import UserSelect from './UserSelect/UserSelect.jsx';
 
 
 class Login extends Component {
@@ -39,7 +35,7 @@ class Login extends Component {
       password: null,
       reset: false,
       phoneNumber: null,
-      view: 'sms',
+      view: props.loginMethod || 'sms',
     };
   }
 
@@ -47,7 +43,7 @@ class Login extends Component {
   login(email, password, userId) {
     const { actions } = this.props;
     this.setState({email, password});
-    actions.login(email, password, userId);
+    actions.loginDNTUser(email, password, userId);
   }
 
   @autobind
@@ -70,7 +66,7 @@ class Login extends Component {
     if (view === 'sms') {
       actions.selectUser(phoneNumber, userId, smsVerifyToken);
     } else {
-      actions.login(this.state.email, this.state.password, userId);
+      actions.loginDNTUser(this.state.email, this.state.password, userId);
     }
   }
 
@@ -87,23 +83,46 @@ class Login extends Component {
 
   @autobind
   toggleReset() {
+    const { actions } = this.props;
+
+    actions.clearErrors();
+
     this.setState({
       view: 'reset',
     });
+
+    // Scroll to top
+    window.scrollTo(0, 0);
   }
 
   @autobind
   toggleDNTUser() {
+    const { actions } = this.props;
+
+    actions.clearErrors();
+    actions.setLoginMethod('dnt-user');
+
     this.setState({
       view: 'dnt-user',
     });
+
+    // Scroll to top
+    window.scrollTo(0, 0);
   }
 
   @autobind
   toggleSMS() {
+    const { actions } = this.props;
+
+    actions.clearErrors();
+    actions.setLoginMethod('sms');
+
     this.setState({
       view: 'sms',
     });
+
+    // Scroll to top
+    window.scrollTo(0, 0);
   }
 
   @autobind
@@ -131,32 +150,23 @@ class Login extends Component {
       : (
         <DNTUser
           onSubmit={this.login}
-          toggleReset={this.toggleReset} />
+          toggleReset={this.toggleReset}
+          onSelect={this.selectUser}
+          onCancel={this.toggleDNTUser} />
       );
   }
 
   @autobind
   renderReset() {
     const { userList } = this.props;
-    const { reset } = this.state;
+    const { reset, email } = this.state;
 
     return !reset
       ? null
       : (
         <Reset
-          onCancel={this.toggleReset}/>
-      );
-  }
-
-  @autobind
-  renderUserSelect() {
-    const { userList } = this.props;
-    return !userList.length
-      ? null
-      : (
-        <UserSelect
-          onSelect={this.selectUser}
-          onCancel={this.toggleDNTUser} />
+          onCancel={this.toggleReset}
+          email={email} />
       );
   }
 
@@ -165,7 +175,6 @@ class Login extends Component {
       user,
       isOffline,
       isUpdating,
-      errorMessage,
       adminTokenLoginIsActive,
     } = this.props;
 
@@ -192,6 +201,8 @@ class Login extends Component {
         return (
           <DNTUser
             onSubmit={this.login}
+            onSelect={this.selectUser}
+            onResetuserList={this.resetUserSelectList}
             toggleReset={this.toggleReset}
             toggleSMS={this.toggleSMS} />
         );
@@ -212,12 +223,10 @@ class Login extends Component {
 
 
 const mapStateToProps = (state) => ({
+  loginMethod: getLoginMethod(state),
   user: getUser(state),
   isUpdating: getIsUpdating(state),
   isOffline: getIsOffline(state),
-  isPending: getIsPending(state),
-  errorMessage: getErrorMessage(state),
-  userList: getUserList(state),
   adminTokenLoginIsActive: getIsAdminTokenLoginActive(state),
   smsVerifyToken: getSmsVerifyToken(state),
 });
@@ -226,12 +235,14 @@ const mapStateToProps = (state) => ({
 const connectedComponent = connect(
   mapStateToProps,
   {
-    login,
+    loginDNTUser,
     clearUsers,
     sendSMS,
     verifySMScode,
     selectUser,
     SMSclearUsers,
+    clearErrors,
+    setLoginMethod,
   },
   (stateProps, dispatchProps, ownProps) =>
     Object.assign({}, ownProps, stateProps, {actions: dispatchProps})

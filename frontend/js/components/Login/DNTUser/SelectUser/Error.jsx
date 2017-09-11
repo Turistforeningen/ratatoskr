@@ -6,14 +6,17 @@ const Error = (props) => {
     return null;
   }
 
-  let msg = 'Det oppstod et problem under verififiseringen av koden. ' +
-            'Vennligst prøv igjen.';
+  let msg = 'Det oppstod et problem under innlogging. Vennligst prøv igjen.';
 
-  if (props.error === 'invalid') {
-    msg = 'Koden du skrev inn er ikke riktig.';
+  if (props.error === 'invalid credentials') {
+    msg = 'Du har oppgitt feil brukernavn og/eller passord. ' +
+          'Vennligst prøv igjen.';
   } else if (props.error === 'network error') {
     msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';
+  } else if (props.error === 'sherpa error') {
+    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
+          'Prøv igjen eller kom tilbake senere.';
   }
 
   return (

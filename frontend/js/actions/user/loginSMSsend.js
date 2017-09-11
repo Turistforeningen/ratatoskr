@@ -11,9 +11,8 @@ export const sendSMS = (inputPhoneNumber) => (dispatch, getState) => {
   const phoneNumber = inputPhoneNumber.trim();
   if (!phoneNumber) {
     dispatch({
-      type: 'USER_LOGIN_SEND_SMS_COMMIT',
+      type: 'USER_LOGIN_SEND_SMS_ROLLBACK',
       payload: {
-        VERSION_TAG: null,
         error: 'invalid phone number',
       },
     });
@@ -22,10 +21,11 @@ export const sendSMS = (inputPhoneNumber) => (dispatch, getState) => {
 
   dispatch({
     type: 'USER_LOGIN_SEND_SMS',
+    phoneNumber,
   });
 
-  return APIsendSMS(phoneNumber).then(
-    (response) => {
+  return APIsendSMS(phoneNumber)
+    .then((response) => {
       dispatch({
         type: 'USER_LOGIN_SEND_SMS_COMMIT',
         payload: response,
@@ -33,12 +33,16 @@ export const sendSMS = (inputPhoneNumber) => (dispatch, getState) => {
 
       // Scroll to top
       window.scrollTo(0, 0);
-    },
-    (error) => {
+    })
+    .catch((err) => {
       dispatch({
         type: 'USER_LOGIN_SEND_SMS_ROLLBACK',
-        message: error.message || 'unknown error',
+        payload: {
+          error: err.message || 'unknown error',
+        },
       });
-    }
-  );
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+    });
 };

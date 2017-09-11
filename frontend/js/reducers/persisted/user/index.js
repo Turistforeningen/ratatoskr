@@ -1,6 +1,36 @@
 import { combineReducers } from 'redux';
 
 
+const loginMethod = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_LOGIN_SET_METHOD':
+      return action.method;
+    default:
+      return state;
+  }
+};
+
+
+const email = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_LOGIN':
+      return action.email;
+    default:
+      return state;
+  }
+};
+
+
+const phoneNumber = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_LOGIN_SEND_SMS':
+      return action.phoneNumber;
+    default:
+      return state;
+  }
+};
+
+
 const data = (state = {}, action) => {
   switch (action.type) {
     case 'USER_UPDATE_COMMIT':
@@ -39,6 +69,9 @@ const lastUpdated = (state = null, action) => {
 
 
 const userReducer = combineReducers({
+  loginMethod,
+  email,
+  phoneNumber,
   data,
   lastUpdated,
 });

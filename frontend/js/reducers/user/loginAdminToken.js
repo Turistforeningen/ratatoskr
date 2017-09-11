@@ -30,6 +30,7 @@ const pending = (state = false, action) => {
 
 const errorMessage = (state = null, action) => {
   switch (action.type) {
+    case 'USER_LOGIN_CLEAR_ERROR':
     case 'USER_LOGIN_ADMIN_TOKEN':
       return null;
     case 'USER_LOGIN_ADMIN_TOKEN_COMMIT':

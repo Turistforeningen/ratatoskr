@@ -22,6 +22,8 @@ class Verify extends Component {
     super(props);
     this.state = {
       resent: false,
+      valid: false,
+      resendThroughError: false,
     };
   }
 
@@ -43,10 +45,15 @@ class Verify extends Component {
   @autobind
   onSubmit(e) {
     const { onSubmit } = this.props;
-    const code = this.codeInput.value;
+    const code = this.codeInput.value.trim();
 
     e.preventDefault();
     onSubmit(code);
+  }
+
+  @autobind
+  onChange(e) {
+    this.setState({ valid: !!this.codeInput.value.trim() });
   }
 
   @autobind
@@ -70,13 +77,17 @@ class Verify extends Component {
       sendPending,
       sendErrorMessage,
     } = this.props;
-    const { resent } = this.state;
+    const { resent, valid } = this.state;
 
     return (
       <div>
         <form class="login-form" onSubmit={this.onSubmit}>
           <h4>Skriv inn koden du fikk på SMS</h4>
-          <Error error={errorMessage} />
+          <Error
+            error={errorMessage}
+            resent={this.resent}
+            sendPending={this.sendPending}
+            onResendCode={this.onResendCode} />
           <Intro error={errorMessage} />
           <div>
             <label htmlFor="login-form-code">Innloggingskode</label>
@@ -85,6 +96,7 @@ class Verify extends Component {
               ref={(node) => { this.codeInput = node; }}
               defaultValue=""
               disabled={pending}
+              onChange={this.onChange}
               type="number"/>
             <br />
           </div>
@@ -98,6 +110,7 @@ class Verify extends Component {
               data-spinner-color="#ddd"
               data-spinner-lines={12}
               className="success"
+              disabled={!valid}
             >
               Logg inn
             </LaddaButton>

@@ -6,19 +6,10 @@ const Error = (props) => {
     return null;
   }
 
-  let msg = 'Det oppstod et problem under innlogging. Vennligst prøv igjen.';
-
-  if (props.error === 'invalid credentials') {
-    msg = 'Du har oppgitt feil brukernavn og/eller passord. ' +
-          'Vennligst prøv igjen.';
-  } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
-          'Pass på at du er tilkoblet internett og prøv igjen.';
-  }
-
   return (
     <div className="login-form__error">
-      {msg}
+      Det oppstod et problem når vi forsøkte å hente medlemsinformasjonen.
+      {' '}Venligst prøv igjen.
     </div>
   );
 };

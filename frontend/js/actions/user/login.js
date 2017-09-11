@@ -5,47 +5,12 @@ import {
 } from '../../api/user';
 
 
-export const login = (inputEmail, password, userId) => (dispatch, getState) => {
-  if (getIsPending(getState())) {
-    return Promise.resolve();
-  }
-
-  const email = inputEmail.trim();
-  if (!email || !password) {
-    dispatch({
-      type: 'USER_LOGIN_COMMIT',
-      payload: {
-        VERSION_TAG: null,
-        error: 'invalid credentials',
-      },
-    });
-    return Promise.resolve();
-  }
-
-  dispatch({
-    type: 'USER_LOGIN',
-  });
-
-  return APIlogin(email, password, userId).then(
-    (response) => {
-      dispatch({
-        type: 'USER_LOGIN_COMMIT',
-        payload: response,
-      });
-
-      // Scroll to top
-      window.scrollTo(0, 0);
-    },
-    (error) => {
-      dispatch({
-        type: 'USER_LOGIN_ROLLBACK',
-        message: error.message || 'unknown error',
-      });
-    }
-  );
-};
+export const setLoginMethod = (method) => ({
+  type: 'USER_LOGIN_SET_METHOD',
+  method,
+});
 
 
-export const clearUsers = () => ({
-  type: 'USER_LOGIN_RESET_USER_LIST',
+export const clearErrors = () => ({
+  type: 'USER_LOGIN_CLEAR_ERROR',
 });

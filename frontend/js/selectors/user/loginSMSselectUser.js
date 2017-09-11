@@ -1,3 +1,5 @@
+import namesort from '../../lib/namesort';
+
 
 export const getIsPending = (state) =>
   state.user.loginSMSselectUser.pending;
@@ -8,7 +10,7 @@ export const getErrorMessage = (state) =>
 
 
 export const getUserList = (state) =>
-  state.user.loginSMSselectUser.users;
+  state.user.loginSMSselectUser.users.sort(namesort('firstName'));
 
 
 export const getHasUsers = (state) =>

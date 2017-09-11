@@ -1,8 +1,2 @@
-
-export const getIsPending = (state) => state.user.login.pending;
-
-
-export const getErrorMessage = (state) => state.user.login.errorMessage;
-
-
-export const getUserList = (state) => state.user.login.users;
+// eslint-disable-next-line
+export const getLoginMethod = (state) => state.persisted.user.loginMethod;

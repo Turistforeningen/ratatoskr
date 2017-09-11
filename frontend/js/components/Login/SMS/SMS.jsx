@@ -34,6 +34,9 @@ class SMS extends Component {
   onSelectUser(userId) {
     const { onSelectUser } = this.props;
     onSelectUser(userId);
+
+    // Scroll to top
+    window.scrollTo(0, 0);
   }
 
   @autobind

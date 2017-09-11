@@ -136,22 +136,23 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
               res.json({user: user.getAPIRepresentation()});
             } else {
               librato.increment(req, 'missing-userid');
-              res.json({error: 'missing user id'});
+              res.status(503).json({error: 'missing user id'});
             }
           })
           .catch((err) => {
             librato.increment(req, 'load-sherpa-data-error');
-            res.json({err});
+            res.status(503).json({error: err});
           });
       }
     })
     .catch((err) => {
-      const error = err.message === 'auth-check-error'
-        ? 'invalid credentials'
-        : (err.message || 'error');
-
-      librato.increment(req, 'error');
-      res.json({error});
+      if (err.message === 'auth-check-error') {
+        librato.increment(req, 'invalid-credentials');
+        res.status(403).json({error: 'invalid credentials'});
+      } else {
+        librato.increment(req, 'error');
+        res.status(503).json({error: (err.message || 'error')});
+      }
     });
 };
 
@@ -205,39 +206,50 @@ router.post(['/user/sms-code/verify'], (req, res, next) => {
   if (!phoneNumber) {
     librato.increment(req, 'invalid-phonenumber');
     res.json({error: 'invalid phone number'});
-  }
+  } else {
+    const body = {phoneNumber, code};
+    sherpa.client.post('users/auth/verify-sms-code/', body)
+      .then((data) => {
+        if (data.error) {
+          const errorMessage = data.payload && data.payload.error
+            ? (data.payload.error || 'error')
+            : 'unknown error';
+          const status = data.status || 503;
 
-  const body = {phoneNumber, code};
-  sherpa.client.post('users/auth/verify-sms-code/', body)
-    .then((data) => {
-      if (data.users && data.users.length === 1) {
-        login(req, res, next, phoneNumber, data.token, null, true);
-      } else {
-        const { users, token } = data;
-        if (!users || !token) {
-          librato.increment(req, 'no-users-set');
+          librato.increment(req, 'invalid-code');
           res
-            .status(503)
-            .json({error: 'unknown error'});
+            .status(status)
+            .json({error: errorMessage});
+        } else if (data.users && data.users.length === 1) {
+          login(req, res, next, phoneNumber, data.token, null, true);
+        } else {
+          const { users, token } = data;
+          if (!users || !token) {
+            librato.increment(req, 'no-users-set');
+            res
+              .status(503)
+              .json({error: 'unknown error'});
+          } else {
+            librato.increment(req, 'return-users');
+            res.json({
+              users,
+              smsVerifyToken: token,
+            });
+          }
         }
-        librato.increment(req, 'return-users');
-        res.json({
-          users,
-          smsVerifyToken: token,
-        });
-      }
-    })
-    .catch((err) => {
-      const errorMessage = err.payload && err.payload.error
-        ? err.payload.error
-        : 'unknown error';
-      const status = err.status || 503;
+      })
+      .catch((err) => {
+        const errorMessage = err.payload && err.payload.error
+          ? err.payload.error
+          : 'unknown error';
+        const status = err.status || 503;
 
-      librato.increment(req, 'sherpa-error');
-      res
-        .status(status)
-        .json({error: errorMessage});
-    });
+        librato.increment(req, 'sherpa-error');
+        res
+          .status(status)
+          .json({error: errorMessage});
+      });
+  }
 });
 
 

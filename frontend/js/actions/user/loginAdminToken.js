@@ -1,4 +1,4 @@
-import { getIsPending } from '../../selectors/user/login';
+import { getIsPending } from '../../selectors/user/loginAdminToken';
 import { loginAdminToken as APIloginAdminToken } from '../../api/user';
 
 

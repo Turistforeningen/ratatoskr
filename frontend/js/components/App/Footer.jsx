@@ -29,11 +29,11 @@ class Footer extends Component {
     const iiStr = lastUpdated.getMinutes().toString();
     const II = pad.substring(0, 2 - iiStr.length) + iiStr;
 
-    const dateStr = `${DD}.${MM}.${YYYY} ${HH}:${II}`;
+    const dateStr = `${DD}.${MM}.${YYYY} kl ${HH}:${II}`;
 
     return (
       <div className="updated-timestamp">
-        Medlemsdetaljer sist oppdatert: {dateStr}
+        Medlemsinformasjon sist oppdatert: {dateStr}
       </div>
     );
   }

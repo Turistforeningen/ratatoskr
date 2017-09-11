@@ -12,10 +12,9 @@ export const verifySMScode = (inputPhoneNumber, inputCode) =>
     const code = inputCode.trim();
     if (!phoneNumber || !code) {
       dispatch({
-        type: 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT',
+        type: 'USER_LOGIN_VERIFY_SMS_CODE_ROLLBACK',
         payload: {
-          VERSION_TAG: null,
-          error: 'invalid credentials',
+          error: 'invalid',
         },
       });
       return Promise.resolve();
@@ -25,8 +24,8 @@ export const verifySMScode = (inputPhoneNumber, inputCode) =>
       type: 'USER_LOGIN_VERIFY_SMS_CODE',
     });
 
-    return APIverifySMScode(phoneNumber, code).then(
-      (response) => {
+    return APIverifySMScode(phoneNumber, code)
+      .then((response) => {
         dispatch({
           type: 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT',
           payload: response,
@@ -34,14 +33,18 @@ export const verifySMScode = (inputPhoneNumber, inputCode) =>
 
         // Scroll to top
         window.scrollTo(0, 0);
-      },
-      (error) => {
+      })
+      .catch((err) => {
         dispatch({
           type: 'USER_LOGIN_VERIFY_SMS_CODE_ROLLBACK',
-          message: error.message || 'unknown error',
+          payload: {
+            error: err.message || 'unknown error',
+          },
         });
-      }
-    );
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+      });
   };
 
 

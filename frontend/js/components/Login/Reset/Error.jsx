@@ -11,10 +11,6 @@ const Error = (props) => {
   if (props.error === 'network error') {
     msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';
-  } else if (props.error === 'sherpa error') {
-    msg = 'Det oppstod et problem med tjenesten. ' +
-          'Vi jobber med å rette feilen, og må be om at du forsøker ' +
-          'igjen senere.';
   } else if (props.error === 'unregistered_email') {
     msg = (
       <span>
@@ -27,8 +23,7 @@ const Error = (props) => {
     );
   } else if (props.error === 'unknown_email') {
     msg = 'Denne e-postadressen er ikke registrert på noen av våre brukere. ' +
-          'Er det denne adressen du er registrert med? Sjekk også at du har ' +
-          'skrevet adressen riktig.';
+          'Kontrollér at du har skrevet adressen riktig.';
   } else if (props.error === 'empty email') {
     msg = 'Du må skrive inn e-postadressen din.';
   }

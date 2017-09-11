@@ -6,11 +6,11 @@ import {
   getUserList,
   getIsPending,
   getErrorMessage,
-} from '../../../../selectors/user/loginSMSselectUser';
+} from '../../../../selectors/user/loginDNTUser';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
-import Intro from './Intro.jsx';
 import Error from './Error.jsx';
+import Intro from './Intro.jsx';
 
 
 class SelectUser extends Component {
@@ -23,7 +23,7 @@ class SelectUser extends Component {
 
   @autobind
   select(userId) {
-    return (e) => {
+    return () => {
       const { onSelect, isPending } = this.props;
       if (!isPending) {
         onSelect(userId);
@@ -34,20 +34,24 @@ class SelectUser extends Component {
 
   @autobind
   onCancel(e) {
-    const { onCancel } = this.props;
+    const { onResetuserList } = this.props;
     e.preventDefault();
-    onCancel();
+    onResetuserList();
   }
 
   render() {
     const { selectedUserId } = this.state;
-    const { userList, isPending, errorMessage } = this.props;
+    const {
+      userList,
+      isPending,
+      errorMessage,
+    } = this.props;
 
     return (
       <div>
         <h4>Vi fant flere brukere</h4>
-        <Intro error={errorMessage} />
         <Error error={errorMessage} />
+        <Intro error={errorMessage} />
 
         {userList.map((user) => (
           <div
@@ -97,7 +101,6 @@ class SelectUser extends Component {
             Avbryt
           </button>
         </div>
-
       </div>
     );
   }

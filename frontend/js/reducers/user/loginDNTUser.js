@@ -17,13 +17,13 @@ const pending = (state = false, action) => {
 const errorMessage = (state = null, action) => {
   switch (action.type) {
     case 'USER_LOGIN':
-      return null;
     case 'USER_LOGIN_COMMIT':
+    case 'USER_LOGIN_CLEAR_ERROR':
+      return null;
+    case 'USER_LOGIN_ROLLBACK':
       return action.payload.error
         ? action.payload.error
-        : null;
-    case 'USER_LOGIN_ROLLBACK':
-      return 'network error';
+        : 'network error';
     default:
       return state;
   }
@@ -44,11 +44,11 @@ const users = (state = [], action) => {
 };
 
 
-const loginReducer = combineReducers({
+const loginDNTUserReducer = combineReducers({
   pending,
   errorMessage,
   users,
 });
 
 
-export default loginReducer;
+export default loginDNTUserReducer;

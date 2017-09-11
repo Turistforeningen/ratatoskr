@@ -54,6 +54,18 @@ a {
   }
 }
 
+.block {
+  display: inline;
+}
+
+.inline {
+  display: inline;
+}
+
+.float-right {
+  float: right;
+}
+
 header {
   margin: 0 auto;
   max-width: 480px;
@@ -195,7 +207,8 @@ footer {
 }
 
 
-button {
+button,
+.btn {
   display: inline-block;
   margin: 0;
   padding: 4px 15px;
@@ -222,6 +235,11 @@ button {
 
   &.block {
     display: block;
+  }
+
+  &.btn-sm {
+    padding: 3px 10px;
+    font-size: .8em;
   }
 }
 

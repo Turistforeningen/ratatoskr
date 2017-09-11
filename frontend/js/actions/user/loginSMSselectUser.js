@@ -24,8 +24,8 @@ export const selectUser = (inputPhoneNumber, userId, smsVerifyToken) =>
       type: 'USER_LOGIN_SMS_SELECT_USER',
     });
 
-    return APIselectUser(phoneNumber, userId, smsVerifyToken).then(
-      (response) => {
+    return APIselectUser(phoneNumber, userId, smsVerifyToken)
+      .then((response) => {
         dispatch({
           type: 'USER_LOGIN_SMS_SELECT_USER_COMMIT',
           payload: response,
@@ -33,14 +33,15 @@ export const selectUser = (inputPhoneNumber, userId, smsVerifyToken) =>
 
         // Scroll to top
         window.scrollTo(0, 0);
-      },
-      (error) => {
+      })
+      .catch((err) => {
         dispatch({
           type: 'USER_LOGIN_SMS_SELECT_USER_ROLLBACK',
-          message: error.message || 'unknown error',
+          payload: {
+            error: err.message || 'unknown error',
+          },
         });
-      }
-    );
+      });
   };
 
 

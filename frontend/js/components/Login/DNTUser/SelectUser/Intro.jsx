@@ -8,8 +8,12 @@ const Intro = (props) => {
 
   return (
     <div className="login-form__intro">
-      Vi fant flere brukere som er tilknyttet samme mobilnummer. Velg hvem av
-      {' '}dem du vil bruke.
+      <p>
+        Det er flere brukere som har samme kombinasjon av epost og passord.
+      </p>
+      <p>
+        Velg den brukeren du ønsker å logge inn med.
+      </p>
     </div>
   );
 };

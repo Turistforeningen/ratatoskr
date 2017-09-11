@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators';
 import {
   getIsPending,
   getErrorMessage,
+  getLastUsedPhoneNumber,
 } from '../../../../selectors/user/loginSMSsend';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
@@ -14,10 +15,25 @@ import Intro from './Intro.jsx';
 
 
 class Send extends Component {
+  constructor(props) {
+    super(props);
+    const { phoneNumber, lastUsedPhoneNumber } = props;
+
+    this.state = {
+      valid: !!(phoneNumber || lastUsedPhoneNumber || '').length,
+    };
+  }
+
+  @autobind
+  onChange(e) {
+    const phoneNumber = this.phoneNumberInput.value.trim();
+    this.setState({ valid: !!phoneNumber.length });
+  }
+
   @autobind
   onSubmit(e) {
     const { onSubmit } = this.props;
-    const phoneNumber = this.phoneNumberInput.value;
+    const phoneNumber = this.phoneNumberInput.value.trim();
 
     e.preventDefault();
     onSubmit(phoneNumber);
@@ -31,21 +47,30 @@ class Send extends Component {
   }
 
   render() {
-    const { pending, errorMessage, phoneNumber } = this.props;
+    const {
+      pending,
+      errorMessage,
+      phoneNumber,
+      lastUsedPhoneNumber,
+    } = this.props;
+    const { valid } = this.state;
 
     return (
       <div>
         <form class="login-form" onSubmit={this.onSubmit}>
           <h4>Logg inn med SMS</h4>
-          <Error error={errorMessage} />
+          <Error
+            error={errorMessage}
+            toggleDNTUser={this.toggleDNTUser} />
           <Intro error={errorMessage} />
           <div>
             <label htmlFor="login-form-phone">Mobilnummer</label>
             <input
               id="login-form-phone"
               ref={(node) => { this.phoneNumberInput = node; }}
-              defaultValue={phoneNumber}
+              defaultValue={phoneNumber || lastUsedPhoneNumber || ''}
               disabled={pending}
+              onChange={this.onChange}
               type="text"/>
           </div>
           <div className="login-form__button-container">
@@ -58,6 +83,7 @@ class Send extends Component {
               data-spinner-color="#ddd"
               data-spinner-lines={12}
               className="success"
+              disabled={!valid}
             >
               Send SMS
             </LaddaButton>
@@ -81,6 +107,7 @@ class Send extends Component {
 const mapStateToProps = (state) => ({
   pending: getIsPending(state),
   errorMessage: getErrorMessage(state),
+  lastUsedPhoneNumber: getLastUsedPhoneNumber(state),
 });
 
 
