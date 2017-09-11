@@ -6,7 +6,7 @@ const redis = require('../lib/redis');
 const settings = require('../lib/settings');
 
 
-const CREDENTIALS = new Buffer(
+const CREDENTIALS = Buffer.from(
   `${settings.OAUTH_CLIENT_ID}:${settings.OAUTH_CLIENT_SECRET}`
 ).toString('base64');
 
