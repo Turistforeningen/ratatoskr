@@ -56,7 +56,7 @@ const getUserTokensFromSherpa = (email, password, userId, smsAuth) => {
 
   return tokenRequest(body)
     .then((result) => result.json())
-    .catch((err) => Promise.reject(err.status));
+    .catch((err) => Promise.reject(new Error(err.status)));
 };
 
 
@@ -114,10 +114,14 @@ const clientAPIRequest = (path, options = {}, retrying = false) => {
                 );
             } else {
               result.json()
-                .then((json) => reject(
-                  {payload: json, status: result.status}
+                .then((json) => resolve(
+                  {
+                    error: true,
+                    payload: json,
+                    status: result.status,
+                  }
                 ))
-                .catch(() => reject('Sherpa API error'));
+                .catch(() => reject(new Error('sherpa error')));
             }
           })
           .catch(errorResolve(`clientAPIRequest.fetch - ${path}`));
@@ -144,7 +148,7 @@ const userAPIRequest =
       fetch(url, fetchOptions)
         .then((result) => {
           if (result.status === 403 && !retrying) {
-            reject(403);
+            reject(new Error(403));
           } else if (result.status >= 200 && result.status <= 299) {
             result.json()
               .then((json) => resolve(json))
@@ -152,7 +156,7 @@ const userAPIRequest =
                 errorResolve(`userAPIRequest.invalid_json - ${path}`)
               );
           } else {
-            reject('Sherpa API error');
+            reject(new Error('sherpa error'));
           }
         })
         .catch(errorResolve(`userAPIRequest.fetch - ${path}`));
@@ -206,21 +210,21 @@ const userAuthenticate = (email, password, userId = null, smsAuth = false) => {
       })
       .catch((err) => {
         // Check if there is duplicate users in Sherpa
-        if (err === 401 && !userId) {
+        if (err.message === '401' && !userId) {
           const body = {email, password};
           clientPostAPIRequest('users/auth-check/', body)
             .then((users) => {
               if (users && users.length) {
                 resolve({users});
               } else {
-                reject();
+                reject(new Error('auth-check-error'));
               }
             })
             .catch(() => {
-              reject('auth-check-error');
+              reject(new Error('sherpa error'));
             });
         } else {
-          reject();
+          reject(new Error('sherpa error'));
         }
       });
   });

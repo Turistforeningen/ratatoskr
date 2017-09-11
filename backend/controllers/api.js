@@ -146,9 +146,9 @@ const login = (req, res, next, email, password, userId, smsAuth = false) => {
       }
     })
     .catch((err) => {
-      const error = err === 'auth-check-error'
-        ? (err || 'error')
-        : 'invalid credentials';
+      const error = err.message === 'auth-check-error'
+        ? 'invalid credentials'
+        : (err.message || 'error');
 
       librato.increment(req, 'error');
       res.json({error});
@@ -176,19 +176,22 @@ router.post(['/user/sms-code/generate'], (req, res, next) => {
     const body = {phoneNumber};
     sherpa.client.post('users/auth/generate-sms-code/', body)
       .then((data) => {
-        librato.increment(req, 'ok');
-        res.json({data});
+        if (data.error) {
+          const errorMessage = data.payload && data.payload.error
+            ? (data.payload.error || 'error')
+            : 'unknown error';
+          const status = data.status || 503;
+
+          librato.increment(req, 'sherpa-error');
+          res.status(status).json({error: errorMessage});
+        } else {
+          librato.increment(req, 'ok');
+          res.json({data});
+        }
       })
       .catch((err) => {
-        const errorMessage = err.payload && err.payload.error
-          ? (err.payload.error || 'error')
-          : 'unknown error';
-        const status = err.status || 503;
-
         librato.increment(req, 'sherpa-error');
-        res
-          .status(status)
-          .json({error: errorMessage});
+        res.status(503).json({error: 'sherpa error'});
       });
   }
 });
