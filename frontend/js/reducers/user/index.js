@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import update from './update';
+import logout from './logout';
 import login from './login';
 import loginSMSsend from './loginSMSsend';
 import loginSMSverify from './loginSMSverify';
@@ -10,6 +11,7 @@ import reset from './reset';
 
 
 const userReducer = combineReducers({
+  logout,
   login,
   loginSMSsend,
   loginSMSverify,
