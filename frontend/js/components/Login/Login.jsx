@@ -39,7 +39,7 @@ class Login extends Component {
       password: null,
       reset: false,
       phoneNumber: null,
-      view: 'dnt-user',
+      view: 'sms',
     };
   }
 
@@ -207,15 +207,6 @@ class Login extends Component {
             onResetuserList={this.resetUserSelectList} />
         );
     }
-
-    // return (
-    //   <div>
-    //     {this.renderSMS()}
-    //     {this.renderForm()}
-    //     {this.renderReset()}
-    //     {this.renderUserSelect()}
-    //   </div>
-    // );
   }
 }
 
