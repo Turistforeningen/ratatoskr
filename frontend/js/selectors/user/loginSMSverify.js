@@ -1,6 +1,6 @@
 
 export const getIsActive = (state) =>
-  state.user.loginSMSverify.active;
+  state.persisted.user.smsVerificationInProgress;
 
 
 export const getIsPending = (state) =>

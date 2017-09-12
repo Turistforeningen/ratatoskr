@@ -1,4 +1,3 @@
-import { getIsPending } from '../../selectors/user/login';
 import {
   login as APIlogin,
   reset as APIreset,

@@ -12,6 +12,7 @@ import {
 import {
   getSmsVerifyToken,
 } from '../../selectors/user/loginSMSselectUser';
+import { getLastUsedPhoneNumber } from '../../selectors/user/loginSMSsend';
 import { clearErrors, setLoginMethod } from '../../actions/user/login';
 import { loginDNTUser, clearUsers } from '../../actions/user/loginDNTUser';
 import { sendSMS } from '../../actions/user/loginSMSsend';
@@ -34,7 +35,7 @@ class Login extends Component {
       email: null,
       password: null,
       reset: false,
-      phoneNumber: null,
+      phoneNumber: props.lastUsedPhoneNumber || null,
       view: props.loginMethod || 'sms',
     };
   }
@@ -229,6 +230,7 @@ const mapStateToProps = (state) => ({
   isOffline: getIsOffline(state),
   adminTokenLoginIsActive: getIsAdminTokenLoginActive(state),
   smsVerifyToken: getSmsVerifyToken(state),
+  lastUsedPhoneNumber: getLastUsedPhoneNumber(state),
 });
 
 

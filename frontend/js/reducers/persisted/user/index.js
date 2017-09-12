@@ -11,6 +11,20 @@ const loginMethod = (state = null, action) => {
 };
 
 
+const smsVerificationInProgress = (state = false, action) => {
+  switch (action.type) {
+    case 'USER_LOGIN_SEND_SMS_COMMIT':
+      return !action.payload.error;
+    case 'USER_LOGIN_SMS_SELECT_USER_COMMIT':
+    case 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT':
+    case 'USER_LOGIN_VERIFY_SMS_CODE_CANCEL':
+      return false;
+    default:
+      return state;
+  }
+};
+
+
 const email = (state = null, action) => {
   switch (action.type) {
     case 'USER_LOGIN':
@@ -70,6 +84,7 @@ const lastUpdated = (state = null, action) => {
 
 const userReducer = combineReducers({
   loginMethod,
+  smsVerificationInProgress,
   email,
   phoneNumber,
   data,
