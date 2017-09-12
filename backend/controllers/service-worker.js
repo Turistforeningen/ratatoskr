@@ -41,7 +41,7 @@ router.use('/manifest.json', (req, res, next) => {
     .filter((name) => name.substr(0, 9) === 'favicons-')
     .concat(['favicons'])[0];
 
-  res.json({
+  res.type('application/manifest+json').json({
     name: 'DNT Medlem',
     short_name: 'DNT Medlem',
     description: 'Informasjon om ditt medlemsskap hos Den Norske Turistforening',
@@ -54,6 +54,7 @@ router.use('/manifest.json', (req, res, next) => {
     related_applications: [
       {
         platform: 'web',
+        url: 'https://medlem.dnt.no/',
       },
     ],
     icons: [
