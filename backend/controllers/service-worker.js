@@ -1,5 +1,8 @@
 'use strict';
 
+const { lstatSync, readdirSync } = require('fs');
+const { join } = require('path')
+
 const { Router } = require('express');
 
 const environment = require('../lib/environment');
@@ -7,6 +10,8 @@ const loadFromWebpackDevServer = require(
   '../utils/load-from-webpack-dev-server'
 );
 
+
+const isDirectory = (source) => lstatSync(source).isDirectory();
 
 const router = new Router();
 
@@ -27,15 +32,77 @@ router.get('/sw.js', (req, res, next) => {
 
 // Application manifest
 router.use('/manifest.json', (req, res, next) => {
+  const assetsPath = environment.ifProduction('/ratatoskr/build/assets', '/');
+
+  const faviconFolderName = readdirSync(assetsPath)
+    .map((name) => ({path: join(assetsPath, name), name}))
+    .filter((item) => isDirectory(item.path))
+    .map((item) => item.name)
+    .filter((name) => name.substr(0, 9) === 'favicons-')
+    .concat(['favicons'])[0];
+
   res.json({
-    name: 'Mitt medlemskap - Den Norske Turistforening',
+    name: 'DNT Medlem',
     short_name: 'DNT Medlem',
+    description: 'Informasjon om ditt medlemsskap hos Den Norske Turistforening',
     lang: 'nb-NO',
     theme_color: '#b43f2e',
     background_color: '#f1f1f1',
     start_url: '/',
     display: 'standalone',
     orientation: 'portrait',
+    related_applications: [
+      {
+        platform: 'web',
+      },
+    ],
+    icons: [
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-36x36.png`,
+        sizes: '36x36',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-48x48.png`,
+        sizes: '48x48',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-72x72.png`,
+        sizes: '72x72',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-96x96.png`,
+        sizes: '96x96',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-144x144.png`,
+        sizes: '144x144',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-192x192.png`,
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-256x256.png`,
+        sizes: '256x256',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-384x384.png`,
+        sizes: '384x384',
+        type: 'image/png',
+      },
+      {
+        src: `/assets/${faviconFolderName}/android-chrome-512x512.png`,
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
   });
 });
 

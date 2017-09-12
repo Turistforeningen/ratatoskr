@@ -195,17 +195,21 @@ module.exports = (env) => {
         statsFilename: 'assets/iconstats-[hash].json',
 
         // Option docs: https://github.com/evilebottnawi/favicons#usage
-        background: '#c6302a',
-        theme_color: '#c6302a',
-        title: 'DNT Medlem',
         appName: 'DNT Medlem',
-        appDescription: 'Informasjon om ditt DNT-medlemskap',
+        appNameDescription: 'Informasjon om ditt medlemsskap hos Den Norske Turistforening',
         developerName: 'DNT',
-        developerURL: 'https://www.dnt.no',
+        developerUrl: 'https://www.dnt.no/',
+        background: '#f1f1f1',
+        theme_color: '#b43f2e',
+        path: '/',
         display: 'standalone',
-        orientation: 'any',
-        start_url: '/?homescreen=1',
+        orientation: 'portrait',
+        start_url: '/',
         version: '1.0.0',
+        logging: false,
+        online: false,
+        preferOnline: false,
+        lang: 'nb-NO',
 
         appleIcon: {
           "meta[name='apple-mobile-web-app-status-bar-style']": "<meta name='apple-mobile-web-app-status-bar-style' content='default'>",
@@ -262,7 +266,8 @@ module.exports = (env) => {
         analyzerMode: 'static',
         openAnalyzer: false,
         reportFilename: path.resolve(
-          baseOuputPath, 'assets', 'webpack-analyze.html'),
+          baseOuputPath, 'assets', 'webpack-analyze.html'
+        ),
       }) : undefined,
     ]),
 
