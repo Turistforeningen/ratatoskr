@@ -9,13 +9,13 @@ const Error = (props) => {
   let msg = 'Det oppstod et problem under innlogging. Vennligst prøv igjen.';
 
   if (props.error === 'invalid credentials') {
-    msg = 'Du har oppgitt feil brukernavn og/eller passord. ' +
+    msg = 'Du har oppgitt feil brukernavn eller passord. ' +
           'Vennligst prøv igjen.';
   } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
+    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';
   } else if (props.error === 'sherpa error') {
-    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
+    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
           'Prøv igjen eller kom tilbake senere.';
   }
 

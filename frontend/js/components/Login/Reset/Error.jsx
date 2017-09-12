@@ -9,7 +9,7 @@ const Error = (props) => {
   let msg = 'Det oppstod et problem under gjennoppretting av passordet. Vennligst prøv igjen.';
 
   if (props.error === 'network error') {
-    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
+    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';
   } else if (props.error === 'unregistered_email') {
     msg = (

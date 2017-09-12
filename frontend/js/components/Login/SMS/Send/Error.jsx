@@ -36,7 +36,7 @@ const Error = (props) => {
       </span>
     );
   } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke få kontakt med tjenesten. ' +
+    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
           'Pass på at du er tilkoblet internett og prøv igjen.';
   }
 

@@ -54,7 +54,7 @@ class LoginForm extends Component {
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
-        <h4>Logg inn med din DNT-bruker.</h4>
+        <h4>Logg inn med din DNT-bruker</h4>
         <Error error={errorMessage} />
         <Intro error={errorMessage} />
         <div>
