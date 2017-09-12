@@ -31,6 +31,7 @@ body {
   background-color: $main-background-color;
   font-family: 'DTL Nobel';
   color: $main-font-color;
+  user-select: none;
 }
 
 a {
@@ -124,6 +125,7 @@ header {
   padding: 20px;
   border-left: 5px solid $membership-valid-color;
   background-color: $box-background-color;
+  user-select: auto;
 
   & + & {
     margin-top: 20px;
@@ -168,7 +170,10 @@ footer {
   font-size: .7em;
   margin-top: 15px;
   opacity: 0;
-  // cursor: pointer;
+
+  .mobile-top-bar & {
+    cursor: pointer;
+  }
 
   &:hover {
     opacity: 1;
