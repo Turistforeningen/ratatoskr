@@ -3,6 +3,8 @@
 const { Router } = require('express');
 const morgan = require('morgan');
 
+const environment = require('../lib/environment');
+
 const serviceWorkerController = require('./service-worker');
 const apiController = require('./api');
 
@@ -14,7 +16,14 @@ router.use(morgan('combined'));
 
 
 // Return React app if user is authenticated or redirect to login
-router.get('/', (req, res, next) => res.render('app.html'));
+router.get('/', (req, res, next) => {
+  const faviconFolderName = environment.getFaviconsFolderName();
+
+  const context = {
+    ogImage: `/assets/${faviconFolderName}/android-chrome-384x384.png`,
+  };
+  res.render('app.html', context);
+});
 
 // Add controllers
 router.use('/', serviceWorkerController);

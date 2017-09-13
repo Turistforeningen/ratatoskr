@@ -1,17 +1,11 @@
 'use strict';
 
-const { lstatSync, readdirSync } = require('fs');
-const { join } = require('path')
-
 const { Router } = require('express');
 
 const environment = require('../lib/environment');
 const loadFromWebpackDevServer = require(
   '../utils/load-from-webpack-dev-server'
 );
-
-
-const isDirectory = (source) => lstatSync(source).isDirectory();
 
 const router = new Router();
 
@@ -32,14 +26,7 @@ router.get('/sw.js', (req, res, next) => {
 
 // Application manifest
 router.use('/manifest.json', (req, res, next) => {
-  const assetsPath = environment.ifProduction('/ratatoskr/build/assets', '/');
-
-  const faviconFolderName = readdirSync(assetsPath)
-    .map((name) => ({path: join(assetsPath, name), name}))
-    .filter((item) => isDirectory(item.path))
-    .map((item) => item.name)
-    .filter((name) => name.substr(0, 9) === 'favicons-')
-    .concat(['favicons'])[0];
+  const faviconFolderName = environment.getFaviconsFolderName();
 
   res.type('application/manifest+json').json({
     name: 'DNT Medlem',
