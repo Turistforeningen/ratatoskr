@@ -2,6 +2,7 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import Modernizr from './lib/modernizr';
 import raven from './lib/raven';
+import './lib/ios-orientationchange-fix';
 
 import bootstrap from './render';
 
