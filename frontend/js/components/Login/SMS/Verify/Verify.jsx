@@ -97,7 +97,8 @@ class Verify extends Component {
               defaultValue=""
               disabled={pending}
               onChange={this.onChange}
-              type="number"/>
+              type="tel"
+              noValidate />
             <br />
           </div>
           <div className="login-form__button-container">

@@ -71,7 +71,8 @@ class Send extends Component {
               defaultValue={phoneNumber || lastUsedPhoneNumber || ''}
               disabled={pending}
               onChange={this.onChange}
-              type="text"/>
+              type="tel"
+              noValidate />
           </div>
           <div className="login-form__button-container">
             <LaddaButton

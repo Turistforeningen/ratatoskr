@@ -306,6 +306,7 @@ label {
 
 input {
   &[type='number'],
+  &[type='tel'],
   &[type='email'],
   &[type='password'],
   &[type='text'] {
