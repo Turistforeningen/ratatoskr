@@ -141,6 +141,14 @@ class Verify extends Component {
               </div>
             )}
           </div>
+          <div className="login-form__link-container">
+            Har du en DNT-bruker?<br />
+            <a
+              href="#"
+              onClick={this.toggleDNTUser} >
+              Logg inn med brukernavn og passord
+            </a>
+          </div>
         </form>
 
       </div>
