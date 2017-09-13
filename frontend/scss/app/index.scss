@@ -129,7 +129,11 @@ header {
   padding: 20px;
   border-left: 5px solid $membership-valid-color;
   background-color: $box-background-color;
-  user-select: auto;
+  -webkit-touch-callout: auto;
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: auto;
 
   & + & {
     margin-top: 20px;
