@@ -52,8 +52,8 @@ class Footer extends Component {
 
             <ul className="footer-menu footer-menu--sub">
               <li className="footer-menu__item">
-                <ExternalA href="https://www.dnt.no/medlem/">
-                  Mer om medlemsskap
+                <ExternalA href="https://www.dnt.no/medlemsservice/">
+                  Kontakt medlemsservice
                 </ExternalA>
               </li>
               <li className="footer-menu__item">
