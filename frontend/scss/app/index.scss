@@ -31,7 +31,11 @@ body {
   background-color: $main-background-color;
   font-family: 'DTL Nobel';
   color: $main-font-color;
-  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 a {
