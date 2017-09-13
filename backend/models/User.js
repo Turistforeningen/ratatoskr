@@ -1,6 +1,5 @@
 'use strict';
 
-const redis = require('../lib/redis');
 const settings = require('../lib/settings');
 const sherpa = require('../lib/sherpa');
 const mapSherpaUser = require('../utils/mapSherpaUser');
@@ -190,10 +189,9 @@ const User = () => {
               resolve(self);
             }
             if (self.id && data.sherpa_id !== self.id) {
-              throw new Error(
-                'The resulting user from Sherpa has a different ID than ' +
-                'the requesting user'
-              );
+              // The resulting user from Sherpa has a different ID than
+              // the requesting user
+              reject(new Error('bad user data'));
             }
             Object.assign(self, mapSherpaUser(data));
 
@@ -217,7 +215,7 @@ const User = () => {
                   resolve(self);
                 })
                 .catch((err) => {
-                  throw new Error(err);
+                  reject(err);
                 });
             }
           })
@@ -226,7 +224,7 @@ const User = () => {
               self.destroy();
               resolve(self);
             } else {
-              throw new Error(err);
+              reject(err);
             }
           });
       });

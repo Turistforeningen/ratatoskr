@@ -85,8 +85,9 @@ router.get('/user/me', (req, res, next) => {
         }
       })
       .catch((err) => {
+        const error = err.message || 'error';
         librato.increment(req, 'error');
-        res.json({err: 'unable to load user data'});
+        res.json({error});
       });
   }
 });
