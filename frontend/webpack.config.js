@@ -195,6 +195,7 @@ module.exports = (env) => {
         statsFilename: 'assets/iconstats-[hash].json',
 
         // Option docs: https://github.com/evilebottnawi/favicons#usage
+        title: 'DNT Medlem',
         appName: 'DNT Medlem',
         appNameDescription: 'Informasjon om ditt medlemsskap hos Den Norske Turistforening',
         developerName: 'DNT',
