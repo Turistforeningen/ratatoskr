@@ -8,7 +8,7 @@ const Intro = (props) => {
 
   return (
     <div className="login-form__intro">
-      Logg inn for å hente medlemsdetaljene dine.
+      Logg inn for å hente medlemsinformasjonen din.
     </div>
   );
 };
