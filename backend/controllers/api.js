@@ -184,7 +184,11 @@ router.post(['/user/sms-code/generate'], (req, res, next) => {
             : 'unknown error';
           const status = data.status || 503;
 
-          librato.increment(req, 'sherpa-error');
+          if (errorMessage === 'not found') {
+            librato.increment(req, 'invalid-phonenumber');
+          } else {
+            librato.increment(req, 'sherpa-error');
+          }
           res.status(status).json({error: errorMessage});
         } else {
           librato.increment(req, 'ok');
