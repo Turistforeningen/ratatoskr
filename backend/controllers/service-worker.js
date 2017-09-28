@@ -95,7 +95,25 @@ router.use('/manifest.json', (req, res, next) => {
 });
 
 
-// Service Worker Manifest
+// Deep links
+router.use('/apple-app-site-association', (req, res, next) => {
+  res.json({
+    applinks: {
+      apps: [],
+      details: [
+        {
+          appID: 'no.turistforeningen.ratatoskr',
+          paths: [
+            '*',
+          ],
+        },
+      ],
+    },
+  });
+});
+
+
+// Appcache
 router.get('/appcache/manifest.html', (req, res, next) => {
   if (environment.production) {
     res.sendFile('/ratatoskr/build/appcache/manifest.html');
