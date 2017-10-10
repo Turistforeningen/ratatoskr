@@ -80,8 +80,13 @@ header {
 }
 
 .header-wrap {
-  margin-bottom: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
   background-color: $color-red;
+  z-index: 1000;
 
   .mobile-standalone & {
     padding-top: 20px;
@@ -108,6 +113,14 @@ header {
   margin: 0 auto;
   max-width: 480px;
   padding: 8px;
+}
+
+.container--main {
+  margin-top: 70px;
+
+  .mobile-standalone & {
+    margin-top: 90px;
+  }
 }
 
 .heading {

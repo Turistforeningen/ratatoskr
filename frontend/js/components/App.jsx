@@ -46,7 +46,7 @@ class App extends Component {
           </header>
         </div>
 
-        <div className="container">
+        <div className="container container--main">
           {this.renderPleaseWait()}
           <Login />
           <MemberDetails />
