@@ -31,6 +31,37 @@ services:
       - "www.dnt.local:10.200.10.1"
       - "a.test.bi:10.200.10.1"
 
+  backend-native:
+    build: backend
+    network_mode: 'bridge'
+    ports:
+      - '8080'
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    links:
+      - redis
+    depends_on:
+      - redis
+    volumes_from:
+      - secrets
+    logging:
+      options:
+        max-size: "500k"
+    environment:
+      - NODE_ENV=development
+      - IS_NATIVE=1
+      - NPM_CONFIG_LOGLEVEL=info
+      - NPM_CONFIG_PROGRESS=false
+      - NPM_CONFIG_SPIN=false
+      - VIRTUAL_HOST=n.test.bi
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_PATH=/
+    command: nodemon --watch backend backend/index.js
+    extra_hosts:
+      - "www.dnt.local:10.200.10.1"
+      - "a.test.bi:10.200.10.1"
+
   redis:
     image: redis:3
     network_mode: 'bridge'
