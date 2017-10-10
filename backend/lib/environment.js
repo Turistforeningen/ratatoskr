@@ -8,12 +8,14 @@ const isDirectory = (source) => lstatSync(source).isDirectory();
 
 
 const environment = {
+  native: process.env.IS_NATIVE === '1',
   production: process.env.NODE_ENV === 'production',
   development: process.env.NODE_ENV === 'development',
   test: process.env.NODE_ENV === 'test',
 };
 
 
+environment.ifNative = (a, b) => (environment.native ? a : b);
 environment.ifProduction = (a, b) => (environment.production ? a : b);
 environment.ifDevelopment = (a, b) => (environment.development ? a : b);
 environment.ifTest = (a, b) => (environment.test ? a : b);

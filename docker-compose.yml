@@ -20,6 +20,7 @@ services:
         max-size: "500k"
     environment:
       - NODE_ENV=development
+      - IS_NATIVE=0
       - NPM_CONFIG_LOGLEVEL=info
       - NPM_CONFIG_PROGRESS=false
       - NPM_CONFIG_SPIN=false
