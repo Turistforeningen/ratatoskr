@@ -1,15 +1,15 @@
 import React from 'react';
 
-const iconSVG = require('../../../img/external-link-icon.svg');
-
-
-const createMarkup = () => ({__html: iconSVG});
-
 
 const ExternalA = (props) => (
-  <a {...props}>
+  <a
+    onClick={(e) => {
+      window.open(props.href);
+      e.preventDefault();
+      return false;
+    }}
+    {...props}>
     {props.children}
-    <i dangerouslySetInnerHTML={createMarkup()} />
   </a>
 );
 
