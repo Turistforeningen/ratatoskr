@@ -56,7 +56,10 @@ nunjucksEnvironment.express(app);
 // Set global template variables
 nunjucksEnvironment
   .addGlobal('GA_CODE', settings.GA_CODE)
-  .addGlobal('GTM_CODE', settings.GTM_CODE);
+  .addGlobal('GTM_CODE', settings.GTM_CODE)
+  .addGlobal('IS_PRODUCTION', environment.ifProduction(true, false))
+  .addGlobal('IS_DEVELOPMENT', environment.ifDevelopment(true, false))
+  .addGlobal('IS_NATIVE', environment.ifNative(true, false));
 
 version.promise.then((tag) => {
   nunjucksEnvironment.addGlobal('VERSION', tag);

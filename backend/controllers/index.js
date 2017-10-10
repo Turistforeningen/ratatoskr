@@ -5,6 +5,7 @@ const morgan = require('morgan');
 
 const environment = require('../lib/environment');
 
+const robotsTxtController = require('./robots-txt');
 const serviceWorkerController = require('./service-worker');
 const apiController = require('./api');
 
@@ -26,6 +27,7 @@ router.get('/', (req, res, next) => {
 });
 
 // Add controllers
+router.use('/', robotsTxtController);
 router.use('/', serviceWorkerController);
 router.use('/api', apiController);
 

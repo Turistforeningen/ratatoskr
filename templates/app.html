@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    {% if not IS_PRODUCTION or IS_NATIVE %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <title>DNT Medlem - Den Norske Turistforeningn</title>
     <meta name="description" content="Informasjon om ditt medlemsskap i Den Norske Turistforening">
     <meta name="viewport" content="width=device-width, initial-scale=1">
