@@ -43,7 +43,7 @@
     "postcss": "^6.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.7",
-    "raven-js": "^3.16.0",
+    "raven-js": "^3.18.1",
     "raw-loader": "^0.5.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
