@@ -1,5 +1,5 @@
 secrets:
-  image: 'turistforeningen/ratatoskr-secrets:v5'
+  image: 'turistforeningen/ratatoskr-secrets:v6'
   tags:
     - app
     - volume-1
@@ -7,15 +7,42 @@ secrets:
     - /secrets
 
 ratatoskr-backend:
-  image: turistforeningen/ratatoskr:assets-${BUILD_TAG}
+  image: turistforeningen/ratatoskr:backend-${BUILD_TAG}
   autoredeploy: true
   environment:
     - FORCE_SSL=true
     - HSTS_MAX_AGE=31536000
     - NODE_ENV=production
+    - IS_NATIVE=0
     - LIBRATO_PREFIX=ratatoskr
     - LIBRATO_SOURCE=ratatoskr-prod
     - 'VIRTUAL_HOST=http://medlem.dnt.no*,https://medlem.dnt.no*'
+    - VIRTUAL_HOST_WEIGHT=20
+    - VIRTUAL_PATH=/
+    - VIRTUAL_PORT=8080
+  expose:
+    - '8080'
+  links:
+    - 'ratatoskr-redis:redis'
+  restart: always
+  command: node backend/index.js
+  tags:
+    - app
+  volumes_from:
+    - secrets:ro
+    - ratatoskr-assets:ro
+
+ratatoskr-native-backend:
+  image: turistforeningen/ratatoskr:backend-${BUILD_TAG}
+  autoredeploy: true
+  environment:
+    - FORCE_SSL=true
+    - HSTS_MAX_AGE=31536000
+    - NODE_ENV=production
+    - IS_NATIVE=1
+    - LIBRATO_PREFIX=ratatoskr
+    - LIBRATO_SOURCE=ratatoskr-prod-native
+    - 'VIRTUAL_HOST=http://medlem-native.dnt.no*,https://medlem-native.dnt.no*'
     - VIRTUAL_HOST_WEIGHT=20
     - VIRTUAL_PATH=/
     - VIRTUAL_PORT=8080
