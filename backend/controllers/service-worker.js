@@ -128,11 +128,13 @@ router.get('/appcache/manifest.html', (req, res, next) => {
 
 router.get('/appcache/manifest.appcache', (req, res, next) => {
   if (environment.production) {
-    res.sendFile('/ratatoskr/build/appcache/manifest.appcache');
+    res.type('text/cache-manifest').sendFile(
+      '/ratatoskr/build/appcache/manifest.appcache'
+    );
   } else {
     loadFromWebpackDevServer('appcache/manifest.appcache')
       .then((src) => {
-        res.send(src);
+        res.type('text/cache-manifest').send(src);
       });
   }
 });
