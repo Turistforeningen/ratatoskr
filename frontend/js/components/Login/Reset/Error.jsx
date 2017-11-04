@@ -1,31 +1,31 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Error = (props) => {
-  if (!props.error) {
+const Error = ({ error, translate }) => {
+  if (!error) {
     return null;
   }
 
-  let msg = 'Det oppstod et problem under gjennoppretting av passordet. Vennligst prøv igjen.';
+  let msg = translate('login.reset.general_error');
 
-  if (props.error === 'network error') {
-    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
-          'Pass på at du er tilkoblet internett og prøv igjen.';
-  } else if (props.error === 'unregistered_email') {
+  if (error === 'network error') {
+    msg = translate('login.network_error');
+  } else if (error === 'unregistered_email') {
     msg = (
       <span>
-        Du har ikke opprettet brukerkonto ennå. Du kan
+        { translate('login.reset.unregistered_email_error_part1') }
         {' '}
         <a href="https://www.dnt.no/minside/logg-inn/#registrering">
-          opprette din bruker her
-        </a> — det er kjapt, enkelt og gratis!
+        { translate('login.reset.unregistered_email_error_part2') }
+        </a>{' '}
+        { translate('login.reset.unregistered_email_error_part3') }
       </span>
     );
-  } else if (props.error === 'unknown_email') {
-    msg = 'Denne e-postadressen er ikke registrert på noen av våre brukere. ' +
-          'Kontrollér at du har skrevet adressen riktig.';
-  } else if (props.error === 'empty email') {
-    msg = 'Du må skrive inn e-postadressen din.';
+  } else if (error === 'unknown_email') {
+    msg = translate('login.reset.unknown_email');
+  } else if (error === 'empty email') {
+    msg = translate('login.reset.empty_email');
   }
 
   return (
@@ -36,4 +36,4 @@ const Error = (props) => {
 };
 
 
-export default Error;
+export default localize(Error, 'locale');

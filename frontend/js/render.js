@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import {
+  initialize as initializeLanguages,
+  addTranslation,
+} from 'react-localize-redux';
 
 import configureStore from './configureStore';
 import { loginAdminToken } from './actions/user/loginAdminToken';
@@ -52,6 +56,18 @@ const bootstrap = () => {
       // Replace the url in history
       window.history.replaceState({}, '', '/');
     }
+
+    // Initialize languages
+    store.dispatch(initializeLanguages(
+      [
+        { name: 'Norsk', code: 'no' },
+        { name: 'English', code: 'en' },
+      ],
+      { defaultLanguage: 'no' }
+    ));
+
+    const globalLocale = require('../locale/global.locale.json');
+    store.dispatch(addTranslation(globalLocale));
 
     render(Root, store);
 

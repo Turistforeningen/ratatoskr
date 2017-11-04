@@ -1,0 +1,288 @@
+{
+  "footer": {
+    "last_updated": [
+      "Medlemsinformasjon sist oppdatert",
+      "Membership info last updated"
+    ],
+    "logout": [
+      "Logg ut",
+      "Log out"
+    ],
+    "menu": {
+      "membership_service": [
+        "Kontakt medlemsservice",
+        "Contact membership service"
+      ],
+      "about": [
+        "Mer om DNT",
+        "About DNT"
+      ],
+      "privacy": [
+        "Personvern",
+        "Privacy"
+      ]
+    }
+  },
+  "offline": {
+    "title": [
+      "Ingen internettforbindelse",
+      "No internet connection"
+    ],
+    "line1": [
+      "Du må være tilkoblet internett for å kunne logg inn.",
+      "You need to be connected to the internet in order to log in."
+    ],
+    "line2": [
+      "Etter innlogging, vil informasjonen om ditt medlemsskap være lagret, og du kan åpne uten internettforbindelse.",
+      "After log in, your membership information will be stored and you can access it without an internet connection."
+    ]
+  },
+  "membership_details": {
+    "title": [
+      "Mitt medlemsskap",
+      "My membership"
+    ],
+    "updating": [
+      "Oppdaterer",
+      "Updating"
+    ],
+    "main_member_title": [
+      "Hovedmedlem",
+      "Main member"
+    ],
+    "family_members_title": [
+      "Familiemedlemmer",
+      "Family members"
+    ],
+    "household_members_title": [
+      "Hustandsmedlemmer",
+      "Household members"
+    ],
+    "user": {
+      "not_member": [
+        "Ikke medlem",
+        "Not a member"
+      ],
+      "main_member": [
+        "Hovedmedlem",
+        "Main member"
+      ],
+      "family_member": [
+        "Familiemedlem",
+        "Family member"
+      ],
+      "household_member": [
+        "Hustandsmedlem",
+        "Household member"
+      ],
+      "member": [
+        "Medlem",
+        "Member"
+      ],
+      "become_member": [
+        "Bli medlem",
+        "Become a member"
+      ],
+      "memberid": [
+        "Medlemsnummer",
+        "Member id"
+      ],
+      "birth_date": [
+        "Fødselsdato",
+        "Birth date"
+      ],
+      "birth_date_unknown": [
+        "Ukjent",
+        "Unknown"
+      ],
+      "association": [
+        "Medlemsforening",
+        "Association"
+      ],
+      "status": {
+        "next_year": [
+          "Medlem ut {currentYear}, samt hele {nextYear}",
+          "Member {currentYear} and {nextYear}"
+        ],
+        "not_next_year": [
+          "Medlem ut {currentYear}, men ikke {nextYear}",
+          "Member {currentYear}, but not {nextYear}"
+        ],
+        "current_year": [
+          "Medlem {currentYear}",
+          "Member {currentYear}"
+        ],
+        "invalid": [
+          "Ikke betalt for {currentYear}",
+          "Not paid for {currentYear}"
+        ],
+        "renew": [
+          "Forny",
+          "Renew"
+        ]
+      }
+    }
+  },
+  "login": {
+    "general_error": [
+      "Det oppstod et problem under innlogging. Vennligst prøv igjen.",
+      ""
+    ],
+    "network_error": [
+      "Vi klarte ikke å få kontakt med tjenesten. Pass på at du er tilkoblet internett og prøv igjen.",
+      ""
+    ],
+    "sherpa_error": [
+      "Vi klarte ikke å få kontakt med tjenesten. Prøv igjen eller kom tilbake senere.",
+      ""
+    ],
+    "dnt_user": {
+      "credentials_error": [
+        "Du har oppgitt feil brukernavn eller passord. Vennligst prøv igjen.",
+        ""
+      ],
+      "form": {
+        "title": [
+          "Logg inn med din DNT-bruker",
+          ""
+        ],
+        "ingress": [
+          "Logg inn for å hente medlemsinformasjonen din.",
+          ""
+        ],
+        "email": [
+          "E-post",
+          ""
+        ],
+        "password": [
+          "Passord",
+          ""
+        ],
+        "login": [
+          "Logg inn",
+          ""
+        ],
+        "toggle_reset": [
+          "Glemt passordet ditt?",
+          ""
+        ],
+        "create_user": [
+          "Opprett DNT-bruker",
+          ""
+        ],
+        "toggle_sms_login": [
+          "Logg inn med SMS",
+          ""
+        ]
+      },
+      "select_user": {
+        "title": [
+          "Vi fant flere brukere",
+          ""
+        ],
+        "ingress_part1": [
+          "Det er flere brukere som har samme kombinasjon av epost og passord.",
+          ""
+        ],
+        "ingress_part2": [
+          "Det er flere brukere som har samme kombinasjon av epost og passord.",
+          ""
+        ],
+        "btn_choose": [
+          "Velg",
+          ""
+        ]
+      }
+    },
+    "reset": {
+      "general_error": [
+        "Det oppstod et problem under gjennoppretting av passordet. Vennligst prøv igjen.",
+        ""
+      ],
+      "unregistered_email_error_part1": [
+        "Du har ikke opprettet brukerkonto ennå. Du kan",
+        ""
+      ],
+      "unregistered_email_error_part2": [
+        "opprette din bruker her",
+        ""
+      ],
+      "unregistered_email_error_part3": [
+        "— det er kjapt, enkelt og gratis!",
+        ""
+      ],
+      "unknown_email": [
+        "Denne e-postadressen er ikke registrert på noen av våre brukere. Kontrollér at du har skrevet adressen riktig.",
+        ""
+      ],
+      "empty_email": [
+        "Du må skrive inn e-postadressen din.",
+        ""
+      ]
+    },
+    "sms": {
+      "select_user": {
+        "general_error": [
+          "Det oppstod et problem når vi forsøkte å hente medlemsinformasjonen. Venligst prøv igjen.",
+          ""
+        ]
+      },
+      "send": {
+        "gateway_error_part1": [
+          "Vi har problemer med utsending av SMS. Prøv igjen, eller kom tilbake senere.",
+          ""
+        ],
+        "gateway_error_part2": [
+          "Du kan også logge inn med",
+          ""
+        ],
+        "gateway_error_part3": [
+          "brukernavn og passord",
+          ""
+        ],
+        "invalid_phonenumber_error": [
+          "Du har skrevet inn et ugyldig mobilnummer.",
+          ""
+        ],
+        "not_found_error_part1": [
+          "Vi fant ingen bruker registrert med dette mobilnummeret. Sjekk at du har skrevet riktig, eller kontakt",
+          ""
+        ],
+        "not_found_error_part2": [
+          "medlemsservice",
+          ""
+        ],
+        "not_found_error_part3": [
+          "for å legge det til i medlemsinformasjonen din.",
+          ""
+        ],
+        "not_found_error_part4": [
+          "Du kan også logge inn med",
+          ""
+        ],
+        "not_found_error_part5": [
+          "brukernavn og passord",
+          ""
+        ],
+        "title": [
+          "Logg inn med SMS",
+          "Log in using SMS"
+        ],
+        "phonenumber": [
+          "Mobilnummer",
+          "Phone number"
+        ]
+      },
+      "verify": {
+        "general_error": [
+          "Det oppstod et problem under verifiseringen av koden. Vennligst prøv igjen.",
+          ""
+        ],
+        "invalid_code_error": [
+          "Koden du skrev inn er ikke riktig.",
+          ""
+        ]
+      }
+    }
+  }
+}

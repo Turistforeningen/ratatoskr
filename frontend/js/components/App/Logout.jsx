@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { getUser } from '../../selectors/user/data';
 import { logout } from '../../actions/user/logout';
@@ -14,7 +15,7 @@ class Logout extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, translate } = this.props;
 
     if (!user || !user.id) {
       return null;
@@ -23,7 +24,7 @@ class Logout extends Component {
     return (
       <ul className="footer-menu">
         <li className="footer-menu__item">
-          <a onClick={this.logout}>Logg ut</a>
+          <a onClick={this.logout}>{ translate('footer.logout') }</a>
         </li>
       </ul>
     );
@@ -33,6 +34,7 @@ class Logout extends Component {
 
 const mapStateToProps = (state) => ({
   user: getUser(state),
+  translate: getTranslate(state.locale),
 });
 
 

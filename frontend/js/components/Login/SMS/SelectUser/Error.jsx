@@ -1,18 +1,18 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Error = (props) => {
-  if (!props.error) {
+const Error = ({ error, translate }) => {
+  if (!error) {
     return null;
   }
 
   return (
     <div className="login-form__error">
-      Det oppstod et problem når vi forsøkte å hente medlemsinformasjonen.
-      {' '}Venligst prøv igjen.
+      { translate('login.sms.select_user.general_error') }
     </div>
   );
 };
 
 
-export default Error;
+export default localize(Error, 'locale');

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { getIsOffline } from '../../selectors/offline';
 import { getUser } from '../../selectors/user/data';
@@ -8,7 +9,7 @@ import { getUser } from '../../selectors/user/data';
 
 class NoUserAndOffline extends Component {
   render() {
-    const { isOffline, user } = this.props;
+    const { isOffline, user, translate } = this.props;
 
     if (!isOffline || (isOffline && user && user.id)) {
       return null;
@@ -16,15 +17,9 @@ class NoUserAndOffline extends Component {
 
     return (
       <div>
-        <h2>Ingen internettforbindelse</h2>
-        <p>
-          Du må være tilkoblet internett for å kunne logg inn.
-        </p>
-        <p>
-          Etter innlogging, vil informasjonen om ditt medlemsskap være lagret,
-          {' '}
-          og du kan åpne uten internettforbindelse.
-        </p>
+        <h2>{ translate('offline.title') }</h2>
+        <p>{ translate('offline.line1') }</p>
+        <p>{ translate('offline.line2') }</p>
       </div>
     );
   }
@@ -34,6 +29,7 @@ class NoUserAndOffline extends Component {
 const mapStateToProps = (state) => ({
   isOffline: getIsOffline(state),
   user: getUser(state),
+  translate: getTranslate(state.locale),
 });
 
 

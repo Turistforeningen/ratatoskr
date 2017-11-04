@@ -1,22 +1,20 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Error = (props) => {
-  if (!props.error) {
+const Error = ({ error, translate }) => {
+  if (!error) {
     return null;
   }
 
-  let msg = 'Det oppstod et problem under innlogging. Vennligst prøv igjen.';
+  let msg = translate('login.general_error');
 
-  if (props.error === 'invalid credentials') {
-    msg = 'Du har oppgitt feil brukernavn og/eller passord. ' +
-          'Vennligst prøv igjen.';
-  } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
-          'Pass på at du er tilkoblet internett og prøv igjen.';
-  } else if (props.error === 'sherpa error') {
-    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
-          'Prøv igjen eller kom tilbake senere.';
+  if (error === 'invalid credentials') {
+    msg = translate('login.dnt_user.credentials_error');
+  } else if (error === 'network error') {
+    msg = translate('login.network_error');
+  } else if (error === 'sherpa error') {
+    msg = translate('login.sherpa_error');
   }
 
   return (
@@ -27,4 +25,4 @@ const Error = (props) => {
 };
 
 
-export default Error;
+export default localize(Error, 'locale');

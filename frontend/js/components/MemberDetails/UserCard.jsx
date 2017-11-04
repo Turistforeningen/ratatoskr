@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { getUser } from '../../selectors/user/data';
 
@@ -10,18 +11,18 @@ import ExternalA from '../common/ExternalA.jsx';
 class User extends Component {
   @autobind
   renderMemberTypeName() {
-    const { user, subUser } = this.props;
+    const { user, subUser, translate } = this.props;
     const { household } = user;
 
-    let memberTypeName = 'Ikke medlem';
+    let memberTypeName = translate('membership_details.user.not_member');
     if (household.mainMember && household.mainMember.id === user.id) {
-      memberTypeName = 'Hovedmedlem';
+      memberTypeName = translate('membership_details.user.main_member');
     } else if (household.isFamilyMember) {
-      memberTypeName = 'Familiemedlem';
+      memberTypeName = translate('membership_details.user.family_member');
     } else if (household.isHouseholdMember) {
-      memberTypeName = 'Hustandsmedlem';
+      memberTypeName = translate('membership_details.user.household_member');
     } else if (user.member.isValid) {
-      memberTypeName = 'Medlem';
+      memberTypeName = translate('membership_details.user.member');
     }
 
     return (
@@ -33,24 +34,38 @@ class User extends Component {
 
   @autobind
   renderMembershipStatus() {
-    const { user } = this.props;
-    const currentYear = new Date().getFullYear();
-    const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
+    const { user, translate } = this.props;
     let showRenewLink = false;
 
     let membershipStatus = null;
     if (user.member.isValid) {
       if (user.member.status.nextYear) {
-        membershipStatus = `Medlem ut ${currentYear}, samt hele ${nextYear}`;
+        membershipStatus = translate(
+          'membership_details.user.status.next_year'
+        );
       } else if (user.member.status.isNewMembershipYear) {
-        membershipStatus = `Medlem ut ${currentYear}, men ikke ${nextYear}`;
+        membershipStatus = translate(
+          'membership_details.user.status.not_next_year'
+        );
         showRenewLink = true;
       } else {
-        membershipStatus = `Medlem ${currentYear}`;
+        membershipStatus = translate(
+          'membership_details.user.status.current_year'
+        );
       }
     } else if (user.member.memberid) {
-      membershipStatus = `Ikke betalt for ${currentYear}`;
+      membershipStatus = translate(
+        'membership_details.user.status.invalid'
+      );
       showRenewLink = true;
+    }
+
+    if (membershipStatus) {
+      const currentYear = new Date().getFullYear();
+      const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
+      membershipStatus = membershipStatus
+        .replace('{currentYear}', currentYear)
+        .replace('{nextYear}', nextYear);
     }
 
     return !membershipStatus ? null : (
@@ -62,7 +77,7 @@ class User extends Component {
             -
             {' '}
             <ExternalA href="https://www.dnt.no/minside/">
-              Forny
+            { translate('membership_details.user.status.renew') }
             </ExternalA>
           </span>
         )}
@@ -72,37 +87,12 @@ class User extends Component {
 
   @autobind
   renderMembershipLinks() {
-    const { user } = this.props;
-    const currentYear = new Date().getFullYear();
-    const nextYear = new Date(currentYear + 1, 1, 1).getFullYear();
-
-    let link = null;
-    if (user.member.isValid
-        && !user.member.status.nextYear
-        && user.member.status.isNewMembershipYear) {
-      link = (
-        <ExternalA href="https://www.dnt.no/minside/">
-          Forny ditt medlemsskap for {nextYear}
-        </ExternalA>
-      );
-    } else if (user.member.memberid && !user.member.isValid) {
-      link = (
-        <ExternalA href="https://www.dnt.no/minside/">
-          Forny ditt medlemsskap
-        </ExternalA>
-      );
-    } else if (!user.member.isValid) {
-      link = (
-        <ExternalA href="https://www.dnt.no/medlem/">
-          Bli medlem
-        </ExternalA>
-      );
-    }
+    const { user, translate } = this.props;
 
     return user.member.isValid || user.member.memberid ? null : (
       <div className="box__section">
         <ExternalA href="https://www.dnt.no/medlem/">
-          Bli medlem
+          { translate('membership_details.user.become_member') }
         </ExternalA>
       </div>
     );
@@ -110,7 +100,7 @@ class User extends Component {
 
   @autobind
   renderMemberid() {
-    const { user } = this.props;
+    const { user, translate } = this.props;
 
     if (!user.member.memberid) {
       return null;
@@ -118,21 +108,24 @@ class User extends Component {
 
     return (
       <div>
-        Medlemsnummer: {user.member.memberid}
+        { translate('membership_details.user.memberid') }:{' '}
+        {user.member.memberid}
       </div>
     );
   }
 
   @autobind
   renderBirthDate() {
-    const { user } = this.props;
+    const { user, translate } = this.props;
 
     return (
       <div>
-        Fødselsdato:
+        { translate('membership_details.user.birth_date') }:
         {' '}
         {user.birthDate ? user.birthDate : (
-          <em>Ukjent</em>
+          <em>
+            { translate('membership_details.user.birth_date_unknown') }
+          </em>
         )}
       </div>
     );
@@ -140,7 +133,7 @@ class User extends Component {
 
   @autobind
   renderAssociationName() {
-    const { user } = this.props;
+    const { user, translate } = this.props;
     const { association } = user;
 
     if (!association || !association.name) {
@@ -149,7 +142,8 @@ class User extends Component {
 
     return (
       <div>
-        Medlemsforening: {association.name}
+        { translate('membership_details.user.association') }:{' '}
+        {association.name}
       </div>
     );
   }
@@ -215,6 +209,11 @@ class User extends Component {
 }
 
 
-const connectedComponent = connect()(User);
+const mapStateToProps = (state) => ({
+  translate: getTranslate(state.locale),
+});
+
+
+const connectedComponent = connect(mapStateToProps)(User);
 
 export default connectedComponent;

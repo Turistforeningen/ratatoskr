@@ -1,19 +1,18 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Error = (props) => {
-  if (!props.error) {
+const Error = ({ error, translate }) => {
+  if (!error) {
     return null;
   }
 
-  let msg = 'Det oppstod et problem under verifiseringen av koden. ' +
-            'Vennligst prøv igjen.';
+  let msg = translate('login.sms.verify.general_error');
 
-  if (props.error === 'invalid') {
-    msg = 'Koden du skrev inn er ikke riktig.';
-  } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
-          'Pass på at du er tilkoblet internett og prøv igjen.';
+  if (error === 'invalid') {
+    msg = translate('login.sms.verify.invalid_code_error');
+  } else if (error === 'network error') {
+    msg = translate('login.network_error');
   }
 
   return (
@@ -24,4 +23,4 @@ const Error = (props) => {
 };
 
 
-export default Error;
+export default localize(Error, 'locale');

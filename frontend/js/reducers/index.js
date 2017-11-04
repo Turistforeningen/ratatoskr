@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { localeReducer as locale } from 'react-localize-redux';
 
 import persisted from './persisted';
 import user from './user';
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   offline,
   persisted,
   user,
+  locale,
   version,
 });
 

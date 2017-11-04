@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getLastUsedEmail,
@@ -49,16 +50,19 @@ class LoginForm extends Component {
       toggleReset,
       toggleSMS,
       lastUsedEmail,
+      translate,
     } = this.props;
     const { validEmail, validPass } = this.state;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
-        <h4>Logg inn med din DNT-bruker</h4>
+        <h4>{ translate('login.dnt_user.form.title') }</h4>
         <Error error={errorMessage} />
         <Intro error={errorMessage} />
         <div>
-          <label htmlFor="login-form-email">E-post</label>
+          <label htmlFor="login-form-email">
+            { translate('login.dnt_user.form.email') }
+          </label>
           <input
             id="login-form-email"
             ref={(node) => { this.emailInput = node; }}
@@ -68,7 +72,9 @@ class LoginForm extends Component {
             type="email"/>
         </div>
         <div>
-          <label htmlFor="login-form-password">Passord</label>
+          <label htmlFor="login-form-password">
+            { translate('login.dnt_user.form.password') }
+          </label>
           <input
             id="login-form-password"
             ref={(node) => { this.passwordInput = node; }}
@@ -89,21 +95,21 @@ class LoginForm extends Component {
             className="success"
             disabled={!validEmail || !validPass}
           >
-            Logg inn
+            { translate('login.dnt_user.form.login') }
           </LaddaButton>
         </div>
         <div className="login-form__link-container">
           <a onClick={toggleReset}>
-            Glemt passordet ditt?
+            { translate('login.dnt_user.form.toggle_reset') }
           </a>
           <br />
           <ExternalA href="https://www.dnt.no/minside/logg-inn/#registrering">
-            Opprett DNT-bruker
+            { translate('login.dnt_user.form.create_user') }
           </ExternalA>
           <br />
           <br />
           <a onClick={toggleSMS}>
-            Logg inn med SMS
+            { translate('login.dnt_user.form.toggle_sms_login') }
           </a>
         </div>
       </form>
@@ -116,6 +122,7 @@ const mapStateToProps = (state) => ({
   pending: getIsPending(state),
   errorMessage: getErrorMessage(state),
   lastUsedEmail: getLastUsedEmail(state),
+  translate: getTranslate(state.locale),
 });
 
 

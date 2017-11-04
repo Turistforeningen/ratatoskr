@@ -1,22 +1,23 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Intro = (props) => {
-  if (props.error) {
+const Intro = ({ error, translate }) => {
+  if (error) {
     return null;
   }
 
   return (
     <div className="login-form__intro">
       <p>
-        Det er flere brukere som har samme kombinasjon av epost og passord.
+        { translate('login.dnt_user.select_user.ingress_part1') }
       </p>
       <p>
-        Velg den brukeren du ønsker å logge inn med.
+        { translate('login.dnt_user.select_user.ingress_part2') }
       </p>
     </div>
   );
 };
 
 
-export default Intro;
+export default localize(Intro, 'locale');

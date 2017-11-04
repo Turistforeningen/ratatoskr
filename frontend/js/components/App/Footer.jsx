@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { getLastUpdated } from '../../selectors/user/data';
 import { getVersion } from '../../selectors/version';
 
 import Logout from './Logout.jsx';
+import LocaleMenu from './LocaleMenu.jsx';
 import ExternalA from '../common/ExternalA.jsx';
 
 
 class Footer extends Component {
   @autobind
   renderLastUpdate() {
-    const { lastUpdated } = this.props;
+    const { lastUpdated, translate } = this.props;
 
     if (!lastUpdated) {
       return null;
@@ -33,13 +35,13 @@ class Footer extends Component {
 
     return (
       <div className="updated-timestamp">
-        Medlemsinformasjon sist oppdatert: {dateStr}
+        { translate('footer.last_updated') }: {dateStr}
       </div>
     );
   }
 
   render() {
-    const { version } = this.props;
+    const { version, translate } = this.props;
     const year = new Date().getFullYear();
 
     return (
@@ -53,21 +55,23 @@ class Footer extends Component {
             <ul className="footer-menu footer-menu--sub">
               <li className="footer-menu__item">
                 <ExternalA href="https://www.dnt.no/medlemsservice/">
-                  Kontakt medlemsservice
+                { translate('footer.menu.membership_service') }
                 </ExternalA>
               </li>
               <li className="footer-menu__item">
                 <ExternalA href="https://www.dnt.no/">
-                  Mer om DNT
+                { translate('footer.menu.about') }
                 </ExternalA>
               </li>
               <li className="footer-menu__item">
                 <ExternalA href="https://www.dnt.no/personvern/">
-                  Personvern
+                { translate('footer.menu.privacy') }
                 </ExternalA>
               </li>
             </ul>
           </nav>
+
+          <LocaleMenu />
 
           <div>
             &copy; {year} - Den Norske Turistforening
@@ -86,6 +90,7 @@ class Footer extends Component {
 const mapStateToProps = (state) => ({
   version: getVersion(state),
   lastUpdated: getLastUpdated(state),
+  translate: getTranslate(state.locale),
 });
 
 

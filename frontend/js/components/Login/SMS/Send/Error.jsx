@@ -1,43 +1,44 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Error = (props) => {
-  if (!props.error) {
+const Error = ({ toggleDNTUser, error, translate }) => {
+  if (!error) {
     return null;
   }
 
   let msg = (
     <span>
-      Vi har problemer med utsending av SMS.{' '}
-      Prøv igjen, eller kom tilbake senere.
+      { translate('login.sms.send.gateway_error_part1') }
       <br />
       <br />
-      Du kan også logge inn med{' '}
-      <a onClick={props.toggleDNTUser} className="inline">
-      brukernavn og passord</a>.
+      { translate('login.sms.send.gateway_error_part2') }{' '}
+      <a onClick={toggleDNTUser} className="inline">
+        { translate('login.sms.send.gateway_error_part3') }
+      </a>.
     </span>
   );
 
-  if (props.error === 'invalid phone number') {
-    msg = 'Du har skrevet inn et ugyldig mobilnummer.';
-  } else if (props.error === 'not found') {
+  if (error === 'invalid phone number') {
+    msg = translate('login.sms.send.invalid_phonenumber_error');
+  } else if (error === 'not found') {
     msg = (
       <span>
-        Vi fant ingen bruker registrert med dette mobilnummeret. Sjekk at
-        {' '}du har skrevet riktig, eller kontakt{' '}
+        { translate('login.sms.send.not_found_error_part1') }{' '}
         <a href="https://www.dnt.no/medlemsservice/" target="_blank" className="inline">
-        medlemsservice</a>{' '}
-        for å legge det til i medlemsinformasjonen din.
+          { translate('login.sms.send.not_found_error_part2') }
+        </a>{' '}
+        { translate('login.sms.send.not_found_error_part3') }
         <br />
         <br />
-        Du kan også logge inn med{' '}
-        <a onClick={props.toggleDNTUser} className="inline">
-        brukernavn og passord</a>.
+        { translate('login.sms.send.not_found_error_part4') }{' '}
+        <a onClick={toggleDNTUser} className="inline">
+          { translate('login.sms.send.not_found_error_part5') }
+        </a>.
       </span>
     );
-  } else if (props.error === 'network error') {
-    msg = 'Vi klarte ikke å få kontakt med tjenesten. ' +
-          'Pass på at du er tilkoblet internett og prøv igjen.';
+  } else if (error === 'network error') {
+    msg = translate('login.network_error');
   }
 
   return (
@@ -48,4 +49,4 @@ const Error = (props) => {
 };
 
 
-export default Error;
+export default localize(Error, 'locale');

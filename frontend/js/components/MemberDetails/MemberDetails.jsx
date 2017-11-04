@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { update } from '../../actions/user/data';
 import { getTokens } from '../../selectors/user/tokens';
@@ -61,7 +62,7 @@ class MemberDetails extends Component {
   }
 
   render() {
-    const { user, isUpdating } = this.props;
+    const { user, isUpdating, translate } = this.props;
 
     if (!user || !user.id) {
       return null;
@@ -70,10 +71,10 @@ class MemberDetails extends Component {
     return (
       <div>
         <h1 className="heading">
-          Mitt medlemsskap
+          { translate('membership_details.title') }
           {isUpdating && (
             <small className="updating-status">
-              Oppdaterer...
+              { translate('membership_details.updating') }...
             </small>
           )}
         </h1>
@@ -82,7 +83,9 @@ class MemberDetails extends Component {
 
         {!user.household.mainMember ? null : (
           <div>
-            <h2 className="heading--sub">Hovedmedlem</h2>
+            <h2 className="heading--sub">
+              { translate('membership_details.main_member_title') }
+            </h2>
             <UserCard
               user={user.household.mainMember}
               subUser={true} />
@@ -92,9 +95,9 @@ class MemberDetails extends Component {
         {!user.household.members || !user.household.members.length ? null : (
           <div>
             <h2 className="heading--sub">
-              {user.household.isFamilyMember ?
-                'Familiemedlemmer' :
-                'Hustandsmedlemmer'
+              {user.household.isFamilyMember
+                ? translate('membership_details.family_members_title')
+                : translate('membership_details.household_members_title')
               }
             </h2>
             {user.household.members.map((u) => (
@@ -116,6 +119,7 @@ const mapStateToProps = (state) => ({
   lastUpdated: getLastUpdated(state),
   isUpdating: getIsUpdating(state),
   tokens: getTokens(state),
+  translate: getTranslate(state.locale),
 });
 
 

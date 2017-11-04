@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getIsPending,
@@ -52,19 +53,22 @@ class Send extends Component {
       errorMessage,
       phoneNumber,
       lastUsedPhoneNumber,
+      translate,
     } = this.props;
     const { valid } = this.state;
 
     return (
       <div>
         <form class="login-form" onSubmit={this.onSubmit}>
-          <h4>Logg inn med SMS</h4>
+          <h4>{ translate('Login/SMS/Send:Title') }</h4>
           <Error
             error={errorMessage}
             toggleDNTUser={this.toggleDNTUser} />
           <Intro error={errorMessage} />
           <div>
-            <label htmlFor="login-form-phone">Mobilnummer</label>
+            <label htmlFor="login-form-phone">
+              { translate('Login/SMS/Send:Phonenumber') }
+            </label>
             <input
               id="login-form-phone"
               ref={(node) => { this.phoneNumberInput = node; }}
@@ -109,6 +113,7 @@ const mapStateToProps = (state) => ({
   pending: getIsPending(state),
   errorMessage: getErrorMessage(state),
   lastUsedPhoneNumber: getLastUsedPhoneNumber(state),
+  translate: getTranslate(state.locale),
 });
 
 

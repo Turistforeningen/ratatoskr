@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getUserList,
@@ -45,11 +46,12 @@ class SelectUser extends Component {
       userList,
       isPending,
       errorMessage,
+      translate,
     } = this.props;
 
     return (
       <div>
-        <h4>Vi fant flere brukere</h4>
+        <h4>{ translate('login.dnt_user.select_user.title') }</h4>
         <Error error={errorMessage} />
         <Intro error={errorMessage} />
 
@@ -69,7 +71,7 @@ class SelectUser extends Component {
                 disabled={isPending}
                 className="btn success btn-sm float-right"
               >
-                Velg
+                { translate('login.dnt_user.select_user.btn_choose') }
               </LaddaButton>
               <a
                 className="block"
@@ -78,7 +80,7 @@ class SelectUser extends Component {
               </a>
               {user.isMember ? null : (
                 <div>
-                  Ikke medlem
+                  { translate('login.dnt_user.select_user.btn_choose') }Ikke medlem
                 </div>
               )}
               {!user.membershipType || !user.isMember ? null : (
@@ -111,6 +113,7 @@ const mapStateToProps = (state) => ({
   userList: getUserList(state),
   isPending: getIsPending(state),
   errorMessage: getErrorMessage(state),
+  translate: getTranslate(state.locale),
 });
 
 
