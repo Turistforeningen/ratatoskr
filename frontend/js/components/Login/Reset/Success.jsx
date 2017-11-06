@@ -1,16 +1,18 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
-const Success = (props) => {
-  if (props.error) {
+
+const Success = ({ email, error, translate }) => {
+  if (error) {
     return null;
   }
 
   return (
     <div className="login-form__intro">
-      En epost er nå sendt til {props.email}.
+      { translate('login.reset.success').replace('{email}', email) }
     </div>
   );
 };
 
 
-export default Success;
+export default localize(Success, 'locale');

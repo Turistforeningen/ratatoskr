@@ -13,16 +13,16 @@ class User extends Component {
   renderMemberTypeName() {
     const { user, subUser, translate } = this.props;
     const { household } = user;
-
-    let memberTypeName = translate('membership_details.user.not_member');
+    console.log('<jfhaslkdjfhaslkdjfhs'); // eslint-disable-line
+    let memberTypeName = translate('membership_details.types.not_member');
     if (household.mainMember && household.mainMember.id === user.id) {
-      memberTypeName = translate('membership_details.user.main_member');
+      memberTypeName = translate('membership_details.types.Hovedmedlem');
     } else if (household.isFamilyMember) {
-      memberTypeName = translate('membership_details.user.family_member');
+      memberTypeName = translate('membership_details.types.Familiemedlem');
     } else if (household.isHouseholdMember) {
-      memberTypeName = translate('membership_details.user.household_member');
+      memberTypeName = translate('membership_details.types.Husstandsmedlem');
     } else if (user.member.isValid) {
-      memberTypeName = translate('membership_details.user.member');
+      memberTypeName = translate('membership_details.types.member');
     }
 
     return (

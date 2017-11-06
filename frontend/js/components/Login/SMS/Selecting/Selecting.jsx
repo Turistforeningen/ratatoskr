@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getErrorMessage,
@@ -9,23 +10,22 @@ import {
 
 class Selecting extends Component {
   render() {
-    const { errorMessage, onResetSelecting } = this.props;
+    const { errorMessage, onResetSelecting, translate } = this.props;
 
     if (errorMessage) {
       return (
         <div className="login-form">
-          <h4>Det oppstod et problem</h4>
+          <h4>{ translate('login.sms.selecting.error.title') }</h4>
 
           <div className="login-form__error">
-            Vi klarte ikke å hente medlemsinformasjonen.
-            {' '}Gå tilbake og prøv igjen.
+            { translate('login.sms.selecting.error.description') }
           </div>
 
           <div className="login-form__button-container">
             <button
               className="success"
               onClick={onResetSelecting}>
-              Gå tilbake
+              { translate('login.sms.selecting.error.btn_back') }
             </button>
           </div>
         </div>
@@ -34,7 +34,7 @@ class Selecting extends Component {
 
     return (
       <div className="login-form">
-        <h4>Venligst vent, henter medlemsinformasjonen</h4>
+        <h4>{ translate('login.sms.selecting.pending') }</h4>
       </div>
     );
   }
@@ -43,6 +43,7 @@ class Selecting extends Component {
 
 const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state),
+  translate: getTranslate(state.locale),
 });
 
 

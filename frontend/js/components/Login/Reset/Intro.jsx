@@ -1,17 +1,18 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Intro = (props) => {
-  if (props.error) {
+const Intro = ({ error, translate }) => {
+  if (error) {
     return null;
   }
 
   return (
     <div className="login-form__intro">
-      Skriv inn epostadressen din for å få tilsendt videre instruksjoner.
+      { translate('login.reset.ingress') }
     </div>
   );
 };
 
 
-export default Intro;
+export default localize(Intro, 'locale');

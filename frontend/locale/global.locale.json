@@ -58,27 +58,61 @@
       "Hustandsmedlemmer",
       "Household members"
     ],
-    "user": {
-      "not_member": [
-        "Ikke medlem",
-        "Not a member"
+    "types": {
+      "Familie hovedmedlem": [
+        "Familie hovedmedlem",
+        "Main family member"
       ],
-      "main_member": [
+      "Hovedmedlem": [
         "Hovedmedlem",
-        "Main member"
+        "Main Member"
       ],
-      "family_member": [
+      "Ungdomsmedlem": [
+        "Ungdomsmedlem",
+        "Youth Member"
+      ],
+      "Honnørmedlem": [
+        "Honnørmedlem",
+        "Senior Member"
+      ],
+      "Livsvarig medlem": [
+        "Livsvarig medlem",
+        "Lifetime Member"
+      ],
+      "Barnemedlem": [
+        "Barnemedlem",
+        "Child Member"
+      ],
+      "Skoleungdomsmedlem": [
+        "Skoleungdomsmedlem",
+        "School Youth Member"
+      ],
+      "Husstandsmedlem": [
+        "Husstandsmedlem",
+        "Household Member"
+      ],
+      "Husstandsmedlem uten hovedmedlem": [
+        "Husstandsmedlem uten hovedmedlem",
+        "Household Member"
+      ],
+      "Livsvarig husstandsmedlem": [
+        "Livsvarig husstandsmedlem",
+        "Lifetime Household Member"
+      ],
+      "Familiemedlem": [
         "Familiemedlem",
-        "Family member"
-      ],
-      "household_member": [
-        "Hustandsmedlem",
-        "Household member"
+        "Family Member"
       ],
       "member": [
         "Medlem",
         "Member"
       ],
+      "not_member": [
+        "Ikke medlem",
+        "Not a member"
+      ]
+    },
+    "user": {
       "become_member": [
         "Bli medlem",
         "Become a member"
@@ -126,162 +160,298 @@
   "login": {
     "general_error": [
       "Det oppstod et problem under innlogging. Vennligst prøv igjen.",
-      ""
+      "An error occured during login. Please try again."
     ],
     "network_error": [
       "Vi klarte ikke å få kontakt med tjenesten. Pass på at du er tilkoblet internett og prøv igjen.",
-      ""
+      "We're unable to connect to the service. Please make sure you're connected to the internet and try again."
     ],
     "sherpa_error": [
       "Vi klarte ikke å få kontakt med tjenesten. Prøv igjen eller kom tilbake senere.",
-      ""
+      "We're unable to connect to the service. Try again or come back later."
     ],
     "dnt_user": {
       "credentials_error": [
         "Du har oppgitt feil brukernavn eller passord. Vennligst prøv igjen.",
-        ""
+        "The username or password is incorrect. Please try again."
       ],
       "form": {
         "title": [
           "Logg inn med din DNT-bruker",
-          ""
+          "Log in using your DNT-user"
         ],
         "ingress": [
           "Logg inn for å hente medlemsinformasjonen din.",
-          ""
+          "Log in to get you membership details."
         ],
         "email": [
           "E-post",
-          ""
+          "E-mail"
         ],
         "password": [
           "Passord",
-          ""
+          "Password"
         ],
         "login": [
           "Logg inn",
-          ""
+          "Log in"
         ],
         "toggle_reset": [
           "Glemt passordet ditt?",
-          ""
+          "Forgot your password?"
         ],
         "create_user": [
           "Opprett DNT-bruker",
-          ""
+          "Create a DNT-user"
         ],
         "toggle_sms_login": [
           "Logg inn med SMS",
-          ""
+          "Log in using SMS"
         ]
       },
       "select_user": {
         "title": [
           "Vi fant flere brukere",
-          ""
+          "We found multiple users"
         ],
         "ingress_part1": [
           "Det er flere brukere som har samme kombinasjon av epost og passord.",
-          ""
+          "There is more then one user with the same combination of username and password."
         ],
         "ingress_part2": [
-          "Det er flere brukere som har samme kombinasjon av epost og passord.",
-          ""
+          "Velg den brukeren du ønsker å logge inn med.",
+          "Choose the user you want to log in with."
         ],
         "btn_choose": [
           "Velg",
-          ""
+          "Choose"
+        ],
+        "btn_cancel": [
+          "Avbryt",
+          "Cancel"
         ]
       }
     },
     "reset": {
       "general_error": [
         "Det oppstod et problem under gjennoppretting av passordet. Vennligst prøv igjen.",
-        ""
+        "An error occured when recovering the password. Please try again."
       ],
       "unregistered_email_error_part1": [
         "Du har ikke opprettet brukerkonto ennå. Du kan",
-        ""
+        "You have not yet created a DNT-user. You can"
       ],
       "unregistered_email_error_part2": [
         "opprette din bruker her",
-        ""
+        "create it here"
       ],
       "unregistered_email_error_part3": [
         "— det er kjapt, enkelt og gratis!",
-        ""
+        "— it's free!"
       ],
       "unknown_email": [
         "Denne e-postadressen er ikke registrert på noen av våre brukere. Kontrollér at du har skrevet adressen riktig.",
-        ""
+        "This e-mail address is not registered on any user. Please try again."
       ],
       "empty_email": [
         "Du må skrive inn e-postadressen din.",
-        ""
+        "You must enter your e-mail address."
+      ],
+      "title": [
+        "Gjennopprett passordet ditt",
+        "Recover your password"
+      ],
+      "ingress": [
+        "Skriv inn epostadressen din for å få tilsendt videre instruksjoner.",
+        "Enter your e-mail address to get further instructions"
+      ],
+      "email": [
+        "E-mail",
+        "E-mail"
+      ],
+      "btn_reset": [
+        "Gjenopprett",
+        "Recover"
+      ],
+      "btn_cancel": [
+        "Avbryt",
+        "Cancel"
+      ],
+      "create_user": [
+        "Opprett DNT-bruker",
+        "Create a DNT-user"
+      ],
+      "btn_back": [
+        "Gå tilbake",
+        "Back"
+      ],
+      "success": [
+        "En epost er nå sendt til {email}.",
+        "An email is sent to {email}"
       ]
     },
     "sms": {
+      "selecting": {
+        "error": {
+          "title": [
+            "Det oppstod et problem",
+            "An error occured"
+          ],
+          "description": [
+            "Vi klarte ikke å hente medlemsinformasjonen. Gå tilbake og prøv igjen.",
+            "We're unable to get you membership details. Please go back and try again."
+          ],
+          "btn_back": [
+            "Gå tilbake",
+            "Back"
+          ]
+        },
+        "pending": [
+          "Venligst vent, henter medlemsinformasjonen",
+          "Please wait - fetching membership details"
+        ]
+      },
       "select_user": {
         "general_error": [
           "Det oppstod et problem når vi forsøkte å hente medlemsinformasjonen. Venligst prøv igjen.",
-          ""
+          "We're unable to get you membership details. Please try again."
+        ],
+        "title": [
+          "Vi fant flere brukere",
+          "We found multiple users"
+        ],
+        "ingress": [
+          "Vi fant flere brukere som er tilknyttet samme mobilnummer. Velg den brukeren du ønsker å logge inn med.",
+          "There is more then one user with the same phone number. Choose the one you want to log in with."
+        ],
+        "btn_choose": [
+          "Velg",
+          "Choose"
+        ],
+        "btn_cancel": [
+          "Avbryt",
+          "Cancel"
         ]
       },
       "send": {
         "gateway_error_part1": [
           "Vi har problemer med utsending av SMS. Prøv igjen, eller kom tilbake senere.",
-          ""
+          "We're having problems with our SMS-service. Try again, or come back later."
         ],
         "gateway_error_part2": [
           "Du kan også logge inn med",
-          ""
+          "Log in using"
         ],
         "gateway_error_part3": [
           "brukernavn og passord",
-          ""
+          "username and password"
         ],
         "invalid_phonenumber_error": [
           "Du har skrevet inn et ugyldig mobilnummer.",
-          ""
+          "The phone number is invalid"
         ],
         "not_found_error_part1": [
           "Vi fant ingen bruker registrert med dette mobilnummeret. Sjekk at du har skrevet riktig, eller kontakt",
-          ""
+          "We didn't find any users with this phone number. Please try again or contact"
         ],
         "not_found_error_part2": [
           "medlemsservice",
-          ""
+          "member service"
         ],
         "not_found_error_part3": [
           "for å legge det til i medlemsinformasjonen din.",
-          ""
+          "to add it to your membership."
         ],
         "not_found_error_part4": [
           "Du kan også logge inn med",
-          ""
+          "Log in using"
         ],
         "not_found_error_part5": [
           "brukernavn og passord",
-          ""
+          "usernam and password"
         ],
         "title": [
           "Logg inn med SMS",
           "Log in using SMS"
         ],
+        "ingress": [
+          "Vi sender deg en innloggingskode på SMS som du bruker til å verifisere hvem du er.",
+          "We're sending you a code on SMS that you can use to log in."
+        ],
         "phonenumber": [
           "Mobilnummer",
           "Phone number"
+        ],
+        "btn_send": [
+          "Send SMS",
+          "Send SMS"
+        ],
+        "dnt_user_label": [
+          "Har du en DNT-bruker?",
+          "Do you have a DNT-user?"
+        ],
+        "btn_dnt_user": [
+          "Logg inn med brukernavn og passord",
+          "Log in using usernam and password"
         ]
       },
       "verify": {
         "general_error": [
           "Det oppstod et problem under verifiseringen av koden. Vennligst prøv igjen.",
-          ""
+          "An error occured during verification of the code. Please try again."
         ],
         "invalid_code_error": [
           "Koden du skrev inn er ikke riktig.",
-          ""
-        ]
+          "The code is not correct."
+        ],
+        "title": [
+          "Skriv inn koden du fikk på SMS",
+          "Enter the code in your SMS message"
+        ],
+        "ingress": [
+          "Du vil straks motta en innlogginskode på SMS. Skriv den inn i feltet under for å hente frem medlemsinformasjonen din.",
+          "You will soon receive a code in a SMS message. Enter it in the field below to get your membership details."
+        ],
+        "code": [
+          "Innloggingskode",
+          "Code"
+        ],
+        "btn_login": [
+          "Logg inn",
+          "Log in"
+        ],
+        "btn_cancel": [
+          "Avbryt",
+          "Cancel"
+        ],
+        "resend": {
+          "ingress":[
+            "Fikk du den ikke?",
+            "Did you not receive it?"
+          ],
+          "pending": [
+            "Sender ny kode...",
+            "Sending new code..."
+          ],
+          "btn_resend": [
+            "Send koden på nytt",
+            "Resend the code"
+          ],
+          "success": [
+            "Vi har sendt koden på nytt!",
+            "A new code has been sent"
+          ]
+        },
+        "dnt_user": {
+          "ingress":[
+            "Har du en DNT-bruker?",
+            "Do you have a DNT-user?"
+          ],
+          "btn_login":[
+            "Logg inn med brukernavn og passord",
+            "Log in using username and password"
+          ]
+        }
       }
     }
   }

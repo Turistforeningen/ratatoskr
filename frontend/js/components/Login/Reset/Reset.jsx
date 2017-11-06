@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getIsPending,
@@ -56,19 +57,22 @@ class Reset extends Component {
       wasSuccess,
       email,
       lastUsedEmail,
+      translate,
     } = this.props;
     const { valid } = this.state;
 
     return (
       <form class="login-form" onSubmit={this.onSubmit}>
-        <h4>Gjennopprett passordet ditt</h4>
+        <h4>{ translate('login.reset.title') }</h4>
         {wasSuccess ? null : <Error error={errorMessage} />}
         {wasSuccess ? null : <Intro error={errorMessage} />}
         {!wasSuccess ? null : <Success email={this.emailInput.value} />}
         {wasSuccess ? null : (
           <div>
             <div>
-              <label htmlFor="reset-form-email">E-post</label>
+              <label htmlFor="reset-form-email">
+                { translate('login.reset.email') }
+              </label>
               <input
                 id="reset-form-email"
                 ref={(node) => { this.emailInput = node; }}
@@ -91,18 +95,18 @@ class Reset extends Component {
                 type="submit"
                 disabled={!valid}
               >
-                Gjenopprett
+                { translate('login.reset.btn_reset') }
               </LaddaButton>
               <button
                 type="button"
                 onClick={onCancel}>
-                Avbryt
+                { translate('login.reset.btn_cancel') }
               </button>
             </div>
             <div className="login-form__link-container">
               <br />
               <ExternalA href="https://www.dnt.no/minside/logg-inn/#registrering">
-                Opprett DNT-bruker
+                { translate('login.reset.create_user') }
               </ExternalA>
             </div>
           </div>
@@ -112,7 +116,7 @@ class Reset extends Component {
             onClick={this.onClose}
             type="button"
             className="success">
-            Gå tilbake
+            { translate('login.reset.btn_back') }
           </button>
         )}
       </form>
@@ -126,6 +130,7 @@ const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state),
   wasSuccess: getWasSuccess(state),
   lastUsedEmail: getLastUsedEmail(state),
+  translate: getTranslate(state.locale),
 });
 
 

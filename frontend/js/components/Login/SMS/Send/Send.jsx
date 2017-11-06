@@ -60,14 +60,14 @@ class Send extends Component {
     return (
       <div>
         <form class="login-form" onSubmit={this.onSubmit}>
-          <h4>{ translate('Login/SMS/Send:Title') }</h4>
+          <h4>{ translate('login.sms.send.title') }</h4>
           <Error
             error={errorMessage}
             toggleDNTUser={this.toggleDNTUser} />
           <Intro error={errorMessage} />
           <div>
             <label htmlFor="login-form-phone">
-              { translate('Login/SMS/Send:Phonenumber') }
+              { translate('login.sms.send.phonenumber') }
             </label>
             <input
               id="login-form-phone"
@@ -90,15 +90,16 @@ class Send extends Component {
               className="success"
               disabled={!valid}
             >
-              Send SMS
+              { translate('login.sms.send.btn_send') }
             </LaddaButton>
           </div>
           <div className="login-form__link-container">
-            Har du en DNT-bruker?<br />
+            { translate('login.sms.send.dnt_user_label') }
+            <br />
             <a
               href="#"
               onClick={this.toggleDNTUser} >
-              Logg inn med brukernavn og passord
+              { translate('login.sms.send.btn_dnt_user') }
             </a>
           </div>
         </form>

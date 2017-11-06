@@ -1,18 +1,18 @@
 import React from 'react';
+import { localize } from 'react-localize-redux';
 
 
-const Intro = (props) => {
-  if (props.error) {
+const Intro = ({ error, translate }) => {
+  if (error) {
     return null;
   }
 
   return (
     <div className="login-form__intro">
-      Vi fant flere brukere som er tilknyttet samme mobilnummer.{' '}
-      Velg den brukeren du ønsker å logge inn med.
+      { translate('login.sms.select_user.ingress') }
     </div>
   );
 };
 
 
-export default Intro;
+export default localize(Intro, 'locale');

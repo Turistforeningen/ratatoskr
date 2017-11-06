@@ -80,17 +80,18 @@ class SelectUser extends Component {
               </a>
               {user.isMember ? null : (
                 <div>
-                  { translate('login.dnt_user.select_user.btn_choose') }Ikke medlem
+                  { translate('membership_details.types.not_member') }
                 </div>
               )}
               {!user.membershipType || !user.isMember ? null : (
                 <div>
-                  {user.membershipType}
+                  { translate(`membership_details.types.${user.membershipType}`) }
                 </div>
               )}
               {!user.memberid ? null : (
                 <div>
-                  Medlemsnummer: {user.memberid}
+                  { translate('membership_details.user.memberid') }:{' '}
+                  {user.memberid}
                 </div>
               )}
             </div>
@@ -100,7 +101,7 @@ class SelectUser extends Component {
         <div className="login-form__button-container">
           <button
             onClick={this.onCancel}>
-            Avbryt
+            { translate('login.dnt_user.select_user.btn_cancel') }
           </button>
         </div>
       </div>

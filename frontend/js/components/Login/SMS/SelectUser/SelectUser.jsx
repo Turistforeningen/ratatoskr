@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getUserList,
@@ -41,11 +42,16 @@ class SelectUser extends Component {
 
   render() {
     const { selectedUserId } = this.state;
-    const { userList, isPending, errorMessage } = this.props;
+    const {
+      userList,
+      isPending,
+      errorMessage,
+      translate,
+    } = this.props;
 
     return (
       <div>
-        <h4>Vi fant flere brukere</h4>
+        <h4>{ translate('login.sms.select_user.title') }</h4>
         <Intro error={errorMessage} />
         <Error error={errorMessage} />
 
@@ -65,7 +71,7 @@ class SelectUser extends Component {
                 disabled={isPending}
                 className="btn success btn-sm float-right"
               >
-                Velg
+                { translate('login.sms.select_user.btn_choose') }
               </LaddaButton>
               <a
                 className="block"
@@ -74,17 +80,18 @@ class SelectUser extends Component {
               </a>
               {user.isMember ? null : (
                 <div>
-                  Ikke medlem
+                  { translate('membership_details.types.not_member') }
                 </div>
               )}
               {!user.membershipType || !user.isMember ? null : (
                 <div>
-                  {user.membershipType}
+                  { translate(`membership_details.types.${user.membershipType}`) }
                 </div>
               )}
               {!user.memberid ? null : (
                 <div>
-                  Medlemsnummer: {user.memberid}
+                  { translate('membership_details.user.memberid') }:{' '}
+                  {user.memberid}
                 </div>
               )}
             </div>
@@ -94,7 +101,7 @@ class SelectUser extends Component {
         <div className="login-form__button-container">
           <button
             onClick={this.onCancel}>
-            Avbryt
+            { translate('login.sms.select_user.btn_cancel') }
           </button>
         </div>
 
@@ -108,6 +115,7 @@ const mapStateToProps = (state) => ({
   userList: getUserList(state),
   isPending: getIsPending(state),
   errorMessage: getErrorMessage(state),
+  translate: getTranslate(state.locale),
 });
 
 

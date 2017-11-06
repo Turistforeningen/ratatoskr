@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import {
   getIsPending,
@@ -76,13 +77,14 @@ class Verify extends Component {
       errorMessage,
       sendPending,
       sendErrorMessage,
+      translate,
     } = this.props;
     const { resent, valid } = this.state;
 
     return (
       <div>
         <form class="login-form" onSubmit={this.onSubmit}>
-          <h4>Skriv inn koden du fikk på SMS</h4>
+          <h4>{ translate('login.sms.verify.title') }</h4>
           <Error
             error={errorMessage}
             resent={this.resent}
@@ -90,7 +92,9 @@ class Verify extends Component {
             onResendCode={this.onResendCode} />
           <Intro error={errorMessage} />
           <div>
-            <label htmlFor="login-form-code">Innloggingskode</label>
+            <label htmlFor="login-form-code">
+            { translate('login.sms.verify.code') }
+            </label>
             <input
               id="login-form-code"
               ref={(node) => { this.codeInput = node; }}
@@ -113,41 +117,43 @@ class Verify extends Component {
               className="success"
               disabled={!valid}
             >
-              Logg inn
+              { translate('login.sms.verify.btn_login') }
             </LaddaButton>
             <button
               type="button"
               onClick={this.onCancel}>
-              Avbryt
+              { translate('login.sms.verify.btn_cancel') }
             </button>
           </div>
           <div className="login-form__link-container">
             {resent ? (
               <div>
                 <em>
-                  Vi har sendt koden på nytt!
+                  { translate('login.sms.verify.resend.success') }
                 </em>
               </div>
             ) : (
               <div>
-                Fikk du den ikke?
+                { translate('login.sms.verify.resend.ingress') }
                 <br />
                 {sendPending ? (
-                  <em>Sender ny kode...</em>
+                  <em>{ translate('login.sms.verify.resend.pending') }</em>
                 ) : (
                   <a onClick={this.onResendCode}>
-                    Send koden på nytt
+                    <em>
+                      { translate('login.sms.verify.resend.btn_resend') }
+                    </em>
                   </a>
                 )}
               </div>
             )}
           </div>
           <div className="login-form__link-container">
-            Har du en DNT-bruker?<br />
+            { translate('login.sms.verify.dnt_user.ingress') }<br />
             <a
               href="#"
               onClick={this.toggleDNTUser} >
-              Logg inn med brukernavn og passord
+              { translate('login.sms.verify.dnt_user.btn_login') }
             </a>
           </div>
         </form>
@@ -163,6 +169,7 @@ const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state),
   sendPending: getIsSendPending(state),
   sendErrorMessage: getSendErrorMessage(state),
+  translate: getTranslate(state.locale),
 });
 
 
