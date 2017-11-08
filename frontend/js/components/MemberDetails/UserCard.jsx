@@ -134,7 +134,7 @@ class User extends Component {
   @autobind
   renderAssociationName() {
     const { user, translate } = this.props;
-    const { association } = user;
+    const { association, localAssociation } = user;
 
     if (!association || !association.name) {
       return null;
@@ -142,8 +142,16 @@ class User extends Component {
 
     return (
       <div>
-        { translate('membership_details.user.association') }:{' '}
-        {association.name}
+        <div>
+          { translate('membership_details.user.association') }:{' '}
+          {association.name}
+        </div>
+        {!!localAssociation && (
+          <div>
+            { translate('membership_details.user.local_association') }:{' '}
+            {localAssociation.name}
+          </div>
+        )}
       </div>
     );
   }

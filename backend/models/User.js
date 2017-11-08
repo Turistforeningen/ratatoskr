@@ -59,6 +59,13 @@ const User = () => {
       type: null,
     },
 
+    localAssociation: {
+      name: null,
+      ntbId: null,
+      sherpaId: null,
+      type: null,
+    },
+
     adminToken: null,
     OAuthTokens: null,
 

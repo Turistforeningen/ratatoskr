@@ -10,9 +10,6 @@ module.exports = (rawData) => {
   if (!data.medlemskapStatus) {
     data.medlemskapStatus = {};
   }
-  if (!data.forening) {
-    data.forening = {};
-  }
 
   return {
     id: data.sherpaId,
@@ -47,6 +44,13 @@ module.exports = (rawData) => {
       ntbId: data.forening.objectId,
       sherpaId: data.forening.sherpaId,
       type: data.forening.type,
+    },
+
+    localAssociation: !data.lokalForening ? null : {
+      name: data.lokalForening.navn,
+      ntbId: data.lokalForening.objectId,
+      sherpaId: data.lokalForening.sherpaId,
+      type: data.lokalForening.type,
     },
   };
 };

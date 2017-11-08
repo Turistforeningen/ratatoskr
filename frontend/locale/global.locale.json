@@ -133,6 +133,10 @@
         "Medlemsforening",
         "Association"
       ],
+      "local_association": [
+        "Lokallag",
+        "Local Association"
+      ],
       "status": {
         "next_year": [
           "Medlem ut {currentYear}, samt hele {nextYear}",
