@@ -44,6 +44,13 @@ class Verify extends Component {
   }
 
   @autobind
+  toggleDNTUser(e) {
+    const { toggleDNTUser } = this.props;
+    e.preventDefault();
+    toggleDNTUser();
+  }
+
+  @autobind
   onSubmit(e) {
     const { onSubmit } = this.props;
     const code = this.codeInput.value.trim();

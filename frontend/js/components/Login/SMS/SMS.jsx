@@ -80,7 +80,8 @@ class SMS extends Component {
         <Verify
           onSubmit={this.onVerifySubmit}
           onCancel={this.onVerifyCancel}
-          onResendCode={this.onSendCode} />
+          onResendCode={this.onSendCode}
+          toggleDNTUser={this.toggleDNTUser} />
       );
     }
 
