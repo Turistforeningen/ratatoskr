@@ -39,6 +39,7 @@
 
     <script type="text/javascript">
       var ratatoskr = {version: '{{ VERSION }}'};
+      ratatoskr.isNative = {% if IS_NATIVE %}true{% else %}false{% endif %};
     </script>
   </head>
   <body>

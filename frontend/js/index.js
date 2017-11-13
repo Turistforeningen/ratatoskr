@@ -19,14 +19,28 @@ if (window && window.navigator && window.navigator.standalone) {
 
 
 OfflinePluginRuntime.install({
-  onInstalled: () => {},
+  onInstalled: () => {
+    if (window.ratatoskr.isNative && 'AndroidApp' in window) {
+      window.AndroidApp.onInstalled();
+    }
+  },
 
-  onUpdating: () => {},
+  onUpdating: () => {
+    if (window.ratatoskr.isNative && 'AndroidApp' in window) {
+      window.AndroidApp.onUpdating();
+    }
+  },
 
   onUpdateReady: () => {
+    if (window.ratatoskr.isNative && 'AndroidApp' in window) {
+      window.AndroidApp.onUpdateReady();
+    }
     OfflinePluginRuntime.applyUpdate();
   },
   onUpdated: () => {
+    if (window.ratatoskr.isNative && 'AndroidApp' in window) {
+      window.AndroidApp.onUpdated();
+    }
     window.location.reload();
   },
 });
