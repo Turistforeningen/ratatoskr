@@ -44,6 +44,13 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    // Alert android app that it's been loaded
+    if (window.ratatoskr.isNative && 'AndroidApp' in window) {
+      window.AndroidApp.onAppMounted();
+    }
+  }
+
   @autobind
   renderPleaseWait() {
     const { user, isUpdating } = this.props;

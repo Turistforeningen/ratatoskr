@@ -37,6 +37,7 @@ OfflinePluginRuntime.install({
     }
     OfflinePluginRuntime.applyUpdate();
   },
+
   onUpdated: () => {
     if (window.ratatoskr.isNative && 'AndroidApp' in window) {
       window.AndroidApp.onUpdated();
