@@ -13,7 +13,7 @@ class User extends Component {
   renderMemberTypeName() {
     const { user, subUser, translate } = this.props;
     const { household } = user;
-    console.log('<jfhaslkdjfhaslkdjfhs'); // eslint-disable-line
+
     let memberTypeName = translate('membership_details.types.not_member');
     if (household.mainMember && household.mainMember.id === user.id) {
       memberTypeName = translate('membership_details.types.Hovedmedlem');
