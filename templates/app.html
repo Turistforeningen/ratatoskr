@@ -40,6 +40,7 @@
     <script type="text/javascript">
       var ratatoskr = {version: '{{ VERSION }}'};
       ratatoskr.isNative = {% if IS_NATIVE %}true{% else %}false{% endif %};
+      ratatoskr.isBeta = {% if IS_PRODUCTION %}false{% else %}true{% endif %};
     </script>
   </head>
   <body>

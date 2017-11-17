@@ -79,6 +79,9 @@ class Footer extends Component {
 
           <div className="version">
             {version} / {window.ratatoskr.version}
+            {window.ratatoskr.isBeta && (
+              <div>Beta</div>
+            )}
           </div>
         </footer>
       </div>
