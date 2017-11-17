@@ -8,7 +8,7 @@ export const sendSMS = (inputPhoneNumber) => (dispatch, getState) => {
     return Promise.resolve();
   }
 
-  const phoneNumber = inputPhoneNumber.trim();
+  const phoneNumber = (inputPhoneNumber || '').trim();
   if (!phoneNumber) {
     dispatch({
       type: 'USER_LOGIN_SEND_SMS_ROLLBACK',
