@@ -14,7 +14,7 @@ const loginMethod = (state = null, action) => {
 const smsVerificationInProgress = (state = false, action) => {
   switch (action.type) {
     case 'USER_LOGIN_SEND_SMS_COMMIT':
-      return !action.payload.error;
+      return !action.payload.error ? new Date().toString() : false;
     case 'USER_LOGIN_SMS_SELECT_USER_COMMIT':
     case 'USER_LOGIN_VERIFY_SMS_CODE_COMMIT':
     case 'USER_LOGIN_VERIFY_SMS_CODE_CANCEL':

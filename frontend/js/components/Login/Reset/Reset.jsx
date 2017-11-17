@@ -62,7 +62,7 @@ class Reset extends Component {
     const { valid } = this.state;
 
     return (
-      <form class="login-form" onSubmit={this.onSubmit}>
+      <form class="login-form reset-form" onSubmit={this.onSubmit}>
         <h4>{ translate('login.reset.title') }</h4>
         {wasSuccess ? null : <Error error={errorMessage} />}
         {wasSuccess ? null : <Intro error={errorMessage} />}

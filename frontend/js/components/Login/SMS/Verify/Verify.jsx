@@ -90,7 +90,7 @@ class Verify extends Component {
 
     return (
       <div>
-        <form class="login-form" onSubmit={this.onSubmit}>
+        <form class="login-form verify-form" onSubmit={this.onSubmit}>
           <h4>{ translate('login.sms.verify.title') }</h4>
           <Error
             error={errorMessage}
