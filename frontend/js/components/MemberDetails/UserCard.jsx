@@ -35,7 +35,8 @@ class User extends Component {
   @autobind
   renderMembershipStatus() {
     const { user, translate } = this.props;
-    let showRenewLink = false;
+    // let showRenewLink = false;
+    const showRenewLink = false;
 
     let membershipStatus = null;
     if (user.member.isValid) {
