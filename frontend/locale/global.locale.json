@@ -162,6 +162,10 @@
     }
   },
   "login": {
+    "general_title": [
+      "Digitalt medlemsbevis",
+      "DNT Membership Certificate"
+    ],
     "general_error": [
       "Det oppstod et problem under innlogging. Vennligst prøv igjen.",
       "An error occured during login. Please try again."

@@ -10,6 +10,7 @@ import {
 } from '../../../../selectors/user/loginSMSsend';
 
 import LaddaButton, { L, EXPAND_LEFT } from 'react-ladda';
+import StoreIcons from '../../../common/StoreIcons.jsx';
 import ExternalA from '../../../common/ExternalA.jsx';
 import Error from './Error.jsx';
 import Intro from './Intro.jsx';
@@ -59,6 +60,8 @@ class Send extends Component {
 
     return (
       <div>
+        <StoreIcons />
+
         <form class="login-form send-form" onSubmit={this.onSubmit}>
           <h4>{ translate('login.sms.send.title') }</h4>
           <Error

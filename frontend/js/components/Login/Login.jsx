@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
+import { getTranslate } from 'react-localize-redux';
 
 import { getIsOffline } from '../../selectors/offline';
 import { getUser } from '../../selectors/user/data';
@@ -171,7 +172,8 @@ class Login extends Component {
       );
   }
 
-  render() {
+  @autobind
+  renderLogin() {
     const {
       user,
       isOffline,
@@ -220,6 +222,19 @@ class Login extends Component {
         );
     }
   }
+
+  render() {
+    const { translate } = this.props;
+
+    return (
+      <div>
+        <div className="login-form">
+          <h3>{ translate('login.general_title') }</h3>
+        </div>
+        { this.renderLogin() }
+      </div>
+    );
+  }
 }
 
 
@@ -231,6 +246,7 @@ const mapStateToProps = (state) => ({
   adminTokenLoginIsActive: getIsAdminTokenLoginActive(state),
   smsVerifyToken: getSmsVerifyToken(state),
   lastUsedPhoneNumber: getLastUsedPhoneNumber(state),
+  translate: getTranslate(state.locale),
 });
 
 

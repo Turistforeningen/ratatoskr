@@ -6,6 +6,7 @@ import { getTranslate } from 'react-localize-redux';
 import { getLastUpdated } from '../../selectors/user/data';
 import { getVersion } from '../../selectors/version';
 
+import StoreIcons from '../common/StoreIcons.jsx';
 import Logout from './Logout.jsx';
 import LocaleMenu from './LocaleMenu.jsx';
 import ExternalA from '../common/ExternalA.jsx';
@@ -72,6 +73,8 @@ class Footer extends Component {
           </nav>
 
           <LocaleMenu />
+
+          <StoreIcons small={true} />
 
           <div>
             &copy; {year} - Den Norske Turistforening
