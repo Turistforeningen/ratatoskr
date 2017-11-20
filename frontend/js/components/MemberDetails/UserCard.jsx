@@ -47,7 +47,7 @@ class User extends Component {
         membershipStatus = translate(
           'membership_details.user.status.not_next_year'
         );
-        showRenewLink = true;
+        // showRenewLink = true;
       } else {
         membershipStatus = translate(
           'membership_details.user.status.current_year'
@@ -57,7 +57,7 @@ class User extends Component {
       membershipStatus = translate(
         'membership_details.user.status.invalid'
       );
-      showRenewLink = true;
+      // showRenewLink = true;
     }
 
     if (membershipStatus) {

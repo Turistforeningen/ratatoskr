@@ -176,14 +176,8 @@ class Login extends Component {
   renderLogin() {
     const {
       user,
-      isOffline,
-      isUpdating,
       adminTokenLoginIsActive,
     } = this.props;
-
-    if (isOffline || isUpdating || (user && user.id)) {
-      return null;
-    }
 
     if (adminTokenLoginIsActive) {
       return <AdminToken />;
@@ -224,7 +218,16 @@ class Login extends Component {
   }
 
   render() {
-    const { translate } = this.props;
+    const {
+      user,
+      isOffline,
+      isUpdating,
+      translate,
+    } = this.props;
+
+    if (isOffline || isUpdating || (user && user.id)) {
+      return null;
+    }
 
     return (
       <div>
