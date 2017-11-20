@@ -13,31 +13,41 @@ const StoreIcons = ({translate, currentLanguage, small}) => {
   }
 
   return (
-    <div className={className}>
-      <a
-        href={
-          'https://itunes.apple.com/no/app/dnt-medlem/id1290066714?l=' +
-          `${currentLanguage}&mt=8`
-        }
-        target="_blank">
-        <img
-          src={
-            'https://s3-eu-west-1.amazonaws.com/turistforeningen/appstore_' +
-            `${currentLanguage}.png`
-          }
-          alt="Last ned i AppStore" />
-      </a>
+    <div>
+      {!small && (
+        <div className="login-form">
+          <p>
+            { translate('login.appstore_ingress') }
+          </p>
+        </div>
+      )}
 
-      <a
-        href="https://play.google.com/store/apps/details?id=no.dnt.medlem"
-        target="_blank">
-        <img
-          src={
-            'https://s3-eu-west-1.amazonaws.com/turistforeningen/googleplay_' +
-            `${currentLanguage}.png`
+      <div className={className}>
+        <a
+          href={
+            'https://itunes.apple.com/no/app/dnt-medlem/id1290066714?l=' +
+            `${currentLanguage}&mt=8`
           }
-          alt="Last ned i Google Play" />
-      </a>
+          target="_blank">
+          <img
+            src={
+              'https://s3-eu-west-1.amazonaws.com/turistforeningen/appstore_' +
+              `${currentLanguage}.png`
+            }
+            alt="Last ned i AppStore" />
+        </a>
+
+        <a
+          href="https://play.google.com/store/apps/details?id=no.dnt.medlem"
+          target="_blank">
+          <img
+            src={
+              'https://s3-eu-west-1.amazonaws.com/turistforeningen/googleplay_' +
+              `${currentLanguage}.png`
+            }
+            alt="Last ned i Google Play" />
+        </a>
+      </div>
     </div>
   );
 };

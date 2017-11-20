@@ -166,6 +166,10 @@
       "Digitalt medlemsbevis",
       "DNT Membership Certificate"
     ],
+    "appstore_ingress": [
+      "Last ned vår medlemsapp til telefonen din, eller logg inn nedenfor for å se ditt digitale medlemsbevis.",
+      "Download our membership certificate app to your phone, or log in below to see your membership details."
+    ],
     "general_error": [
       "Det oppstod et problem under innlogging. Vennligst prøv igjen.",
       "An error occured during login. Please try again."
