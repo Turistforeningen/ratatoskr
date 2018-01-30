@@ -1,0 +1,89 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build-backend:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10.0
+
+    environment:
+      - BUILD_TAG: ${CIRCLE_SHA1:0:9}
+      - YARN_CACHE:
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: echo nodejs information
+          command: |
+            echo "node version $(node -v) running"
+            echo "npm version $(npm -v) running"
+            echo "npm registry $(npm config get registry)"
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: run yarn
+          command: |
+            cd backend/
+            yarn
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: node security project
+          command: |
+            cd backend/
+            npm run nsp
+
+      - run:
+          name: update version file
+          command: |
+            cd backend/
+            echo $BUILD_TAG > version-tag
+
+      # install gcloud (needed to push images to GCR)
+      - run:
+          name: install gcloud
+          command: |
+            apt-get install lsb-release
+            export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+            echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            sudo apt-get update && sudo apt-get install google-cloud-sdk
+
+      # starts a remote docker environment to run docker commands
+      - setup_remote_docker
+
+      - run:
+          name: build backend docker image, authenticate to gcloud and push image to GCR
+          command: |
+            cd backend/
+            TAG=backend-$BUILD_TAG
+            docker build -t eu.gcr.io/dnt-docker-registry-public/ratatoskr:$TAG .
+            chmod +x .circleci/gcloud-auth.sh
+            gcloud docker -- push eu.gcr.io/dnt-docker-registry-public/ratatoskr:$TAG
+
+
+workflows:
+  version: 2
+  build-and-publish:
+    jobs:
+      - build-backend
