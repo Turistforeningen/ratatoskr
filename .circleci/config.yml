@@ -10,7 +10,7 @@ jobs:
       - image: circleci/node:7.10.0
 
     environment:
-      - BUILD_TAG: ${CIRCLE_SHA1:0:9}
+      - BUILD_TAG: $CIRCLE_SHA1:0:9
       - YARN_CACHE:
 
       # Specify service dependencies here if necessary
@@ -30,11 +30,11 @@ jobs:
             echo "npm registry $(npm config get registry)"
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ checksum "package.json" }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-dependencies-
 
       - run:
           name: run yarn
@@ -42,10 +42,10 @@ jobs:
             cd backend/
             yarn
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
           name: node security project
