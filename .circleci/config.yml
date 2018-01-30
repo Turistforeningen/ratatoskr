@@ -77,7 +77,8 @@ jobs:
           command: |
             cd backend/
             TAG=backend-$BUILD_TAG
-            docker build -t eu.gcr.io/dnt-docker-registry-public/ratatoskr:$TAG .
+            docker build -t ratatoskr .
+            docker tag ratatoskr eu.gcr.io/dnt-docker-registry-public/ratatoskr:$TAG
             chmod +x .circleci/gcloud-auth.sh
             gcloud docker -- push eu.gcr.io/dnt-docker-registry-public/ratatoskr:$TAG
 
