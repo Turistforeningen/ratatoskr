@@ -23,7 +23,7 @@ build-backend:
         name: run yarn
         cwd: backend/
         code: |
-          HOME=$YARN_CACHE yarn
+          HOME=$YARN_CACHE yarn --ignore-optional
 
     - script:
         name: node security project
@@ -71,7 +71,7 @@ build-assets:
             name: run yarn
             cwd: frontend/
             code: |
-              HOME=$YARN_CACHE yarn
+              HOME=$YARN_CACHE yarn --ignore-optional
 
         - script:
             name: run webpack
