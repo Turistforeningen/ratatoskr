@@ -20,6 +20,11 @@ build-backend:
           export YARN_CACHE=$WERCKER_CACHE_DIR/yarn
 
     - script:
+        name: clean yarn cache
+        code: |
+            HOME=$YARN_CACHE yarn cache clean
+
+    - script:
         name: run yarn
         cwd: backend/
         code: |
@@ -66,6 +71,11 @@ build-assets:
             name: set yarn cache
             code: |
               export YARN_CACHE=$WERCKER_CACHE_DIR/yarn
+
+        - script:
+            name: clean yarn cache
+            code: |
+              HOME=$YARN_CACHE yarn cache clean
 
         - script:
             name: run yarn
