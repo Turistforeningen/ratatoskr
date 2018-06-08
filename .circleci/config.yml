@@ -26,7 +26,7 @@ jobs:
           name: build ratatoskr-backend docker image and push to GCR
           command: |
             cd backend/
-            TAG_SHA=backend-${CIRCLE_SHA:0:9}
+            TAG_SHA=backend-${CIRCLE_SHA1:0:9}
             TAG_LATEST=backend-latest
             gcloud auth configure-docker --quiet
             docker build -t ratatoskr .
@@ -40,7 +40,7 @@ jobs:
           name: build ratatoskr-assets docker image and push to GCR
           command: |
             cd frontend/
-            TAG_SHA=assets-${CIRCLE_SHA:0:9}
+            TAG_SHA=assets-${CIRCLE_SHA1:0:9}
             TAG_LATEST=assets-latest
             gcloud auth configure-docker --quiet
             docker build -t ratatoskr .
