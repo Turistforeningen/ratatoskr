@@ -24,7 +24,7 @@ class Footer extends Component {
     const pad = '00';
     const ddStr = lastUpdated.getDate().toString();
     const DD = pad.substring(0, 2 - ddStr.length) + ddStr;
-    const mmStr = lastUpdated.getMonth().toString();
+    const mmStr = (lastUpdated.getMonth() + 1).toString();
     const MM = pad.substring(0, 2 - mmStr.length) + mmStr;
     const YYYY = lastUpdated.getFullYear();
     const hhStr = lastUpdated.getHours().toString();
